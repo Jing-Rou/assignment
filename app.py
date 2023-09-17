@@ -5,6 +5,9 @@ import boto3
 from config import *
 
 app = Flask(__name__)
+# Configure the 'templates' folder for HTML templates.
+app.template_folder = 'pages'
+app.static_folder = 'static'
 
 bucket = custombucket
 region = customregion

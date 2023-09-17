@@ -9,6 +9,8 @@ app = Flask(__name__)
 bucket = custombucket
 region = customregion
 
+customhost = 'database-2.cyltbqip9evc.us-east-1.rds.amazonaws.com'
+
 db_conn = connections.Connection(
     host=customhost,
     port=3306,
@@ -31,7 +33,7 @@ def about():
     return render_template('www.intellipaat.com')
 
 
-@app.route("/addemp", methods=['POST'])
+@app.route("/register", methods=['POST'])
 def AddEmp():
     stud_email = request.form['email']
     password = request.form['password']

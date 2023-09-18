@@ -55,9 +55,22 @@ def job_details():
 def contact():
     return render_template('contact.html')
 
-@app.route("/register", methods=['GET'])
+@app.route("/register", methods=['GET', 'POST'])
 def register():
     return render_template('register.html')
+
+@app.route("/register", methods=['GET'])
+def register():
+    stud_email = request.form['email']
+    password = request.form['password']
+
+    insert_sql = "INSERT INTO student VALUES (%s, %s)"
+    cursor = db_conn.cursor()
+
+    cursor.execute(insert_sql, (stud_email, password))
+    db_conn.commit()
+
+    cursor.close()
 
 @app.route("/login", methods=['GET'])
 def login():

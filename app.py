@@ -89,16 +89,22 @@ def register():
                                         ))
             db_conn.commit()
             cursor.close()
-            return redirect(url_for('index'))  # Redirect to the homepage after successful registration
+            return redirect(url_for('testing'))  # Redirect to the homepage after successful registration
         except Exception as e:
             cursor.close()
             return str(e)  # Handle any database errors here
     
     return render_template('register.html')
 
-@app.route("/login", methods=['GET'])
+@app.route("/testing", methods=['GET'])
 def login():
-    return render_template('login.html')
+    # Fetch data from the database here
+    cursor = db_conn.cursor()
+    select_sql = "SELECT stud_email, password FROM students"
+    cursor.execute(select_sql)
+    data = cursor.fetchall()
+    cursor.close()
+    return render_template('testing.html', students=data)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80, debug=True)

@@ -23,12 +23,8 @@ db_conn = connections.Connection(
 output = {}
 table = 'student'
 
-<<<<<<< HEAD
 @app.route("/", methods=['GET'], endpoint='index')
-=======
-@app.route("/", methods=['GET', 'POST'], endpoint='index')
->>>>>>> 74a9e8bb43fb35c44e8b5db46b5e85f67ab246af
-def home():
+def index():
     return render_template('index.html')
 
 @app.route("/job_listing", methods=['GET'])
@@ -58,6 +54,14 @@ def job_details():
 @app.route("/contact", methods=['GET'])
 def contact():
     return render_template('contact.html')
+
+@app.route("/register", methods=['POST'])
+def register():
+    return render_template('register.html')
+
+@app.route("/login", methods=['POST'])
+def login():
+    return render_template('login.html')
 
 # @app.route("/about", methods=['POST'])
 # def about():

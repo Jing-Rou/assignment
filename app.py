@@ -23,7 +23,11 @@ db_conn = connections.Connection(
 output = {}
 table = 'student'
 
+<<<<<<< HEAD
 @app.route("/", methods=['GET'], endpoint='index')
+=======
+@app.route("/", methods=['GET', 'POST'], endpoint='index')
+>>>>>>> 74a9e8bb43fb35c44e8b5db46b5e85f67ab246af
 def home():
     return render_template('index.html')
 

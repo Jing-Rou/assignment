@@ -21,7 +21,7 @@ db_conn = connections.Connection(
 
 )
 output = {}
-table = 'student'
+table = 'students'
 
 @app.route("/", methods=['GET'], endpoint='index')
 def index():
@@ -61,7 +61,7 @@ def register():
         stud_email = request.form['email']
         password = request.form['password']
 
-        insert_sql = "INSERT INTO student VALUES (%s, %s)"
+        insert_sql = "INSERT INTO students VALUES (%s, %s)"
         cursor = db_conn.cursor()
         
         try:

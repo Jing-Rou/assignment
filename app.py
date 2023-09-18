@@ -55,33 +55,38 @@ def job_details():
 def contact():
     return render_template('contact.html')
 
-@app.route("/register", methods=['GET', 'POST'])
+@app.route("/register", methods=['GET'])
 def register():
-    if request.method == 'POST':
-        stud_email = request.form['email']
-        password = request.form['password']
-
-        insert_sql = "INSERT INTO students VALUES (%s, %s)"
-        cursor = db_conn.cursor()
-        
-        try:
-            cursor.execute(insert_sql, (stud_email, password))
-            db_conn.commit()
-            cursor.close()
-            return redirect(url_for('index'))  # Redirect to the homepage after successful registration
-        except Exception as e:
-            cursor.close()
-            return str(e)  # Handle any database errors here
-    
     return render_template('register.html')
+
+@app.route("/register2", methods=['GET'])
+def register2():
+    return render_template('register2.html')
+
+# @app.route("/register", methods=['GET', 'POST'])
+# def register():
+#     if request.method == 'POST':
+#         stud_email = request.form['email']
+#         password = request.form['password']
+
+#         insert_sql = "INSERT INTO students VALUES (%s, %s)"
+#         cursor = db_conn.cursor()
+        
+#         try:
+#             cursor.execute(insert_sql, (stud_email, password))
+#             db_conn.commit()
+#             cursor.close()
+#             return redirect(url_for('index'))  # Redirect to the homepage after successful registration
+#         except Exception as e:
+#             cursor.close()
+#             return str(e)  # Handle any database errors here
+    
+#     return render_template('register.html')
 
 @app.route("/login", methods=['GET'])
 def login():
     return render_template('login.html')
 
 if __name__ == '__main__':
-<<<<<<< HEAD
     app.run(host='0.0.0.0', port=80, debug=True)
-=======
-    app.run(host='0.0.0.0', port=80, debug=True)
->>>>>>> e6574d54f8f088786a8529b7a29be43d16ba1fba
+

@@ -28,17 +28,20 @@
         <div class="row g-0">
             <!-- Left Col Image -->
             <div class="col-md-6 col-lg-6 d-none d-md-block ">
-                <img src="{{ url_for('static', filename='img/login-register/register-pic2.jpg')}}" alt="register form" class="img-fluid rounded-0" />
+                <img src="{{ url_for('static', filename='img/login-register/register-pic2.jpg')}}" alt="register form"
+                    class="img-fluid rounded-0" />
             </div>
 
             <!-- Right Col Form -->
-            <div class="col-md-6 col-lg-6 d-flex bg-image" style="background-image: url('{{ url_for('static', filename='img/logo/logo-2.png') }}'); height: 100vh;">
+            <div class="col-md-6 col-lg-6 d-flex bg-image"
+                style="background-image: url('{{ url_for('static', filename='img/logo/logo-2.png') }}'); height: 100vh;">
                 <div class="card-body p-4 p-lg-4 text-black">
                     <!-- Logo -->
                     <h1 class="logo mb-10 text-center fw-bold"></h1>
-                    
+
                     <!-- Form To Submit -->
-                    <form method="post" enctype="multipart/form-data" class="ms-4 me-5 mb-2 mt-2 needs-validation" novalidate>
+                    <form method="post" enctype="multipart/form-data" class="ms-4 me-5 mb-2 mt-2 needs-validation"
+                        novalidate>
                         <div class="d-flex align-items-center mb-3 pb-1">
                             <i class="fa-solid fa-circle-user fa-3x text-danger me-4"></i>
                             <span class="h1 fw-bold mb-0 text-danger">Register</span>
@@ -48,20 +51,20 @@
                         <!-- Name Input -->
                         <div class="row">
                             <div class="col-md-6 mb-4">
-            
-                              <div class="form-outline">
-                                <input type="text" id="firstName" class="form-control form-control-lg" />
-                                <label class="form-label" for="firstName">First Name</label>
-                              </div>
-            
+
+                                <div class="form-outline">
+                                    <input type="text" id="firstName" class="form-control form-control-lg" />
+                                    <label class="form-label" for="firstName">First Name</label>
+                                </div>
+
                             </div>
                             <div class="col-md-6 mb-4">
-            
-                              <div class="form-outline">
-                                <input type="text" id="lastName" class="form-control form-control-lg" />
-                                <label class="form-label" for="lastName">Last Name</label>
-                              </div>
-            
+
+                                <div class="form-outline">
+                                    <input type="text" id="lastName" class="form-control form-control-lg" />
+                                    <label class="form-label" for="lastName">Last Name</label>
+                                </div>
+
                             </div>
                         </div>
 
@@ -69,7 +72,8 @@
                         <div class="mb-4 pb-1">
                             <div class="form-outline">
                                 <i class='fa-solid fa-envelope trailing text-danger'></i>
-                                <input type="text" class="form-control form-control-lg form-icon-trailing" id="email" name="email" required>
+                                <input type="text" class="form-control form-control-lg form-icon-trailing" id="email"
+                                    name="email" required>
                                 <label for="email" class="form-label">Email</label>
                                 <div class="invalid-feedback">Example invalid form file feedback</div>
                             </div>
@@ -78,8 +82,10 @@
                         <!-- Password Input -->
                         <div class="mb-4 pb-1">
                             <div class="form-outline">
-                                <i class='fa-solid fa-eye-slash trailing text-danger toggle-password' data-target="password"></i>
-                                <input type="password" class="form-control form-control-lg form-icon-trailing" id="password" name="password" required>
+                                <i class='fa-solid fa-eye-slash trailing text-danger toggle-password'
+                                    data-target="password"></i>
+                                <input type="password" class="form-control form-control-lg form-icon-trailing"
+                                    id="password" name="password" required>
                                 <label for="password" class="form-label">Password</label>
                                 <div class="invalid-feedback"></div>
                             </div>
@@ -88,8 +94,10 @@
                         <!-- Confirm Pwd -->
                         <div class="mb-4 pb-1">
                             <div class="form-outline">
-                                <i class='fa-solid fa-eye-slash trailing text-danger toggle-password' data-target="cPassword"></i>
-                                <input type="password" class="form-control form-control-lg form-icon-trailing" id="cPassword" name="cPassword" required>
+                                <i class='fa-solid fa-eye-slash trailing text-danger toggle-password'
+                                    data-target="cPassword"></i>
+                                <input type="password" class="form-control form-control-lg form-icon-trailing"
+                                    id="cPassword" name="cPassword" required>
                                 <label for="cPassword" class="form-label">Confirmed Password</label>
                                 <div class="invalid-feedback"></div>
                             </div>
@@ -97,7 +105,11 @@
 
                         <!-- Submit Btn -->
                         <div class="mt-4 mb-5 ">
-                            <button id="registerBtn" name="registerBtn" class="btn btn-danger btn-rounded btn-lg btn-block" type="submit"><b>Register</b></button>
+                            <a href="{{ url_for('register-2') }}">
+                                <button id="registerBtn" name="registerBtn"
+                                    class="btn btn-danger btn-rounded btn-lg btn-block"
+                                    type="submit"><b>Next</b></button>
+                            </a>
                         </div>
 
                         <!-- Click to Login Page -->

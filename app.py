@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
 from pymysql import connections
 import os
 import boto3
@@ -21,7 +21,7 @@ db_conn = connections.Connection(
 
 )
 output = {}
-table = 'student'
+table = 'students'
 
 @app.route("/", methods=['GET'], endpoint='index')
 def index():
@@ -55,67 +55,29 @@ def job_details():
 def contact():
     return render_template('contact.html')
 
-@app.route("/register", methods=['GET'])
+@app.route("/register", methods=['GET', 'POST'])
 def register():
+    if request.method == 'POST':
+        stud_email = request.form['email']
+        password = request.form['password']
+
+        insert_sql = "INSERT INTO students VALUES (%s, %s)"
+        cursor = db_conn.cursor()
+        
+        try:
+            cursor.execute(insert_sql, (stud_email, password))
+            db_conn.commit()
+            cursor.close()
+            return redirect(url_for('index'))  # Redirect to the homepage after successful registration
+        except Exception as e:
+            cursor.close()
+            return str(e)  # Handle any database errors here
+    
     return render_template('register.html')
 
 @app.route("/login", methods=['GET'])
 def login():
     return render_template('login.html')
-
-# @app.route("/about", methods=['POST'])
-# def about():
-#     return render_template('www.intellipaat.com')
-
-
-# @app.route("/register", methods=['POST'])
-# def AddEmp():
-#     stud_email = request.form['email']
-#     password = request.form['password']
-#     # last_name = request.form['last_name']
-#     # pri_skill = request.form['pri_skill']
-#     # location = request.form['location']
-#     # emp_image_file = request.files['emp_image_file']
-
-#     insert_sql = "INSERT INTO student VALUES (%s, %s)"
-#     cursor = db_conn.cursor()
-
-#     # if emp_image_file.filename == "":
-#     #     return "Please select a file"
-
-#     try:
-
-#         cursor.execute(insert_sql, (stud_email, password))
-#         db_conn.commit()
-#         # emp_name = "" + first_name + " " + last_name
-#         # # Uplaod image file in S3 #
-#         # emp_image_file_name_in_s3 = "emp-id-" + str(emp_id) + "_image_file"
-#         s3 = boto3.resource('s3')
-
-#         try:
-#             print("Data inserted in MySQL RDS... uploading image to S3...")
-#             # s3.Bucket(custombucket).put_object(Key=emp_image_file_name_in_s3, Body=emp_image_file)
-#             bucket_location = boto3.client('s3').get_bucket_location(Bucket=custombucket)
-#             s3_location = (bucket_location['LocationConstraint'])
-
-#             if s3_location is None:
-#                 s3_location = ''
-#             else:
-#                 s3_location = '-' + s3_location
-
-#             object_url = "https://s3{0}.amazonaws.com/{1}/{2}".format(
-#                 s3_location,
-#                 custombucket)
-
-#         except Exception as e:
-#             return str(e)
-
-#     finally:
-#         cursor.close()
-
-#     print("all modification done...")
-#     return render_template('AddEmpOutput.html', name=emp_name)
-
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80, debug=True)

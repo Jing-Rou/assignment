@@ -27,12 +27,13 @@
   pointer-events: auto !important;
 }
 
-/* .logo {
-  font-size: 20px;
-  margin: 0;
-  padding: 0;
-  line-height: 1;
-  font-weight: 500;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-} */
+.card-registration .select-input.form-control[readonly]:not([disabled]) {
+  font-size: 1rem;
+  line-height: 2.15;
+  padding-left: .75em;
+  padding-right: .75em;
+  }
+  
+.card-registration .select-arrow {
+top: 13px;
+}

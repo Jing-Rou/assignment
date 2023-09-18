@@ -55,33 +55,46 @@ def job_details():
 def contact():
     return render_template('contact.html')
 
-@app.route("/register", methods=['GET'])
+@app.route("/register", methods=['GET', 'POST'])
 def register():
-    return render_template('register.html')
+    if request.method == 'POST':
+        firstName = request.form['firstName']
+        lastName = request.form['lastName']
+        gender = request.form['gender']
+        email = request.form['email']
+        password = request.form['password']
+        ic = request.form['ic']
+        programmeSelect = request.form['programmeSelect']
+        tutorialGrp = request.form['tutorialGrp']
+        studentID = request.form['studentID']
+        cgpa = request.form['cgpa']
+        ucSupervisor = request.form['ucSupervisor']
+        ucSupervisorEmail = request.form['ucSupervisorEmail']
 
-@app.route("/register2", methods=['GET'])
-def register2():
-    return render_template('register2.html')
-
-# @app.route("/register", methods=['GET', 'POST'])
-# def register():
-#     if request.method == 'POST':
-#         stud_email = request.form['email']
-#         password = request.form['password']
-
-#         insert_sql = "INSERT INTO students VALUES (%s, %s)"
-#         cursor = db_conn.cursor()
+        insert_sql = "INSERT INTO students VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+        cursor = db_conn.cursor()
         
-#         try:
-#             cursor.execute(insert_sql, (stud_email, password))
-#             db_conn.commit()
-#             cursor.close()
-#             return redirect(url_for('index'))  # Redirect to the homepage after successful registration
-#         except Exception as e:
-#             cursor.close()
-#             return str(e)  # Handle any database errors here
+        try:
+            cursor.execute(insert_sql, (email, 
+                                        studentID, 
+                                        firstName, 
+                                        lastName, 
+                                        gender,
+                                        password,
+                                        ic,
+                                        programmeSelect,
+                                        tutorialGrp,
+                                        cgpa,
+                                        ucSupervisor
+                                        ))
+            db_conn.commit()
+            cursor.close()
+            return redirect(url_for('index'))  # Redirect to the homepage after successful registration
+        except Exception as e:
+            cursor.close()
+            return str(e)  # Handle any database errors here
     
-#     return render_template('register.html')
+    return render_template('register.html')
 
 @app.route("/login", methods=['GET'])
 def login():

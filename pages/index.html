@@ -77,8 +77,14 @@
                                 </div>
                                 <!-- Header-btn -->
                                 <div class="header-btn d-none f-right d-lg-block">
+                                    {% if user_authenticated %}
+                                    <!-- User is authenticated, show User Profile button -->
+                                    <a href="{{ url_for('user_profile') }}" class="btn head-btn1">User Profile</a>
+                                    {% else %}
+                                    <!-- User is not authenticated, show Register and Login buttons -->
                                     <a href="{{ url_for('register') }}" class="btn head-btn1">Register</a>
                                     <a href="{{ url_for('login') }}" class="btn head-btn2">Login</a>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
@@ -252,7 +258,8 @@
         </div>
         <!-- Our Services End -->
         <!-- Online CV Area Start -->
-        <div class="online-cv cv-bg section-overly pt-90 pb-120" data-background="{{ url_for('static', filename='img/gallery/cv_bg.jpg')}}">
+        <div class="online-cv cv-bg section-overly pt-90 pb-120"
+            data-background="{{ url_for('static', filename='img/gallery/cv_bg.jpg')}}">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-xl-10">
@@ -284,7 +291,8 @@
                         <div class="single-job-items mb-30">
                             <div class="job-items">
                                 <div class="company-img">
-                                    <a href="{{ url_for('job_details') }}"><img src="{{ url_for('static', filename='img/icon/job-list1.png')}}" alt=""></a>
+                                    <a href="{{ url_for('job_details') }}"><img
+                                            src="{{ url_for('static', filename='img/icon/job-list1.png')}}" alt=""></a>
                                 </div>
                                 <div class="job-tittle">
                                     <a href="{{ url_for('job_details') }}">
@@ -306,7 +314,8 @@
                         <div class="single-job-items mb-30">
                             <div class="job-items">
                                 <div class="company-img">
-                                    <a href="{{ url_for('job_details') }}"><img src="{{ url_for('static', filename='img/icon/job-list2.png')}}" alt=""></a>
+                                    <a href="{{ url_for('job_details') }}"><img
+                                            src="{{ url_for('static', filename='img/icon/job-list2.png')}}" alt=""></a>
                                 </div>
                                 <div class="job-tittle">
                                     <a href="{{ url_for('job_details') }}">
@@ -328,7 +337,8 @@
                         <div class="single-job-items mb-30">
                             <div class="job-items">
                                 <div class="company-img">
-                                    <a href="{{ url_for('job_details') }}"><img src="{{ url_for('static', filename='img/icon/job-list3.png')}}" alt=""></a>
+                                    <a href="{{ url_for('job_details') }}"><img
+                                            src="{{ url_for('static', filename='img/icon/job-list3.png')}}" alt=""></a>
                                 </div>
                                 <div class="job-tittle">
                                     <a href="{{ url_for('job_details') }}">
@@ -350,7 +360,8 @@
                         <div class="single-job-items mb-30">
                             <div class="job-items">
                                 <div class="company-img">
-                                    <a href="{{ url_for('job_details') }}"><img src="{{ url_for('static', filename='img/icon/job-list4.png')}}" alt=""></a>
+                                    <a href="{{ url_for('job_details') }}"><img
+                                            src="{{ url_for('static', filename='img/icon/job-list4.png')}}" alt=""></a>
                                 </div>
                                 <div class="job-tittle">
                                     <a href="{{ url_for('job_details') }}">
@@ -374,7 +385,8 @@
         </section>
         <!-- Featured_job_end -->
         <!-- How  Apply Process Start-->
-        <div class="apply-process-area apply-bg pt-150 pb-150" data-background="{{ url_for('static', filename='img/gallery/how-applybg.png')}}">
+        <div class="apply-process-area apply-bg pt-150 pb-150"
+            data-background="{{ url_for('static', filename='img/gallery/how-applybg.png')}}">
             <div class="container">
                 <!-- Section Tittle -->
                 <div class="row">
@@ -441,7 +453,8 @@
                                     <!-- founder -->
                                     <div class="testimonial-founder  ">
                                         <div class="founder-img mb-30">
-                                            <img src="{{ url_for('static', filename='img/testmonial/testimonial-founder.png')}}" alt="">
+                                            <img src="{{ url_for('static', filename='img/testmonial/testimonial-founder.png')}}"
+                                                alt="">
                                             <span>Margaret Lawson</span>
                                             <p>Creative Director</p>
                                         </div>
@@ -460,7 +473,8 @@
                                     <!-- founder -->
                                     <div class="testimonial-founder  ">
                                         <div class="founder-img mb-30">
-                                            <img src="{{ url_for('static', filename='img/testmonial/testimonial-founder.png')}}" alt="">
+                                            <img src="{{ url_for('static', filename='img/testmonial/testimonial-founder.png')}}"
+                                                alt="">
                                             <span>Margaret Lawson</span>
                                             <p>Creative Director</p>
                                         </div>
@@ -479,7 +493,8 @@
                                     <!-- founder -->
                                     <div class="testimonial-founder  ">
                                         <div class="founder-img mb-30">
-                                            <img src="{{ url_for('static', filename='img/testmonial/testimonial-founder.png')}}" alt="">
+                                            <img src="{{ url_for('static', filename='img/testmonial/testimonial-founder.png')}}"
+                                                alt="">
                                             <span>Margaret Lawson</span>
                                             <p>Creative Director</p>
                                         </div>
@@ -558,7 +573,8 @@
                                 </div>
                                 <div class="blog-cap">
                                     <p>| Properties</p>
-                                    <h3><a href="{{ url_for('single_blog') }}">Footprints in Time is perfect House in Kurashiki</a>
+                                    <h3><a href="{{ url_for('single_blog') }}">Footprints in Time is perfect House in
+                                            Kurashiki</a>
                                     </h3>
                                     <a href="#" class="more-btn">Read more »</a>
                                 </div>
@@ -578,7 +594,8 @@
                                 </div>
                                 <div class="blog-cap">
                                     <p>| Properties</p>
-                                    <h3><a href="{{ url_for('single_blog') }}">Footprints in Time is perfect House in Kurashiki</a>
+                                    <h3><a href="{{ url_for('single_blog') }}">Footprints in Time is perfect House in
+                                            Kurashiki</a>
                                     </h3>
                                     <a href="#" class="more-btn">Read more »</a>
                                 </div>
@@ -660,7 +677,8 @@
                                             <div class="form-icon">
                                                 <button type="submit" name="submit" id="newsletter-submit"
                                                     class="email_icon newsletter-submit button-contactForm"><img
-                                                        src="{{ url_for('static', filename='img/icon/form.png')}}" alt=""></button>
+                                                        src="{{ url_for('static', filename='img/icon/form.png')}}"
+                                                        alt=""></button>
                                             </div>
                                             <div class="mt-10 info"></div>
                                         </form>
@@ -675,7 +693,8 @@
                     <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6">
                         <!-- logo -->
                         <div class="footer-logo mb-20">
-                            <a href="index.html"><img src="{{ url_for('static', filename='img/logo/logo2_footer.png')}}" alt=""></a>
+                            <a href="index.html"><img src="{{ url_for('static', filename='img/logo/logo2_footer.png')}}"
+                                    alt=""></a>
                         </div>
                     </div>
                     <div class="col-xl-3 col-lg-3 col-md-4 col-sm-5">

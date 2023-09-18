@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect, url_for, session
 
 app = Flask(__name__)
 
@@ -38,8 +38,28 @@ def job_details():
 def contact():
     return render_template('contact.html')
 
-@app.route("/register", methods=['GET'])
+@app.route("/register", methods=['GET', 'POST'])
 def register():
+    print(request.method)
+    if request.method == 'POST':
+        firstName = request.form['firstName']
+        lastName = request.form['lastName']
+        gender = request.form['gender']
+        email = request.form['email']
+        password = request.form['password']
+        ic = request.form['ic']
+        programmeSelect = request.form['programmeSelect']
+        tutorialGrp = request.form['tutorialGrp']
+        studentID = request.form['studentID']
+        cgpa = request.form['cgpa']
+        ucSupervisor = request.form['ucSupervisor']
+        ucSupervisorEmail = request.form['ucSupervisorEmail']
+
+        print(firstName, lastName, gender, email, password, ic, programmeSelect, tutorialGrp, studentID, cgpa, ucSupervisor, ucSupervisorEmail)
+
+        # Redirect to the registration 2 form
+        return redirect(url_for('login'))
+
     return render_template('register.html')
 
 @app.route("/login", methods=['GET'])

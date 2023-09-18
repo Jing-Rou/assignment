@@ -12,8 +12,8 @@
 
     <!-- AOS -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <link href="../assets/css/global.css" rel="stylesheet" type="text/css" />
-    <link href="../assets/css/login_register.css" rel="stylesheet" type="text/css" />
+    <link href="{{ url_for('static', filename='css/global.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{ url_for('static', filename='css/login_register.css')}}" rel="stylesheet" type="text/css" />
 
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
@@ -28,12 +28,11 @@
         <div class="row g-0">
             <!-- Left Col Image -->
             <div class="col-md-6 col-lg-6 d-none d-md-block ">
-                <img src="../assets/img/login-register/register-pic2.jpg" alt="register form" class="img-fluid rounded-0" />
+                <img src="{{ url_for('static', filename='img/login-register/register-pic2.jpg')}}" alt="register form" class="img-fluid rounded-0" />
             </div>
 
             <!-- Right Col Form -->
-            <div class="col-md-6 col-lg-6 d-flex bg-image" style="background-image: url('../assets/img/logo/logo-2.png');
-            height: 100vh">
+            <div class="col-md-6 col-lg-6 d-flex bg-image" style="background-image: url('{{ url_for('static', filename='img/logo/logo-2.png') }}'); height: 100vh;">
                 <div class="card-body p-4 p-lg-4 text-black">
                     <!-- Logo -->
                     <h1 class="logo mb-10 text-center fw-bold"></h1>
@@ -84,7 +83,7 @@
                         <!-- Click to Login Page -->
                         <div class="mt-5">
                             <p>Already have an account?
-                                <a href="login.html" class="text-primary">
+                                <a href="{{ url_for('login') }}" class="text-primary">
                                     Click here to login &#x2190;
                                 </a>
                             </p>
@@ -109,6 +108,6 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.1/mdb.min.js"></script>
 
     <!-- login register validation -->
-    <script type="text/javascript" src="../assets/js/login_register.js"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/login_register.js')}}"></script>
 
 </html>

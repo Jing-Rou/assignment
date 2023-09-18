@@ -80,8 +80,4 @@ def login():
     return render_template('login.html')
 
 if __name__ == '__main__':
-<<<<<<< HEAD
     app.run(host='0.0.0.0', port=80, debug=True)
-=======
-    app.run(host='0.0.0.0', port=80, debug=True)
->>>>>>> e6574d54f8f088786a8529b7a29be43d16ba1fba

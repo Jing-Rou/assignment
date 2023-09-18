@@ -61,17 +61,18 @@ def register():
         stud_email = request.form['email']
         password = request.form['password']
 
-    insert_sql = "INSERT INTO student VALUES (%s, %s)"
-    cursor = db_conn.cursor()
+        insert_sql = "INSERT INTO student VALUES (%s, %s)"
+        cursor = db_conn.cursor()
+        
+        try:
+            cursor.execute(insert_sql, (stud_email, password))
+            db_conn.commit()
+            cursor.close()
+            return redirect(url_for('index'))  # Redirect to the homepage after successful registration
+        except Exception as e:
+            cursor.close()
+            return str(e)  # Handle any database errors here
     
-    try:
-        cursor.execute(insert_sql, (stud_email, password))
-        db_conn.commit()
-        cursor.close()
-        return redirect(url_for('index'))  # Redirect to the homepage after successful registration
-    except Exception as e:
-        cursor.close()
-        return str(e)  # Handle any database errors here
     return render_template('register.html')
 
 @app.route("/login", methods=['GET'])

@@ -205,7 +205,7 @@ def form():
                     file.filename)
         
         except Exception as e:
-            return str('bucket', e)
+            return str('bucket', str(e))
             
     return render_template('form.html')
 

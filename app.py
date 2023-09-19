@@ -113,5 +113,13 @@ def login():
 def studentDashboard():
     return render_template('studentDashboard.html')
 
+@app.route("/form", methods=['GET'])
+def form():
+    return render_template('form.html')
+
+@app.route("/report", methods=['GET'])
+def studentDashboard():
+    return render_template('report.html')
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80, debug=True)

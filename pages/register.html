@@ -91,8 +91,9 @@
                     <div class="mb-4 pb-1">
                         <div class="form-outline">
                             <i class='fa-solid fa-envelope trailing text-danger'></i>
-                            <input type="text" class="form-control form-control-lg form-icon-trailing  {% if email_error %}is-invalid{% endif %}" id="email"
-                                name="email" required>
+                            <input type="text"
+                                class="form-control form-control-lg form-icon-trailing {% if email_error %}is-invalid{% endif %}"
+                                id="email" name="email" required>
                             <label for="email" class="form-label">Student Email</label>
                             <div class="invalid-feedback">
                                 {% if email_error %}
@@ -127,15 +128,21 @@
                     </div>
 
                     <div class="form-outline mb-4">
-                        <input type="text" id="ic" name="ic" class="form-control form-control-lg" />
+                        <input type="text" id="ic" name="ic"
+                            class="form-control form-control-lg {% if ic_error %}is-invalid{% endif %}" required />
                         <label class="form-label" for="ic">MyKad</label>
+                        <div class="invalid-feedback">
+                            {% if ic_error %}
+                            {{ ic_error }}
+                            {% endif %}
+                        </div>
                     </div>
 
                     <!-- Apply MDB custom-select class to the select element -->
                     <div class="row">
                         <div class="mb-4">
                             <select id="programmeSelect" name="programmeSelect"
-                                class="custom-select form-control form-control-lg">
+                                class="custom-select form-control form-control-lg" required>
                                 <option value="1">Programme</option>
                                 <option value="Bachelor of Science (Honours) in Management Mathematics with Computing">
                                     Bachelor of Science (Honours) in Management Mathematics with Computing
@@ -171,22 +178,28 @@
                         <div class="col-md-6 mb-4">
                             <div class="form-outline">
                                 <input type="text" id="tutorialGrp" name="tutorialGrp"
-                                    class="form-control form-control-lg" placeholder="e.g: 1 - 5" />
+                                    class="form-control form-control-lg" placeholder="e.g: 1 - 5" required />
                                 <label class="form-label" for="tutorialGrp">Tutorial Group</label>
                             </div>
                         </div>
 
                         <div class="col-md-6 mb-4">
                             <div class="form-outline">
-                                <input type="text" id="studentID" name="studentID" class="form-control form-control-lg"
-                                    placeholder="e.g: 99WMR9999" />
+                                <input type="text" id="studentID" name="studentID"
+                                    class="form-control form-control-lg {% if studentID_error %}is-invalid{% endif %}"
+                                    placeholder="e.g: 99WMR9999" required />
                                 <label class="form-label" for="studentID">Student ID</label>
+                                <div class="invalid-feedback">
+                                    {% if studentID_error %}
+                                    {{ studentID_error }}
+                                    {% endif %}
+                                </div>
                             </div>
                         </div>
                     </div>
 
                     <div class="form-outline mb-4">
-                        <input type="text" id="cgpa" name="cgpa" class="form-control form-control-lg" />
+                        <input type="text" id="cgpa" name="cgpa" class="form-control form-control-lg" required />
                         <label class="form-label" for="cgpa">CGPA</label>
                     </div>
 
@@ -194,7 +207,7 @@
                         <div class="col-md-6 mb-4">
                             <div class="form-outline">
                                 <input type="text" id="ucSupervisor" name="ucSupervisor"
-                                    class="form-control form-control-lg" />
+                                    class="form-control form-control-lg" required />
                                 <label class="form-label" for="ucSupervisor">UC Supervisor</label>
                             </div>
                         </div>

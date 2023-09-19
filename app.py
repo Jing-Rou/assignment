@@ -1,8 +1,9 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, flash
 from pymysql import connections
 import os
 import boto3
 from config import *
+import hashlib
 
 app = Flask(__name__)
 # Configure the 'templates' folder for HTML templates.
@@ -129,15 +130,32 @@ def register():
 @app.route("/login", methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        return render_template('index.html', user_authenticated=True)
+        email = request.form.get('email')
+        password = request.form.get('password')
+        
+        # Fetch data from the database here
+        cursor = db_conn.cursor()
+        select_sql = "SELECT stud_email, password FROM students WHERE stud_email = %s"
+        cursor.execute(select_sql, (email,))
+        data = cursor.fetchone()  # Fetch a single row
+        
+        if data:
+            # Data is found in the database
+            stored_password = data[1]
+            # You should hash the provided password and compare it to the stored hashed password
+            hashed_password = hashlib.sha256(password.encode()).hexdigest()
+            
+            if hashed_password == stored_password:
+                # Passwords match, user is authenticated
+                return render_template('index.html', user_authenticated=True)
+            else:
+                flash('Incorrect password. Please try again.', 'danger')
+        else:
+            flash('Email not found. Please register or try a different email.', 'danger')
+
+        cursor.close()
     
-    # Fetch data from the database here
-    cursor = db_conn.cursor()
-    select_sql = "SELECT stud_email, password FROM students"
-    cursor.execute(select_sql)
-    data = cursor.fetchall()
-    cursor.close()
-    return render_template('login.html', students=data)
+    return render_template('login.html')
 
 @app.route("/studentDashboard", methods=['GET'])
 def studentDashboard():

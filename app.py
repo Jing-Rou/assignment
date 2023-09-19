@@ -73,7 +73,7 @@ def register():
         
         # Check if the email is already in the database.
         cursor = db_conn.cursor()
-        cursor.execute("SELECT * FROM students WHERE email=%s", (email,))
+        cursor.execute("SELECT * FROM students WHERE email=%s", (email))
         results = cursor.fetchall()
         cursor.close()
 
@@ -83,7 +83,7 @@ def register():
 
         # Otherwise, check if the IC is already in the database.
         cursor = db_conn.cursor()
-        cursor.execute("SELECT * FROM students WHERE ic=%s", (ic,))
+        cursor.execute("SELECT * FROM students WHERE ic=%s", (ic))
         results = cursor.fetchall()
         cursor.close()
 
@@ -93,7 +93,7 @@ def register():
 
         # Otherwise, check if the student ID is already in the database.
         cursor = db_conn.cursor()
-        cursor.execute("SELECT * FROM students WHERE studentID=%s", (studentID,))
+        cursor.execute("SELECT * FROM students WHERE studentID=%s", (studentID))
         results = cursor.fetchall()
         cursor.close()
 

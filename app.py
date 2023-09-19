@@ -232,7 +232,7 @@ def form():
         #             file.filename)
         
         except Exception as e:
-            return str(e)
+            return str('bucket', e)
             
     return render_template('form.html')
 

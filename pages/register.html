@@ -143,7 +143,7 @@
                         <div class="mb-4">
                             <select id="programmeSelect" name="programmeSelect"
                                 class="custom-select form-control form-control-lg" required>
-                                <option value="1">Programme</option>
+                                <option value="" disabled selected>Select a Programme</option>
                                 <option value="Bachelor of Science (Honours) in Management Mathematics with Computing">
                                     Bachelor of Science (Honours) in Management Mathematics with Computing
                                 </option>
@@ -177,8 +177,8 @@
                     <div class="row">
                         <div class="col-md-6 mb-4">
                             <div class="form-outline">
-                                <input type="text" id="tutorialGrp" name="tutorialGrp"
-                                    class="form-control form-control-lg" placeholder="e.g: 1 - 5" required />
+                                <input type="number" id="tutorialGrp" name="tutorialGrp"
+                                    class="form-control form-control-lg" placeholder="e.g: 1 - 5" required pattern="[0-9]+" />
                                 <label class="form-label" for="tutorialGrp">Tutorial Group</label>
                             </div>
                         </div>

@@ -166,7 +166,7 @@ def studentDashboard():
 def form():
     print("in")
     if request.method == 'POST':
-        file = request.files('acceptanceForm') 
+        file = request.files['acceptanceForm']
         print("in1")
         if file.filename == "":
             return "Please select a file"

@@ -188,7 +188,7 @@ def form():
                 key = folder_name + file.filename
 
                 # Upload the file into the specified folder
-                s3.Bucket(custombucket).put_object(Key=file.filename, Body=file)
+                s3.Bucket(custombucket).put_object(Key=key, Body=file)
 
                 # Generate the object URL
                 bucket_location = boto3.client('s3').get_bucket_location(Bucket=custombucket)

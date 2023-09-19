@@ -73,7 +73,7 @@ def register():
         
         # Check if the email is already in the database.
         cursor = db_conn.cursor()
-        cursor.execute("SELECT * FROM students WHERE email=%s", (email))
+        cursor.execute("SELECT * FROM students WHERE stud_email=%s", (email))
         results = cursor.fetchall()
         cursor.close()
 

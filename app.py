@@ -167,71 +167,45 @@ def form():
     print("in")
     print(request.method)
     print(list(request.files.keys()))
-    if request.method == 'POST':
-        file = request.files['acceptanceForm']  # Use square brackets here, not parentheses
-        print("in1")
-        if file.filename == "":
-            return "Please select a file"
+    if request.method == 'POST':         
+        uploaded_files = request.files('acceptanceForm') + \
+                    request.files.getlist('parentForm') + \
+                    request.files.getlist('letterForm') + \
+                    request.files.getlist('hireEvi')
+
+        if not any(uploaded_files):
+            return "Please select at least one file to upload"
         
         # Uplaod image file in S3 #
         # emp_image_file_name_in_s3 = "emp-id-" + str(emp_id) + "_image_file"
-        s3 = boto3.client('s3')
+        s3 = boto3.resource('s3')
+
+        # Create a folder or prefix for the files in S3
+        folder_name = 'Student/'  # Replace 'your_folder_name' with your desired folder name
 
         try:
             print("Data inserted in MySQL RDS... uploading image to S3...")
-            
-            s3.Bucket(custombucket).put_object(Key=file.filename, Body=file)
-            bucket_location = boto3.client('s3').get_bucket_location(Bucket=custombucket)
-            s3_location = (bucket_location['LocationConstraint'])
 
-            if s3_location is None:
-                s3_location = ''
-            else:
-                s3_location = '-' + s3_location
+            for file in uploaded_files:
+                # Construct the key with the folder prefix and file name
+                key = folder_name + file.filename
 
-            object_url = "https://s3{0}.amazonaws.com/{1}/{2}".format(
-                s3_location,
-                custombucket,
-                file.filename)
-                
-        #         uploaded_files = request.files('acceptanceForm') + \
-        #                  request.files.getlist('parentForm') + \
-        #                  request.files.getlist('letterForm') + \
-        #                  request.files.getlist('hireEvi')
+                # Upload the file into the specified folder
+                s3.Bucket(custombucket).put_object(Key=file.filename, Body=file)
 
-        # if not any(uploaded_files):
-        #     return "Please select at least one file to upload"
-        
-        # # Uplaod image file in S3 #
-        # # emp_image_file_name_in_s3 = "emp-id-" + str(emp_id) + "_image_file"
-        # s3 = boto3.resource('s3')
+                # Generate the object URL
+                bucket_location = boto3.client('s3').get_bucket_location(Bucket=custombucket)
+                s3_location = (bucket_location['LocationConstraint'])
 
-        # # Create a folder or prefix for the files in S3
-        # folder_name = 'Student/'  # Replace 'your_folder_name' with your desired folder name
+                if s3_location is None:
+                    s3_location = ''
+                else:
+                    s3_location = '-' + s3_location
 
-        # try:
-        #     print("Data inserted in MySQL RDS... uploading image to S3...")
-
-        #     for file in uploaded_files:
-        #         # Construct the key with the folder prefix and file name
-        #         key = folder_name + file.filename
-
-        #         # Upload the file into the specified folder
-        #         s3.Bucket(custombucket).put_object(Key=file.filename, Body=file)
-
-        #         # Generate the object URL
-        #         bucket_location = boto3.client('s3').get_bucket_location(Bucket=custombucket)
-        #         s3_location = (bucket_location['LocationConstraint'])
-
-        #         if s3_location is None:
-        #             s3_location = ''
-        #         else:
-        #             s3_location = '-' + s3_location
-
-        #         object_url = "https://s3{0}.amazonaws.com/{1}/{2}".format(
-        #             s3_location,
-        #             custombucket,
-        #             file.filename)
+                object_url = "https://s3{0}.amazonaws.com/{1}/{2}".format(
+                    s3_location,
+                    custombucket,
+                    file.filename)
         
         except Exception as e:
             return str('bucket', e)

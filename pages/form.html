@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!-- Bootstrap CSS -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+	<title>GeeksForGeeks</title>
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard-style.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard-responsive.css') }}">
+
+</head>
+
+<body>
+
+	<!-- for header part -->
+	<header>
+
+		<div class="logosec">
+			<div class="logo">GeeksForGeeks</div>
+			<img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210182541/Untitled-design-(30).png"
+				class="icn menuicn" id="menuicn" alt="menu-icon">
+		</div>
+
+		<div class="searchbar">
+			<input type="text" placeholder="Search">
+			<div class="searchbtn">
+				<img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210180758/Untitled-design-(28).png"
+					class="icn srchicn" alt="search-icon">
+			</div>
+		</div>
+
+		<div class="message">
+			<div class="circle"></div>
+			<img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210183322/8.png" class="icn" alt="">
+			<div class="dp">
+				<img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210180014/profile-removebg-preview.png"
+					class="dpicn" alt="dp">
+			</div>
+		</div>
+
+	</header>
+
+	<div class="main-container">
+		<div class="navcontainer">
+			<nav class="nav">
+				<div class="nav-upper-options">
+					<div class="nav-option">
+						<img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210182148/Untitled-design-(29).png"
+							class="nav-img" alt="dashboard">
+						<h3><a href="{{ url_for('student-dashboard')}}">Dashboard</a></h3>
+					</div>
+
+					<div class="nav-option option1">
+						<img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210183322/9.png"
+							class="nav-img" alt="articles">
+						<h3><a style="color: white;" href="{{ url_for('form')}}">Form Submission</a></h3>
+					</div>
+
+					<div class="nav-option option3">
+						<img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210183320/5.png"
+							class="nav-img" alt="report">
+						<h3><a href="{{ url_for('report')}}"> Report</a></h3>
+					</div>
+					<!-- 
+					<div class="nav-option option4">
+						<img src=
+"https://media.geeksforgeeks.org/wp-content/uploads/20221210183321/6.png"
+							class="nav-img"
+							alt="institution">
+						<h3> Institution</h3>
+					</div> -->
+
+					<!-- <div class="nav-option option5">
+						<img src=
+"https://media.geeksforgeeks.org/wp-content/uploads/20221210183323/10.png"
+							class="nav-img"
+							alt="blog">
+						<h3> Profile</h3>
+					</div>
+
+					<div class="nav-option option6">
+						<img src=
+"https://media.geeksforgeeks.org/wp-content/uploads/20221210183320/4.png"
+							class="nav-img"
+							alt="settings">
+						<h3> Settings</h3>
+					</div> -->
+
+					<div class="nav-option logout">
+						<img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210183321/7.png"
+							class="nav-img" alt="logout">
+						<h3>Logout</h3>
+					</div>
+
+				</div>
+			</nav>
+		</div>
+		<div class="main">
+
+			<div class="searchbar2">
+				<input type="text" name="" id="" placeholder="Search">
+				<div class="searchbtn">
+					<img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210180758/Untitled-design-(28).png"
+						class="icn srchicn" alt="search-button">
+				</div>
+			</div>
+
+
+			<div class="custom-mb-3">
+				<label for="formFile" class="form-label">Com. Acceptance Form</label>
+				<input class="form-control" type="file" id="formFile">
+			</div>
+
+			<div class="custom-mb-3">
+				<label for="formFile" class="form-label">Parent Ack. Form</label>
+				<input class="form-control" type="file" id="formFile">
+			</div>
+
+			<div class="custom-mb-3">
+				<label for="formFile" class="form-label">Letter of Identity</label>
+				<input class="form-control" type="file" id="formFile">
+			</div>
+
+			<div class="custom-mb-3">
+				<label for="formFile" class="form-label">Hire Evidence (if any)</label>
+				<input class="form-control" type="file" id="formFile">
+			</div>
+
+		</div>
+	</div>
+
+	<script src="{{ url_for('static', filename='js/dashboard-index.js') }}"></script>
+	<!-- Optional JavaScript; choose one of the two! -->
+
+	<!-- Option 1: Bootstrap Bundle with Popper -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+		crossorigin="anonymous"></script>
+
+	<!-- Option 2: Separate Popper and Bootstrap JS -->
+
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+		integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+		crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+		integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+		crossorigin="anonymous"></script>
+
+</body>
+
+</html>

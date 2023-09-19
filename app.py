@@ -96,8 +96,11 @@ def register():
     
     return render_template('register.html')
 
-@app.route("/login", methods=['GET'])
+@app.route("/login", methods=['GET', 'POST'])
 def login():
+    if request.method == 'POST':
+        return render_template('index.html', user_authenticated=True)
+    
     # Fetch data from the database here
     cursor = db_conn.cursor()
     select_sql = "SELECT stud_email, password FROM students"

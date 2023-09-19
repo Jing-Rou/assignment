@@ -165,36 +165,35 @@ def studentDashboard():
 @app.route("/form", methods=['GET', 'POST'])
 def form():
     if request.method == 'POST':
-        acceptanceForm = request.files['acceptanceForm']
-        parentForm = request.files['parentForm']
-        letterForm = request.files['letterForm']
-        hireEvi = request.files['hireEvi']
+        uploaded_files = request.files.getlist('acceptanceForm') + \
+                         request.files.getlist('parentForm') + \
+                         request.files.getlist('letterForm') + \
+                         request.files.getlist('hireEvi')
 
-        if acceptanceForm.filename == "" and parentForm.filename == "" and letterForm.filename == "" and hireEvi.filename == "":
-            return "Please select a file"
+        if not any(uploaded_files):
+            return "Please select at least one file to upload"
         
         # Uplaod image file in S3 #
         # emp_image_file_name_in_s3 = "emp-id-" + str(emp_id) + "_image_file"
-        s3 = boto3.resource('s3')
+        s3 = boto3.client('s3')
 
         try:
             print("Data inserted in MySQL RDS... uploading image to S3...")
-            s3.Bucket(custombucket).put_object(Key=acceptanceForm.filename, Body=acceptanceForm)
-            s3.Bucket(custombucket).put_object(Key=acceptanceForm.filename, Body=acceptanceForm)
-            s3.Bucket(custombucket).put_object(Key=acceptanceForm.filename, Body=acceptanceForm)
-            s3.Bucket(custombucket).put_object(Key=acceptanceForm.filename, Body=acceptanceForm)
-            bucket_location = boto3.client('s3').get_bucket_location(Bucket=custombucket)
-            s3_location = (bucket_location['LocationConstraint'])
 
-            if s3_location is None:
-                s3_location = ''
-            else:
-                s3_location = '-' + s3_location
+            for file in uploaded_files:
+                s3.Bucket(custombucket).put_object(Key=file.filename, Body=file)
+                bucket_location = boto3.client('s3').get_bucket_location(Bucket=custombucket)
+                s3_location = (bucket_location['LocationConstraint'])
 
-            object_url = "https://s3{0}.amazonaws.com/{1}/{2}".format(
-                s3_location,
-                custombucket,
-                acceptanceForm.filename)
+                if s3_location is None:
+                    s3_location = ''
+                else:
+                    s3_location = '-' + s3_location
+
+                object_url = "https://s3{0}.amazonaws.com/{1}/{2}".format(
+                    s3_location,
+                    custombucket,
+                    file.filename)
 
         except Exception as e:
             return str(e)

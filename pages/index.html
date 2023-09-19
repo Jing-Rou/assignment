@@ -82,8 +82,29 @@
                                     <a href="{{ url_for('studentDashboard') }}" class="btn head-btn1">User Profile</a>
                                     {% else %}
                                     <!-- User is not authenticated, show Register and Login buttons -->
-                                    <a href="{{ url_for('register') }}" class="btn head-btn1">Register</a>
-                                    <a href="{{ url_for('login') }}" class="btn head-btn2">Login</a>
+                                    <!-- User is not authenticated, show Register and Login buttons -->
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-default dropdown-toggle"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Register <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item" href="{{ url_for('register') }}">Student</a></li>
+                                            <li><hr class="dropdown-divider" /></li>
+                                            <li><a class="dropdown-item" href="#">Teacher</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-default dropdown-toggle"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Login <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item" href="{{ url_for('login') }}">Student</a></li>
+                                            <li><hr class="dropdown-divider" /></li>
+                                            <li><a class="dropdown-item" href="#">Teacher</a></li>
+                                        </ul>
+                                    </div>
                                     {% endif %}
                                 </div>
                             </div>

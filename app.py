@@ -70,6 +70,36 @@ def register():
         cgpa = request.form['cgpa']
         ucSupervisor = request.form['ucSupervisor']
         ucSupervisorEmail = request.form['ucSupervisorEmail']
+        
+        # Check if the email is already in the database.
+        cursor = db_conn.cursor()
+        cursor.execute("SELECT * FROM students WHERE email=%s", (email,))
+        results = cursor.fetchall()
+        cursor.close()
+
+        # If the email is already in the database, return an error message to the user and display it on the register.html page.
+        if len(results) > 0:
+            return render_template('register.html', email_error="The email is already in use.")
+
+        # Otherwise, check if the IC is already in the database.
+        cursor = db_conn.cursor()
+        cursor.execute("SELECT * FROM students WHERE ic=%s", (ic,))
+        results = cursor.fetchall()
+        cursor.close()
+
+        # If the IC is already in the database, return an error message to the user and display it on the register.html page.
+        if len(results) > 0:
+            return render_template('register.html', ic_error="The IC is already in use.")
+
+        # Otherwise, check if the student ID is already in the database.
+        cursor = db_conn.cursor()
+        cursor.execute("SELECT * FROM students WHERE studentID=%s", (studentID,))
+        results = cursor.fetchall()
+        cursor.close()
+
+        # If the student ID is already in the database, return an error message to the user and display it on the register.html page.
+        if len(results) > 0:
+            return render_template('register.html', studentID_error="The student ID is already in use.")
 
         insert_sql = "INSERT INTO students VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
         cursor = db_conn.cursor()

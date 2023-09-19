@@ -54,6 +54,27 @@
                         </div>
                         <h5 class="fw-normal mb-4">Please enter your details to login</h5>
 
+                        <div class="row">
+                            <div class="mb-4">
+                                <select id="role" name="role"
+                                    class="custom-select form-control form-control-lg" required>
+                                    <option value="" disabled selected>Select Your Role</option>
+                                    <option value="Student">
+                                        Student
+                                    </option>
+                                    <option value="Lecturer">
+                                        Lecturer
+                                    </option>
+                                    <option value="Admin">
+                                        Admin
+                                    </option>
+                                    <option value="Company">
+                                        Company
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+
                         <!-- Email Input -->
                         <div class="mb-4 pb-1">
                             <div class="form-outline">
@@ -75,7 +96,8 @@
                             <div class="form-outline">
                                 <i class='fa-solid fa-eye-slash trailing text-danger toggle-password'
                                     data-target="password"></i>
-                                <input type="password" class="form-control form-control-lg form-icon-trailing {% if pwd_error %}is-invalid{% endif %}"
+                                <input type="password"
+                                    class="form-control form-control-lg form-icon-trailing {% if pwd_error %}is-invalid{% endif %}"
                                     id="password" name="password" />
                                 <label for="password" class="form-label">Password</label>
                                 <div class="invalid-feedback">

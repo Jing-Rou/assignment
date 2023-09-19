@@ -132,28 +132,30 @@ def login():
     if request.method == 'POST':
         email = request.form.get('email')
         password = request.form.get('password')
+        role = request.form.get('role')
         
-        # Fetch data from the database here
-        cursor = db_conn.cursor()
-        select_sql = "SELECT stud_email, password FROM students WHERE stud_email = %s"
-        cursor.execute(select_sql, (email,))
-        data = cursor.fetchone()  # Fetch a single row
-        
-        if data:
-            # Data is found in the database
-            stored_password = data[1]
-            # You should hash the provided password and compare it to the stored hashed password
-            hashed_password = hashlib.sha256(password.encode()).hexdigest()
-            text_string = password.decode('utf-8')
-            print(hashed_password, stored_password, password.encode(), password, text_string)
-            if password == stored_password:
-                # Passwords match, user is authenticated
-                return render_template('index.html', user_authenticated=True)
+        if role == 'Student':
+            # Fetch data from the database here
+            cursor = db_conn.cursor()
+            select_sql = "SELECT stud_email, password FROM students WHERE stud_email = %s"
+            cursor.execute(select_sql, (email,))
+            data = cursor.fetchone()  # Fetch a single row
+            
+            if data:
+                # Data is found in the database
+                stored_password = data[1]
+                # You should hash the provided password and compare it to the stored hashed password
+                hashed_password = hashlib.sha256(password.encode()).hexdigest()
+
+                if password == stored_password:
+                    # Passwords match, user is authenticated
+                    return render_template('index.html', user_authenticated=True)
+                else:
+                    return render_template('login.html', pwd_error="Incorrect password. Please try again.")
             else:
-                return render_template('login.html', pwd_error="Incorrect password. Please try again.")
-        else:
-            return render_template('login.html', email_login_error="Email not found. Please register or try a different email.")
-    
+                return render_template('login.html', email_login_error="Email not found. Please register or try a different email.")
+        # else your own role bah
+
     return render_template('login.html')
 
 @app.route("/studentDashboard", methods=['GET'])

@@ -180,6 +180,9 @@ def form():
         try:
             print("Data inserted in MySQL RDS... uploading image to S3...")
             s3.Bucket(custombucket).put_object(Key=acceptanceForm.filename, Body=acceptanceForm)
+            s3.Bucket(custombucket).put_object(Key=acceptanceForm.filename, Body=acceptanceForm)
+            s3.Bucket(custombucket).put_object(Key=acceptanceForm.filename, Body=acceptanceForm)
+            s3.Bucket(custombucket).put_object(Key=acceptanceForm.filename, Body=acceptanceForm)
             bucket_location = boto3.client('s3').get_bucket_location(Bucket=custombucket)
             s3_location = (bucket_location['LocationConstraint'])
 

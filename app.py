@@ -166,6 +166,7 @@ def studentDashboard():
 def form():
     print("in")
     print(request.method)
+    print(list(request.files.keys()))
     if request.method == 'POST':
         file = request.files['acceptanceForm']  # Use square brackets here, not parentheses
         print("in1")

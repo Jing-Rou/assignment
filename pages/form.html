@@ -67,30 +67,6 @@
 							class="nav-img" alt="report">
 						<h3><a href="{{ url_for('report')}}"> Report</a></h3>
 					</div>
-					<!-- 
-					<div class="nav-option option4">
-						<img src=
-"https://media.geeksforgeeks.org/wp-content/uploads/20221210183321/6.png"
-							class="nav-img"
-							alt="institution">
-						<h3> Institution</h3>
-					</div> -->
-
-					<!-- <div class="nav-option option5">
-						<img src=
-"https://media.geeksforgeeks.org/wp-content/uploads/20221210183323/10.png"
-							class="nav-img"
-							alt="blog">
-						<h3> Profile</h3>
-					</div>
-
-					<div class="nav-option option6">
-						<img src=
-"https://media.geeksforgeeks.org/wp-content/uploads/20221210183320/4.png"
-							class="nav-img"
-							alt="settings">
-						<h3> Settings</h3>
-					</div> -->
 
 					<div class="nav-option logout">
 						<img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210183321/7.png"
@@ -111,27 +87,33 @@
 				</div>
 			</div>
 
+			<form method="POST" enctype="multipart/form-data" class="ms-4 me-5 mb-2 mt-2" id="submission-form">
+				<div class="custom-mb-3">
+					<label for="formFile" class="form-label">Com. Acceptance Form</label>
+					<input class="form-control" type="file" id="acceptanceForm" name="acceptanceForm">
+				</div>
 
-			<div class="custom-mb-3">
-				<label for="formFile" class="form-label">Com. Acceptance Form</label>
-				<input class="form-control" type="file" id="formFile">
-			</div>
+				<div class="custom-mb-3">
+					<label for="formFile" class="form-label">Parent Ack. Form</label>
+					<input class="form-control" type="file" id="parentForm" name="parentForm">
+				</div>
 
-			<div class="custom-mb-3">
-				<label for="formFile" class="form-label">Parent Ack. Form</label>
-				<input class="form-control" type="file" id="formFile">
-			</div>
+				<div class="custom-mb-3">
+					<label for="formFile" class="form-label">Letter of Identity</label>
+					<input class="form-control" type="file" id="letterForm" name="letterForm">
+				</div>
 
-			<div class="custom-mb-3">
-				<label for="formFile" class="form-label">Letter of Identity</label>
-				<input class="form-control" type="file" id="formFile">
-			</div>
+				<div class="custom-mb-3">
+					<label for="formFile" class="form-label">Hire Evidence (if any)</label>
+					<input class="form-control" type="file" id="hireEvi" name="hireEvi">
+				</div>
 
-			<div class="custom-mb-3">
-				<label for="formFile" class="form-label">Hire Evidence (if any)</label>
-				<input class="form-control" type="file" id="formFile">
-			</div>
-
+				<!-- Submit Btn -->
+				<div class="mt-4 mb-5 ">
+					<button id="submitUser" name="submitUser" class="btn btn-danger btn-rounded btn-lg btn-block"
+						type="submit"><b>Login</b></button>
+				</div>
+			</form>
 		</div>
 	</div>
 

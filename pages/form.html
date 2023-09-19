@@ -36,7 +36,7 @@
 		label {
 			display: block;
 			margin-bottom: 10px;
-			color: rgba(0, 0, 0, .6);
+			color: rgba(0,0,0,.6);
 		}
 
 		input[type="text"],
@@ -67,8 +67,8 @@
 		}
 
 		.error-message {
-			color: red;
-		}
+            color: red;
+        }
 	</style>
 </head>
 
@@ -143,38 +143,50 @@
 				</div>
 			</div>
 
-			<form method="POST" action="/form" enctype="multipart/form-data" novalidate class="ms-4 me-5 mb-2 mt-2" id="submission-form"
-				onsubmit="return validateForm()">
-				<div class="container">
-					<!-- First Submission -->
+			<div class="container">
+				<!-- First Submission -->
+				<form method="POST" action="/form" enctype="multipart/form-data" novalidate class="ms-4 me-5 mb-2 mt-2" id="submission-form"
+				onsubmit="return toggleButton(1)">
 					<label for="acceptanceForm">Company Acceptance Form:</label>
 					<input type="file" id="file1" name="acceptanceForm" required><br><br>
-				</div>
 
-				<div class="container">
-					<!-- Second Submission -->
+					<button type="button" class="submission-button" onclick="toggleButton(1)">Turn In</button>
+					<p class="error-message" id="error1"></p>
+				</form>
+			</div>
+
+			<div class="container">
+				<!-- Second Submission -->
+				<form action="/submit" method="POST" onsubmit="return toggleButton(2)">
 					<label for="parentForm">Parent Ack Form:</label>
 					<input type="file" id="file2" name="parentForm" required><br><br>
-				</div>
 
-				<div class="container">
-					<!-- Third Submission -->
+					<button type="button" class="submission-button" onclick="toggleButton(2)">Turn In</button>
+					<p class="error-message" id="error2"></p>
+				</form>
+			</div>
+
+			<div class="container">
+				<!-- Third Submission -->
+				<form action="/submit" method="POST" onsubmit="return toggleButton(3)">
 					<label for="hireEvi">Letter of Identity:</label>
 					<input type="file" id="file3" name="hireEvi" required><br><br>
-				</div>
 
-				<div class="container">
+					<button type="button" class="submission-button" onclick="toggleButton(3)">Turn In</button>
+					<p class="error-message" id="error3"></p>
+				</form>
+			</div>
+
+			<div class="container">
+				<!-- Third Submission -->
+				<form action="/submit" method="POST" onsubmit="return toggleButton(4)">
 					<label for="file4">Hire Evidence (if any):</label>
 					<input type="file" id="file4" name="file4" required><br><br>
-				</div>
 
-				<!-- Submit Btn -->
-				<div class="mt-4 mb-4">
-					<button type="submit" class="submission-button btn-rounded btn-lg"><b>Save & Submit</b></button>
-				</div>
-
-				<p class="error-message" id="error-message" style="color: red;"></p>
-			</form>
+					<button type="button" class="submission-button" onclick="toggleButton(4)">Turn In</button>
+					<p class="error-message" id="error4"></p>
+				</form>
+			</div>
 		</div>
 	</div>
 
@@ -196,27 +208,32 @@
 		crossorigin="anonymous"></script>
 
 	<script>
-		// Function to validate the form
-		function validateForm() {
-			var fileInputs = document.querySelectorAll('input[type="file"]');
-			var isAnyFileSelected = false;
+		var isSubmitted = [false, false, false, false]; // To track whether each form has been submitted
 
-			// Check if at least one file input has a selected file
-			for (var i = 0; i < fileInputs.length; i++) {
-				if (fileInputs[i].files.length > 0) {
-					isAnyFileSelected = true;
-					break;
+		// Function to toggle the button between "Turn In" and "Unsubmit"
+		function toggleButton(formIndex) {
+			var submitButton = document.querySelectorAll(".submission-button")[formIndex - 1];
+			var fileInput = document.getElementById("file" + formIndex);
+			var errorMessage = document.getElementById("error" + formIndex);
+
+			if (!isSubmitted[formIndex - 1]) {
+				if (fileInput.files.length === 0) {
+					errorMessage.textContent = "Please select a file.";
+					return false; // Prevent form submission
 				}
-			}
 
-			if (!isAnyFileSelected) {
-				// Display an error message
-				var errorMessage = document.getElementById('error-message');
-				errorMessage.textContent = "Please select at least one file.";
-				return false; // Prevent form submission
+				// If not submitted, change to "Unsubmit" and disable file input
+				submitButton.innerHTML = "Unsubmit";
+				isSubmitted[formIndex - 1] = true;
+				fileInput.disabled = true;
+				errorMessage.textContent = ""; // Clear any previous error message
+			} else {
+				// If submitted, change back to "Turn In" and enable file input
+				submitButton.innerHTML = "Turn In";
+				isSubmitted[formIndex - 1] = false;
+				fileInput.disabled = false;
+				errorMessage.textContent = ""; // Clear any previous error message
 			}
-
-			return true; // Allow form submission if at least one file is selected
 		}
 	</script>
 </body>

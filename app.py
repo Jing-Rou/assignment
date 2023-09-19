@@ -1,13 +1,9 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for
 from pymysql import connections
 import os
 import boto3
 from config import *
 import hashlib
-import secrets
-
-secret_key = secrets.token_hex(16)  # Generate a 32-character (16-byte) hexadecimal key
-print(secret_key)
 
 app = Flask(__name__)
 # Configure the 'templates' folder for HTML templates.
@@ -153,11 +149,9 @@ def login():
                 # Passwords match, user is authenticated
                 return render_template('index.html', user_authenticated=True)
             else:
-                flash('Incorrect password. Please try again.', 'danger')
+                return render_template('login.html', pwd_error="Incorrect password. Please try again.")
         else:
-            flash('Email not found. Please register or try a different email.', 'danger')
-
-        cursor.close()
+            return render_template('login.html', email_login_error="Email not found. Please register or try a different email.")
     
     return render_template('login.html')
 

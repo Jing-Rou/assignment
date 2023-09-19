@@ -165,10 +165,10 @@ def studentDashboard():
 @app.route("/form", methods=['GET', 'POST'])
 def form():
     if request.method == 'POST':         
-        uploaded_files = request.files('acceptanceForm') + \
-                    request.files.getlist('parentForm') + \
-                    request.files.getlist('letterForm') + \
-                    request.files.getlist('hireEvi')
+        uploaded_files = request.files.getlist('acceptanceForm') + \
+                         request.files.getlist('parentForm') + \
+                         request.files.getlist('letterForm') + \
+                         request.files.getlist('hireEvi')
 
         if not any(uploaded_files):
             return "Please select at least one file to upload"

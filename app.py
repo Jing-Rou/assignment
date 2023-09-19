@@ -118,7 +118,7 @@ def form():
     return render_template('form.html')
 
 @app.route("/report", methods=['GET'])
-def studentDashboard():
+def report():
     return render_template('report.html')
 
 if __name__ == '__main__':

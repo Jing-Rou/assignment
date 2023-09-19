@@ -221,9 +221,7 @@ def lectRegister():
                                         lectID, 
                                         lectEmail, 
                                         gender, 
-                                        gender,
                                         password
-
                                         ))
             db_conn.commit()
             cursor.close()

@@ -167,7 +167,7 @@ def form():
     print("in")
     print(request.method)
     if request.method == 'POST':
-        file = request.files('acceptanceForm')
+        file = request.files['acceptanceForm']  # Use square brackets here, not parentheses
         print("in1")
         if file.filename == "":
             return "Please select a file"

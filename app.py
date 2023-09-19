@@ -105,15 +105,15 @@ def register():
         cursor = db_conn.cursor()
         
         try:
-            cursor.execute(insert_sql, (email, 
-                                        studentID, 
-                                        firstName, 
+            cursor.execute(insert_sql, (firstName, 
                                         lastName, 
                                         gender,
+                                        email, 
                                         password,
                                         ic,
                                         programmeSelect,
                                         tutorialGrp,
+                                        studentID, 
                                         cgpa,
                                         ucSupervisor
                                         ))

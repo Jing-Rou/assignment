@@ -4,6 +4,10 @@ import os
 import boto3
 from config import *
 import hashlib
+import secrets
+
+secret_key = secrets.token_hex(16)  # Generate a 32-character (16-byte) hexadecimal key
+print(secret_key)
 
 app = Flask(__name__)
 # Configure the 'templates' folder for HTML templates.

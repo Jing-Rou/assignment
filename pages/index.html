@@ -79,7 +79,7 @@
                                 <div class="header-btn d-none f-right d-lg-block">
                                     {% if user_authenticated %}
                                     <!-- User is authenticated, show User Profile button -->
-                                    <a href="#" class="btn head-btn1">User Profile</a>
+                                    <a href="{{ url_for('student-dashboard') }}" class="btn head-btn1">User Profile</a>
                                     {% else %}
                                     <!-- User is not authenticated, show Register and Login buttons -->
                                     <a href="{{ url_for('register') }}" class="btn head-btn1">Register</a>

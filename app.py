@@ -144,7 +144,7 @@ def login():
             stored_password = data[1]
             # You should hash the provided password and compare it to the stored hashed password
             hashed_password = hashlib.sha256(password.encode()).hexdigest()
-            print(hashed_password, stored_password, password.encode())
+            print(hashed_password, stored_password, password.encode(), password)
             if hashed_password == stored_password:
                 # Passwords match, user is authenticated
                 return render_template('index.html', user_authenticated=True)

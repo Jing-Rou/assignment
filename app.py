@@ -202,5 +202,55 @@ def form():
 def report():
     return render_template('report.html')
 
+# -------------------------------------------------------------- Lecturer START (Kuah Jia Yu) --------------------------------------------------------------#
+    
+@app.route("/lectRegister", methods=['GET', 'POST'])
+def lectRegister():
+    if request.method == 'POST':
+        lectName = request.form['lectName']
+        lectID = request.form['lectID']
+        lectEmail = request.form['lectEmail']
+        gender = request.form['gender']
+        password = request.form['password']
+
+        insert_sql = "INSERT INTO lecturer VALUES (%s, %s, %s, %s, %s)"
+        cursor = db_conn.cursor()
+        
+        try:
+            cursor.execute(insert_sql, (lectName, 
+                                        lectID, 
+                                        lectEmail, 
+                                        gender, 
+                                        gender,
+                                        password
+
+                                        ))
+            db_conn.commit()
+            cursor.close()
+            return redirect(url_for('login'))  # Go to the dashboard after successful registration
+        except Exception as e:
+            cursor.close()
+            return str(e)  # Handle any database errors here
+    return render_template('lectRegister.html')
+    
+@app.route("/lectLogin", methods=['GET', 'POST'])
+def lectLogin():
+    if request.method == 'POST':
+        return render_template('index.html', user_authenticated=True)
+    
+    # Fetch data from the database here
+    cursor = db_conn.cursor()
+    select_sql = "SELECT lectEmail, password FROM lecturer"
+    cursor.execute(select_sql)
+    data = cursor.fetchall()
+    cursor.close()
+    return render_template('lectLogin.html', lecturer=data)
+    
+@app.route("/lectDashboard", methods=['GET'])
+def lectDashboard():
+    return render_template('lectDashboard.html')
+    
+# ------------------------------------------------------------------- Lecturer END -------------------------------------------------------------------#
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80, debug=True)

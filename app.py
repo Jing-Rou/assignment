@@ -109,5 +109,9 @@ def login():
     cursor.close()
     return render_template('login.html', students=data)
 
+@app.route("/studentDashboard", methods=['GET'])
+def studentDashboard():
+    return render_template('studentDashboard.html')
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80, debug=True)

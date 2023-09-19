@@ -14,6 +14,62 @@
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard-style.css') }}">
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard-responsive.css') }}">
 
+	<style>
+		/* Styles for the container */
+		.container {
+			background-color: white;
+			border: 2px solid #ccc;
+			border-radius: 10px;
+			padding: 20px;
+			width: 100%;
+			margin: 0 auto;
+			margin-bottom: 30px;
+			/* Add margin to create a gap between containers */
+		}
+
+		/* Styles for the form elements */
+		form {
+			margin: 0;
+			padding: 0;
+		}
+
+		label {
+			display: block;
+			margin-bottom: 10px;
+			color: rgba(0,0,0,.6);
+		}
+
+		input[type="text"],
+		input[type="file"] {
+			width: 100%;
+			padding: 10px;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+		}
+
+		.submission-button {
+			background-color: #007bff;
+			color: white;
+			padding: 10px 20px;
+			border: none;
+			border-radius: 5px;
+			cursor: pointer;
+		}
+
+		.submission-button.unsubmit {
+			background-color: red;
+			/* Change to a color of your choice for Unsubmit */
+		}
+
+		.submission-button:disabled {
+			background-color: #ccc;
+			cursor: not-allowed;
+		}
+
+		.error-message {
+            color: red;
+        }
+	</style>
 </head>
 
 <body>
@@ -87,33 +143,49 @@
 				</div>
 			</div>
 
-			<form method="POST" enctype="multipart/form-data" class="ms-4 me-5 mb-2 mt-2" id="submission-form">
-				<div class="custom-mb-3">
-					<label for="formFile" class="form-label">Com. Acceptance Form</label>
-					<input class="form-control" type="file" id="acceptanceForm" name="acceptanceForm">
-				</div>
+			<div class="container">
+				<!-- First Submission -->
+				<form action="/submit" method="post" onsubmit="return toggleButton(1)">
+					<label for="acceptanceForm">Company Acceptance Form:</label>
+					<input type="file" id="file1" name="acceptanceForm" required><br><br>
 
-				<div class="custom-mb-3">
-					<label for="formFile" class="form-label">Parent Ack. Form</label>
-					<input class="form-control" type="file" id="parentForm" name="parentForm">
-				</div>
+					<button type="button" class="submission-button" onclick="toggleButton(1)">Turn In</button>
+					<p class="error-message" id="error1"></p>
+				</form>
+			</div>
 
-				<div class="custom-mb-3">
-					<label for="formFile" class="form-label">Letter of Identity</label>
-					<input class="form-control" type="file" id="letterForm" name="letterForm">
-				</div>
+			<div class="container">
+				<!-- Second Submission -->
+				<form action="/submit" method="post" onsubmit="return toggleButton(2)">
+					<label for="parentForm">Parent Ack Form:</label>
+					<input type="file" id="file2" name="parentForm" required><br><br>
 
-				<div class="custom-mb-3">
-					<label for="formFile" class="form-label">Hire Evidence (if any)</label>
-					<input class="form-control" type="file" id="hireEvi" name="hireEvi">
-				</div>
+					<button type="button" class="submission-button" onclick="toggleButton(2)">Turn In</button>
+					<p class="error-message" id="error2"></p>
+				</form>
+			</div>
 
-				<!-- Submit Btn -->
-				<div class="mt-4 mb-5 ">
-					<button id="submitUser" name="submitUser" class="btn btn-danger btn-rounded btn-lg btn-block"
-						type="submit"><b>Login</b></button>
-				</div>
-			</form>
+			<div class="container">
+				<!-- Third Submission -->
+				<form action="/submit" method="post" onsubmit="return toggleButton(3)">
+					<label for="hireEvi">Letter of Identity:</label>
+					<input type="file" id="file3" name="hireEvi" required><br><br>
+
+					<button type="button" class="submission-button" onclick="toggleButton(3)">Turn In</button>
+					<p class="error-message" id="error3"></p>
+				</form>
+			</div>
+
+			<div class="container">
+				<!-- Third Submission -->
+				<form action="/submit" method="post" onsubmit="return toggleButton(4)">
+					<label for="file4">Hire Evidence (if any):</label>
+					<input type="file" id="file4" name="file4" required><br><br>
+
+					<button type="button" class="submission-button" onclick="toggleButton(4)">Turn In</button>
+					<p class="error-message" id="error4"></p>
+				</form>
+			</div>
 		</div>
 	</div>
 
@@ -134,6 +206,35 @@
 		integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
 		crossorigin="anonymous"></script>
 
+	<script>
+		var isSubmitted = [false, false, false, false]; // To track whether each form has been submitted
+
+		// Function to toggle the button between "Turn In" and "Unsubmit"
+		function toggleButton(formIndex) {
+			var submitButton = document.querySelectorAll(".submission-button")[formIndex - 1];
+			var fileInput = document.getElementById("file" + formIndex);
+			var errorMessage = document.getElementById("error" + formIndex);
+
+			if (!isSubmitted[formIndex - 1]) {
+				if (fileInput.files.length === 0) {
+					errorMessage.textContent = "Please select a file.";
+					return false; // Prevent form submission
+				}
+
+				// If not submitted, change to "Unsubmit" and disable file input
+				submitButton.innerHTML = "Unsubmit";
+				isSubmitted[formIndex - 1] = true;
+				fileInput.disabled = true;
+				errorMessage.textContent = ""; // Clear any previous error message
+			} else {
+				// If submitted, change back to "Turn In" and enable file input
+				submitButton.innerHTML = "Turn In";
+				isSubmitted[formIndex - 1] = false;
+				fileInput.disabled = false;
+				errorMessage.textContent = ""; // Clear any previous error message
+			}
+		}
+	</script>
 </body>
 
 </html>

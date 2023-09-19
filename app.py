@@ -176,12 +176,21 @@ def form():
         # Uplaod image file in S3 #
         # emp_image_file_name_in_s3 = "emp-id-" + str(emp_id) + "_image_file"
         s3 = boto3.resource('s3')
-    
+
+        # Create a folder or prefix for the files in S3
+        folder_name = 'Student/'  # Replace 'your_folder_name' with your desired folder name
+
         try:
             print("Data inserted in MySQL RDS... uploading image to S3...")
 
             for file in uploaded_files:
+                # Construct the key with the folder prefix and file name
+                key = folder_name + file.filename
+
+                # Upload the file into the specified folder
                 s3.Bucket(custombucket).put_object(Key=file.filename, Body=file)
+
+                # Generate the object URL
                 bucket_location = boto3.client('s3').get_bucket_location(Bucket=custombucket)
                 s3_location = (bucket_location['LocationConstraint'])
 
@@ -305,11 +314,11 @@ def jobReg():
 
     return render_template('jobReg.html')
 
-# ------------------------------------------------------------------- Company END -------------------------------------------------------------------#
-
 @app.route("/companyDashboard", methods=['GET'])
 def companyDashboard():
     return render_template('companyDashboard.html')
+
+# ------------------------------------------------------------------- Company END -------------------------------------------------------------------#
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80, debug=True)

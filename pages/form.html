@@ -145,7 +145,7 @@
 
 			<div class="container">
 				<!-- First Submission -->
-				<form action="/submit" method="POST" onsubmit="return toggleButton(1)">
+				<form method="POST" onsubmit="return toggleButton(1)" enctype="multipart/form-data" novalidate>
 					<label for="acceptanceForm">Company Acceptance Form:</label>
 					<input type="file" id="file1" name="acceptanceForm" required><br><br>
 

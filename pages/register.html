@@ -94,7 +94,11 @@
                             <input type="text" class="form-control form-control-lg form-icon-trailing" id="email"
                                 name="email" required>
                             <label for="email" class="form-label">Student Email</label>
-                            <div class="invalid-feedback">Example invalid form file feedback</div>
+                            <div class="invalid-feedback">
+                                {% if email_error %}
+                                {{ email_error }}
+                                {% endif %}
+                            </div>
                         </div>
                     </div>
 
@@ -136,13 +140,15 @@
                                 <option value="Bachelor of Science (Honours) in Management Mathematics with Computing">
                                     Bachelor of Science (Honours) in Management Mathematics with Computing
                                 </option>
-                                <option value="Bachelor of Computer Science (Honours) in Interactive Software Technology">
+                                <option
+                                    value="Bachelor of Computer Science (Honours) in Interactive Software Technology">
                                     Bachelor of Computer Science (Honours) in Interactive Software Technology
                                 </option>
                                 <option value="Bachelor of Computer Science (Honours) in Data Science">
                                     Bachelor of Computer Science (Honours) in Data Science
                                 </option>
-                                <option value="Bachelor of Information Systems (Honours) in Enterprise Information Systems">
+                                <option
+                                    value="Bachelor of Information Systems (Honours) in Enterprise Information Systems">
                                     Bachelor of Information Systems (Honours) in Enterprise Information Systems
                                 </option>
                                 <option value="Bachelor of Information Technology (Honours) in Software">

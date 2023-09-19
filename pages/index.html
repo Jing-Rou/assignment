@@ -91,19 +91,15 @@
                                         <ul class="dropdown-menu">
                                             <li><a class="dropdown-item" href="{{ url_for('register') }}">Student</a></li>
                                             <li><hr class="dropdown-divider" /></li>
-                                            <li><a class="dropdown-item" href="#">Teacher</a></li>
+                                            <li><a class="dropdown-item" href="#">Lecturer</a></li>
+                                            <li><hr class="dropdown-divider" /></li>
+                                            <li><a class="dropdown-item" href="#">Admin</a></li>
+                                            <li><hr class="dropdown-divider" /></li>
+                                            <li><a class="dropdown-item" href="#">Company</a></li>
                                         </ul>
                                     </div>
                                     <div class="btn-group">
-                                        <button type="button" class="btn btn-default dropdown-toggle"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            Login <span class="caret"></span>
-                                        </button>
-                                        <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item" href="{{ url_for('login') }}">Student</a></li>
-                                            <li><hr class="dropdown-divider" /></li>
-                                            <li><a class="dropdown-item" href="#">Teacher</a></li>
-                                        </ul>
+                                        <a href="{{ url_for('login') }}" class="btn head-btn1">User Profile</a>
                                     </div>
                                     {% endif %}
                                 </div>

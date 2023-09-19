@@ -164,9 +164,6 @@ def studentDashboard():
 
 @app.route("/form", methods=['GET', 'POST'])
 def form():
-    print("in")
-    print(request.method)
-    print(list(request.files.keys()))
     if request.method == 'POST':         
         uploaded_files = request.files('acceptanceForm') + \
                     request.files.getlist('parentForm') + \

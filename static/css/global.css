@@ -65,3 +65,20 @@ a {
 .push-top {
     margin-top: 5%;
 }
+
+/* Style for the user icon */
+.user-icon {
+    color: black;
+}
+
+/* Style for the user name */
+.user-name {
+    color: black;
+    /* You can also adjust other styles like font-size, font-weight, etc. here */
+}
+
+/* Optional: Style for the user link (if needed) */
+.user-link {
+    text-decoration: none;
+    /* Remove underline from the link */
+}

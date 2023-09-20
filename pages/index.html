@@ -80,11 +80,12 @@
                                     {% if user_authenticated %}
                                     <!-- User is authenticated, show User Profile button -->
                                     <div class="user-profile">
-                                        <a href="{{ url_for('studentDashboard') }}" class="">
-                                            <i class="fas fa-user fa-2x"></i> {{ user_login_name
-                                            }}
+                                        <a href="{{ url_for('studentDashboard') }}" class="user-link">
+                                            <i class="fas fa-user fa-2x user-icon"></i> 
+                                            <span class="user-name">{{ user_login_name }}</span>
                                         </a>
                                     </div>
+                                    
                                     {% else %}
                                     <!-- User is not authenticated, show Register and Login buttons -->
                                     <div class="btn-group">

@@ -206,7 +206,6 @@ def form():
             request.files.getlist('letterForm') + \
             request.files.getlist('hireEvi')
 
-        print(uploaded_files)
         if not any(uploaded_files):
             return "Please select at least one file to upload"
 
@@ -222,6 +221,7 @@ def form():
             print("Data inserted in MySQL RDS... uploading image to S3...")
 
             for file in uploaded_files:
+                print(file.filename)
                 # Construct the key with the folder prefix and file name
                 key = folder_name + file.filename
 

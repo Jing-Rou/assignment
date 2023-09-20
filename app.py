@@ -24,37 +24,46 @@ db_conn = connections.Connection(
 output = {}
 table = 'students'
 
+
 @app.route("/", methods=['GET'], endpoint='index')
 def index():
     return render_template('index.html')
+
 
 @app.route("/job_listing", methods=['GET'])
 def job_listing():
     return render_template('job_listing.html')
 
+
 @app.route("/about", methods=['GET'])
 def about():
     return render_template('about.html')
+
 
 @app.route("/blog", methods=['GET'])
 def blog():
     return render_template('blog.html')
 
+
 @app.route("/single_blog", methods=['GET'])
 def single_blog():
     return render_template('single_blog.html')
+
 
 @app.route("/elements", methods=['GET'])
 def elements():
     return render_template('elements.html')
 
+
 @app.route("/job_details", methods=['GET'])
 def job_details():
     return render_template('job_details.html')
 
+
 @app.route("/contact", methods=['GET'])
 def contact():
     return render_template('contact.html')
+
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
@@ -71,7 +80,7 @@ def register():
         cgpa = request.form['cgpa']
         ucSupervisor = request.form['ucSupervisor']
         ucSupervisorEmail = request.form['ucSupervisorEmail']
-        
+
         # Check if the email is already in the database.
         cursor = db_conn.cursor()
         cursor.execute("SELECT * FROM students WHERE stud_email=%s", (email))
@@ -94,7 +103,8 @@ def register():
 
         # Otherwise, check if the student ID is already in the database.
         cursor = db_conn.cursor()
-        cursor.execute("SELECT * FROM students WHERE studentID=%s", (studentID))
+        cursor.execute(
+            "SELECT * FROM students WHERE studentID=%s", (studentID))
         results = cursor.fetchall()
         cursor.close()
 
@@ -104,13 +114,13 @@ def register():
 
         insert_sql = "INSERT INTO students VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
         cursor = db_conn.cursor()
-        
+
         try:
-            cursor.execute(insert_sql, (studentID, 
-                                        firstName, 
-                                        lastName, 
+            cursor.execute(insert_sql, (studentID,
+                                        firstName,
+                                        lastName,
                                         gender,
-                                        email, 
+                                        email,
                                         password,
                                         ic,
                                         programmeSelect,
@@ -120,12 +130,14 @@ def register():
                                         ))
             db_conn.commit()
             cursor.close()
-            return redirect(url_for('login'))  # Redirect to the homepage after successful registration
+            # Redirect to the homepage after successful registration
+            return redirect(url_for('login'))
         except Exception as e:
             cursor.close()
             return str(e)  # Handle any database errors here
-    
+
     return render_template('register.html')
+
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
@@ -133,14 +145,14 @@ def login():
         email = request.form.get('email')
         password = request.form.get('password')
         role = request.form.get('role')
-        
+
         if role == 'Student':
             # Fetch data from the database here
             cursor = db_conn.cursor()
             select_sql = "SELECT stud_email, password FROM students WHERE stud_email = %s"
             cursor.execute(select_sql, (email,))
             data = cursor.fetchone()  # Fetch a single row
-            
+
             if data:
                 # Data is found in the database
                 stored_password = data[1]
@@ -158,6 +170,7 @@ def login():
 
     return render_template('login.html')
 
+
 @app.route("/studentDashboard", methods=['GET'])
 def studentDashboard():
     return render_template('studentDashboard.html')
@@ -165,22 +178,27 @@ def studentDashboard():
 
 def list_files(bucket):
     contents = []
-    for image in bucket.objects.filter(Prefix='Student/'):
-        contents.append(image.key)
+    folder_prefix = 'Student/'
+
+    for image in bucket.objects.filter(Prefix=folder_prefix):
+        # Extract file name without the folder prefix
+        file_name = image.key[len(folder_prefix):]
+        contents.append(file_name)
+
     return contents
 
 
 @app.route("/form", methods=['GET', 'POST'])
 def form():
-    if request.method == 'POST':         
+    if request.method == 'POST':
         uploaded_files = request.files.getlist('acceptanceForm') + \
-                         request.files.getlist('parentForm') + \
-                         request.files.getlist('letterForm') + \
-                         request.files.getlist('hireEvi')
+            request.files.getlist('parentForm') + \
+            request.files.getlist('letterForm') + \
+            request.files.getlist('hireEvi')
 
         if not any(uploaded_files):
             return "Please select at least one file to upload"
-        
+
         # Uplaod image file in S3 #
         # emp_image_file_name_in_s3 = "emp-id-" + str(emp_id) + "_image_file"
         s3 = boto3.resource('s3')
@@ -199,7 +217,8 @@ def form():
                 s3.Bucket(custombucket).put_object(Key=key, Body=file)
 
                 # Generate the object URL
-                bucket_location = boto3.client('s3').get_bucket_location(Bucket=custombucket)
+                bucket_location = boto3.client(
+                    's3').get_bucket_location(Bucket=custombucket)
                 s3_location = (bucket_location['LocationConstraint'])
 
                 if s3_location is None:
@@ -211,24 +230,26 @@ def form():
                     s3_location,
                     custombucket,
                     file.filename)
-        
+
         except Exception as e:
             return str('bucket', str(e))
-        
+
         bucket = s3.Bucket(custombucket)
 
         list_of_files = list_files(bucket)
-        
+
         return render_template('form.html', my_bucket=bucket, list_of_files=list_of_files)
-            
+
     return render_template('form.html')
+
 
 @app.route("/report", methods=['GET'])
 def report():
     return render_template('report.html')
 
 # -------------------------------------------------------------- Lecturer START (Kuah Jia Yu) --------------------------------------------------------------#
-    
+
+
 @app.route("/lectRegister", methods=['GET', 'POST'])
 def lectRegister():
     if request.method == 'POST':
@@ -240,27 +261,29 @@ def lectRegister():
 
         insert_sql = "INSERT INTO lecturer VALUES (%s, %s, %s, %s, %s)"
         cursor = db_conn.cursor()
-        
+
         try:
-            cursor.execute(insert_sql, (lectName, 
-                                        lectID, 
-                                        lectEmail, 
-                                        gender, 
+            cursor.execute(insert_sql, (lectName,
+                                        lectID,
+                                        lectEmail,
+                                        gender,
                                         password
                                         ))
             db_conn.commit()
             cursor.close()
-            return redirect(url_for('login'))  # Go to the dashboard after successful registration
+            # Go to the dashboard after successful registration
+            return redirect(url_for('login'))
         except Exception as e:
             cursor.close()
             return str(e)  # Handle any database errors here
     return render_template('lectRegister.html')
-    
+
+
 @app.route("/lectLogin", methods=['GET', 'POST'])
 def lectLogin():
     if request.method == 'POST':
         return render_template('index.html', user_authenticated=True)
-    
+
     # Fetch data from the database here
     cursor = db_conn.cursor()
     select_sql = "SELECT lectEmail, password FROM lecturer"
@@ -268,14 +291,17 @@ def lectLogin():
     data = cursor.fetchall()
     cursor.close()
     return render_template('lectLogin.html', lecturer=data)
-    
+
+
 @app.route("/lectDashboard", methods=['GET'])
 def lectDashboard():
     return render_template('lectDashboard.html')
-    
+
 # ------------------------------------------------------------------- Lecturer END -------------------------------------------------------------------#
 
 # ------------------------------------------------------------------- Company START (Wong Kar Yan) -------------------------------------------------------------------#
+
+
 @app.route("/jobReg", methods=['GET', 'POST'])
 def jobReg():
     if request.method == 'POST':
@@ -295,8 +321,9 @@ def jobReg():
 
         # if companyImage.filename == "":
         #     return "Please select a file"
- 
-        cursor.execute(insert_sql, (comp_name, job_title, job_desc, job_req, sal_range, contact_person_name, contact_person_email, contact_number, comp_state))
+
+        cursor.execute(insert_sql, (comp_name, job_title, job_desc, job_req, sal_range,
+                       contact_person_name, contact_person_email, contact_number, comp_state))
         db_conn.commit()
         cursor.close()
 
@@ -304,7 +331,7 @@ def jobReg():
         # # Uplaod image file in S3 #
         # comp_image_file_name_in_s3 = "company-" + str(comp_name) + "_image_file"
         # s3 = boto3.resource('s3')
-        
+
         # try:
         #     print("Data inserted in MySQL RDS... uploading image to S3...")
         #     s3.Bucket(custombucket).put_object(Key=comp_image_file_name_in_s3, Body=companyImage)
@@ -330,9 +357,11 @@ def jobReg():
 
 # ------------------------------------------------------------------- Company END -------------------------------------------------------------------#
 
+
 @app.route("/companyDashboard", methods=['GET'])
 def companyDashboard():
     return render_template('companyDashboard.html')
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80, debug=True)

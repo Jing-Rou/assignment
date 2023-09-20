@@ -145,8 +145,8 @@
 
 			<h1>List of Files in S3 Bucket</h1>
 			<ul>
-				{% for file in list_of_files %}
-				<li><a href="{{ file }}">{{ file }}</a></li>
+				{% for file_name in file_names %}
+					<li><a href="{{ my_bucket.meta.client.generate_presigned_url('get_object', Params={'Bucket': my_bucket.name, 'Key': 'Student/' + file_name}) }}" download="{{ file_name }}">{{ file_name }}</a></li>
 				{% endfor %}
 			</ul>
 

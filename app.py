@@ -214,7 +214,8 @@ def form():
         s3 = boto3.resource('s3')
 
         # Create a folder or prefix for the files in S3
-        folder_name = 'Student/' + studID + "/" # Replace 'your_folder_name' with your desired folder name
+        # Replace 'your_folder_name' with your desired folder name
+        folder_name = 'Student/' + studID + "/"
 
         try:
             print("Data inserted in MySQL RDS... uploading image to S3...")
@@ -258,7 +259,11 @@ def form():
 
 @app.route("/report", methods=['GET'])
 def report():
-    return render_template('report.html')
+    # Retrieve the studentID from the query parameters
+    student_id = request.args.get('studentID')
+    print(student_id)
+
+    return render_template('report.html', studentID=student_id)
 
 # -------------------------------------------------------------- Student End --------------------------------------------------------------#
 

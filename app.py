@@ -140,7 +140,7 @@ def register():
     cursor = db_conn.cursor()
     select_sql = "SELECT lectName, lectEmail FROM lecturer"
     cursor.execute(select_sql)
-    data = cursor.fetchone()  # Fetch a single row
+    data = cursor.fetchall()  # Fetch a single row
     print(data)
 
     return render_template('register.html', list_of_lect=data)

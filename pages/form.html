@@ -107,6 +107,7 @@
 			font-size: 24px;
 			color: red;
 			cursor: pointer;
+			margin-left: 900px;
 			/* Add a pointer cursor to the trash icon */
 		}
 	</style>
@@ -216,17 +217,11 @@
 					<div class="sub-container">
 						{% if list_of_files %}
 						<i class="fas fa-file-pdf file-icon"></i>
-						<div class="row">
-							<div class="col-10">
-								<a href="{{ my_bucket.meta.client.generate_presigned_url('get_object', Params={'Bucket': my_bucket.name, 'Key': 'Student/' + list_of_files[0]}) }}"
-									download="{{ list_of_files[0] }}">
-									{{ list_of_files[0] }}
-								</a>
-							</div>
-							<div class="col-2">
-								<i class="fas fa-trash trash-icon" onclick="deleteFile(this)"></i>
-							</div>
-						</div>
+						<a href="{{ my_bucket.meta.client.generate_presigned_url('get_object', Params={'Bucket': my_bucket.name, 'Key': 'Student/' + list_of_files[0]}) }}"
+							download="{{ list_of_files[0] }}">
+							{{ list_of_files[0] }}
+						</a>
+						<i class="fas fa-trash trash-icon float-end" onclick="deleteFile(this)"></i>
 
 						<script>
 							// Disable file input field when list_of_files exists

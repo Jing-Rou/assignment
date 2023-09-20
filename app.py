@@ -252,7 +252,7 @@ def form():
 
         # list_of_files = list_files(bucket)
 
-        return render_template('form.html', my_bucket=bucket, list_of_files=list_files)
+        return render_template('form.html', my_bucket=bucket, studentID=studID, list_of_files=list_files)
 
     # Retrieve the studentID from the query parameters
     student_id = request.args.get('studentID')

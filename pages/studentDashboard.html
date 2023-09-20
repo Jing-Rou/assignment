@@ -40,14 +40,6 @@
 		</div>
 
 	</header>
-	
-	<!-- Inside studentDashboard.html -->
-	<form>
-		<!-- Hidden input to pass the studentID value -->
-		<input type="hidden" name="studentID" value="{{ studentID }}">
-
-		<!-- Other content for the student dashboard goes here -->
-	</form>
 
 	<div class="main-container">
 		<div class="navcontainer">
@@ -59,11 +51,22 @@
 						<h3><a style="color: white;" href="{{ url_for('studentDashboard')}}">Dashboard</a></h3>
 					</div>
 
+					<!-- <a href="javascript:void(0);" class="user-link" onclick="submitStudentID('{{ studentID }}')">
+						<span class="user-name">Welcome, {{ user_login_name }}</span>
+						<i class="fas fa-user fa-2x user-icon"></i>
+					</a>href="" -->
+
 					<div class="option2 nav-option">
 						<img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210183322/9.png"
 							class="nav-img" alt="articles">
-						<h3><a href="{{ url_for('form')}}">Form Submission</a></h3>
+						<h3><a href="javascript:void(0);" class="user-link"
+								onclick="submitStudentIDForm('{{ studentID }}')">Form Submission</a></h3>
 					</div>
+
+					<!-- Add a hidden form for submitting studentID -->
+					<form id="studentIDForm" method="GET" action="{{ url_for('form')}}">
+						<input type="hidden" name="studentID" id="studentIDField" value="">
+					</form>
 
 					<div class="nav-option option3">
 						<img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210183320/5.png"
@@ -217,6 +220,16 @@
 	</div>
 
 	<script src="{{ url_for('static', filename='js/dashboard-index.js') }}"></script>
+
+	<!-- JavaScript function to submit studentID -->
+	<script>
+		function submitStudentIDForm(studentID) {
+			// Set the value of the hidden input field
+			document.getElementById('studentIDField').value = studentID;
+			// Submit the form
+			document.getElementById('studentIDForm').submit();
+		}
+	</script>
 </body>
 
 </html>

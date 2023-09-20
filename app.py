@@ -248,7 +248,10 @@ def form():
 
         return render_template('form.html', my_bucket=bucket, list_of_files=list_of_files)
 
-    return render_template('form.html')
+    # Retrieve the studentID from the query parameters
+    student_id = request.args.get('studentID')
+
+    return render_template('form.html', studentID=student_id)
 
 
 @app.route("/report", methods=['GET'])

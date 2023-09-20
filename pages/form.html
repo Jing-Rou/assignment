@@ -102,6 +102,14 @@
 
 	</header>
 
+	<!-- Inside studentDashboard.html -->
+	<form>
+		<!-- Hidden input to pass the studentID value -->
+		<input type="hidden" name="studentID" value="{{ studentID }}">
+
+		<!-- Other content for the student dashboard goes here -->
+	</form>
+	
 	<div class="main-container">
 		<div class="navcontainer">
 			<nav class="nav">
@@ -154,7 +162,7 @@
 				</li>
 				{% endfor %}
 			</ul>
-			
+
 			<form method="POST" action="/form" enctype="multipart/form-data" novalidate class="ms-4 me-5 mb-2 mt-2"
 				id="submission-form" onsubmit="return validateForm()">
 				<div class="container">

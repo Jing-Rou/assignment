@@ -30,6 +30,39 @@
 			/* Add margin to create a gap between containers */
 		}
 
+		.container1 {
+			background-color: white;
+			border: 2px solid #ccc;
+			border-radius: 10px;
+			padding: 20px;
+			width: 100%;
+			margin: 0 auto;
+			margin-bottom: 30px;
+			/* Add margin to create a gap between containers */
+		}
+
+		.container2 {
+			background-color: white;
+			border: 2px solid #ccc;
+			border-radius: 10px;
+			padding: 20px;
+			width: 100%;
+			margin: 0 auto;
+			margin-bottom: 30px;
+			/* Add margin to create a gap between containers */
+		}
+
+		.container3 {
+			background-color: white;
+			border: 2px solid #ccc;
+			border-radius: 10px;
+			padding: 20px;
+			width: 100%;
+			margin: 0 auto;
+			margin-bottom: 30px;
+			/* Add margin to create a gap between containers */
+		}
+
 		/* Styles for the form elements */
 		form {
 			margin: 0;
@@ -57,16 +90,6 @@
 			border: none;
 			border-radius: 5px;
 			cursor: pointer;
-		}
-
-		.submission-button.unsubmit {
-			background-color: red;
-			/* Change to a color of your choice for Unsubmit */
-		}
-
-		.submission-button:disabled {
-			background-color: #ccc;
-			cursor: not-allowed;
 		}
 
 		.error-message {
@@ -219,19 +242,19 @@
 					{% endif %}
 				</div>
 
-				<div class="container">
+				<div class="container1">
 					<!-- Second Submission -->
 					<label for="parentForm">Parent Ack Form:</label>
-					<input type="file" id="file2" name="parentForm" required><br><br>
+					<input type="file" id="parentForm" name="parentForm" required><br><br>
 				</div>
 
-				<div class="container">
+				<div class="container2">
 					<!-- Third Submission -->
 					<label for="letterForm">Letter of Identity:</label>
 					<input type="file" id="file3" name="letterForm" required><br><br>
 				</div>
 
-				<div class="container">
+				<div class="container3">
 					<label for="hireEvi">Hire Evidence (if any):</label>
 					<input type="file" id="file4" name="hireEvi" required><br><br>
 				</div>

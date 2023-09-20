@@ -463,7 +463,7 @@ def adminRegister():
             cursor.execute(insert_sql, (adminID, adminName, adminEmail, adminContact, password))
             db_conn.commit()
             cursor.close()
-            return redirect(url_for('adminLogin'))  # Redirect to admin login after successful registration
+            return redirect(url_for('login'))  # Redirect to admin login after successful registration
         except Exception as e:
             cursor.close()
             return str(e)  # Handle any database errors here

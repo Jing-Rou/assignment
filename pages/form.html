@@ -214,32 +214,34 @@
 					<label for="acceptanceForm">Company Acceptance Form:</label>
 					<input type="file" id="file1" name="acceptanceForm" required><br><br>
 
-					{% if list_of_files %}
-					<i class="fas fa-file-pdf file-icon"></i>
-					<a href="{{ my_bucket.meta.client.generate_presigned_url('get_object', Params={'Bucket': my_bucket.name, 'Key': 'Student/' + list_of_files[0]}) }}"
-						download="{{ list_of_files[0] }}">
-						{{ list_of_files[0] }}
-					</a>
-					<i class="fas fa-trash trash-icon" onclick="deleteFile(this)"></i>
+					<div class="sub-container">
+						{% if list_of_files %}
+						<i class="fas fa-file-pdf file-icon"></i>
+						<a href="{{ my_bucket.meta.client.generate_presigned_url('get_object', Params={'Bucket': my_bucket.name, 'Key': 'Student/' + list_of_files[0]}) }}"
+							download="{{ list_of_files[0] }}">
+							{{ list_of_files[0] }}
+						</a>
+						<i class="fas fa-trash trash-icon" onclick="deleteFile(this)"></i>
 
-					<script>
-						// Disable file input field when list_of_files exists
-						document.getElementById('file1').disabled = true;
+						<script>
+							// Disable file input field when list_of_files exists
+							document.getElementById('file1').disabled = true;
 
-						// Function to delete the file and enable the "Choose File" input
-						function deleteFile(iconElement) {
-							// Get the container element
-							const container = iconElement.parentElement;
+							// Function to delete the file and enable the "Choose File" input
+							function deleteFile(iconElement) {
+								// Get the container element
+								const container = iconElement.parentElement;
 
-							// Remove the entire container, including the file icon, file name, and trash icon
-							container.parentNode.removeChild(container);
+								// Remove the entire container, including the file icon, file name, and trash icon
+								container.parentNode.removeChild(sub-container);
 
-							// Enable the "Choose File" input
-							document.getElementById('file1').disabled = false;
-						}
+								// Enable the "Choose File" input
+								document.getElementById('file1').disabled = false;
+							}
 
-					</script>
-					{% endif %}
+						</script>
+						{% endif %}
+					</div>
 				</div>
 
 				<div class="container1">

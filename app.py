@@ -169,7 +169,25 @@ def login():
                     return render_template('login.html', pwd_error="Incorrect password. Please try again.")
             else:
                 return render_template('login.html', email_login_error="Email not found. Please register or try a different email.")
-        # else your own role bah
+        elif role == 'Admin':
+            # Fetch data from the database here
+            cursor = db_conn.cursor()
+            select_sql = "SELECT adminEmail, adminPassword, adminName FROM admin WHERE adminEmail = %s"
+            cursor.execute(select_sql, (email,))
+            data = cursor.fetchone()  # Fetch a single row
+
+            if data:
+                # Data is found in the database
+                stored_password = data[1]
+                name = data[2]
+
+                if password == stored_password:
+                    # Passwords match, user is authenticated
+                    return render_template('index.html', user_login_name=name, studentID=None, user_authenticated=True)
+                else:
+                    return render_template('login.html', pwd_error="Incorrect password. Please try again.")
+            else:
+                return render_template('login.html', email_login_error="Email not found. Please register or try a different email.")
 
     return render_template('login.html')
 
@@ -281,7 +299,8 @@ def report():
             s3.Bucket(custombucket).put_object(Key=key, Body=reportForm_files)
 
             # Generate the object URL
-            bucket_location = boto3.client('s3').get_bucket_location(Bucket=custombucket)
+            bucket_location = boto3.client(
+                's3').get_bucket_location(Bucket=custombucket)
             s3_location = (bucket_location['LocationConstraint'])
 
             if s3_location is None:
@@ -304,7 +323,7 @@ def report():
 
     # Retrieve the studentID from the query parameters
     studID = request.args.get('studentID')
-    
+
     folder_name = 'Student/' + studID + "/" + "report/"
 
     # Uplaod image file in S3
@@ -425,6 +444,7 @@ def jobReg():
 
     return render_template('jobReg.html')
 
+
 @app.route("/companyDashboard", methods=['GET'])
 def companyDashboard():
     return render_template('companyDashboard.html')
@@ -432,6 +452,8 @@ def companyDashboard():
 # ------------------------------------------------------------------- Company END -------------------------------------------------------------------#
 
 # Define the route for admin registration
+
+
 @app.route("/adminRegister", methods=['GET', 'POST'])
 def adminRegister():
     if request.method == 'POST':
@@ -449,7 +471,7 @@ def adminRegister():
 
         print(data)
         if data == None:
-            adminID = 'A' + str(10001);
+            adminID = 'A' + str(10001)
         else:
             admin_no = int(data[1:]) + 1
             adminID = 'A' + str(admin_no)
@@ -458,15 +480,18 @@ def adminRegister():
         cursor = db_conn.cursor()
 
         try:
-            cursor.execute(insert_sql, (adminID, adminName, adminEmail, adminContact, password))
+            cursor.execute(insert_sql, (adminID, adminName,
+                           adminEmail, adminContact, password))
             db_conn.commit()
             cursor.close()
-            return redirect(url_for('login'))  # Redirect to admin login after successful registration
+            # Redirect to admin login after successful registration
+            return redirect(url_for('login'))
         except Exception as e:
             cursor.close()
             return str(e)  # Handle any database errors here
 
     return render_template('adminRegister.html')
+
 
 @app.route('/approve-company', methods=['POST'])
 def approve_company():
@@ -488,6 +513,7 @@ def approve_company():
             return jsonify({"message": "Company approved successfully"})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
 
 @app.route('/reject-company', methods=['POST'])
 def reject_company():

@@ -168,7 +168,7 @@
 				<li>
 					<a href="{{ my_bucket.meta.client.generate_presigned_url('get_object', Params={'Bucket': my_bucket.name, 'Key': 'Student/' + file}) }}"
 						download="{{ file }}">
-						{{ file }} {{ list_of_files }}
+						{{ file }} {{ list_of_files[0] }}
 					</a>
 				</li>
 				{% endfor %}

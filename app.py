@@ -183,9 +183,9 @@ def studentDashboard():
     return render_template('studentDashboard.html', studentID=student_id)
 
 
-def list_files(bucket):
+def list_files(bucket, path):
     contents = []
-    folder_prefix = 'Student/'
+    folder_prefix = path
 
     for image in bucket.objects.filter(Prefix=folder_prefix):
         # Extract file name without the folder prefix
@@ -269,8 +269,7 @@ def report():
         if reportForm_files == "":
             return "Please select at least one file to upload"
 
-        # Uplaod image file in S3 #
-        # emp_image_file_name_in_s3 = "emp-id-" + str(emp_id) + "_image_file"
+        # Uplaod image file in S3
         s3 = boto3.resource('s3')
 
         # Create a folder or prefix for the files in S3
@@ -280,8 +279,10 @@ def report():
         try:
             print("Data inserted in MySQL RDS... uploading image to S3...")
 
+            filename = reportForm_files.filename.split('.')
+
             # Construct the key with the folder prefix and file name
-            key = folder_name + reportForm_files.filename + "_progress_report"
+            key = folder_name + filename[0] + "_progress_report" + filename[1]
 
             # Upload the file into the specified folder
             s3.Bucket(custombucket).put_object(Key=key, Body=reportForm_files)
@@ -304,8 +305,9 @@ def report():
             return str('bucket', str(e))
 
         bucket = s3.Bucket(custombucket)
+        list_of_files = list_files(bucket, folder_name)
 
-        return render_template('form.html', my_bucket=bucket, studentID=studID)
+        return render_template('form.html', my_bucket=bucket, studentID=studID, list_of_files=list_files)
 
     # Retrieve the studentID from the query parameters
     student_id = request.args.get('studentID')

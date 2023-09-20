@@ -220,6 +220,7 @@
 							download="{{ list_of_files[0] }}">
 							{{ list_of_files[0] }}
 						</a>
+						{% endif %}
 						<i class="fas fa-trash trash-icon float-end" onclick="deleteFile(this)"></i>
 
 						<script>
@@ -244,7 +245,6 @@
 							}
 
 						</script>
-						{% endif %}
 					</div>
 				</div>
 
@@ -260,6 +260,7 @@
 							download="{{ list_of_files[1] }}">
 							{{ list_of_files[1] }}
 						</a>
+						{% endif %}
 						<i class="fas fa-trash trash-icon float-end" onclick="deleteFile(this)"></i>
 
 						<script>
@@ -269,13 +270,13 @@
 							// Function to delete the file name, PDF icon, and enable the "Choose File" input
 							function deleteFile(trashIconElement) {
 								// Get the container element
-								const container = trashIconElement.parentElement;
+								const container1 = trashIconElement.parentElement;
 
 								// Remove the file name, PDF icon, and trash icon, but exclude the input file element
-								const elementsToRemove = container.querySelectorAll('i, a');
+								const elementsToRemove = container1.querySelectorAll('i, a');
 								elementsToRemove.forEach(function (element) {
 									if (element !== trashIconElement) {
-										container.removeChild(element);
+										container1.removeChild(element);
 									}
 								});
 
@@ -284,7 +285,6 @@
 							}
 
 						</script>
-						{% endif %}
 					</div>
 				</div>
 

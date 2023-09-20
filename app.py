@@ -217,13 +217,13 @@ def form():
         # Replace 'your_folder_name' with your desired folder name
         folder_name = 'Student/' + studID + "/"
 
-        content = []
+        list_files = []
 
         try:
             print("Data inserted in MySQL RDS... uploading image to S3...")
 
             for file in uploaded_files:
-                content.append(file.filename)
+                list_files.append(file.filename)
                 # Construct the key with the folder prefix and file name
                 key = folder_name + file.filename
 
@@ -252,7 +252,7 @@ def form():
 
         # list_of_files = list_files(bucket)
 
-        return render_template('form.html', my_bucket=bucket, list_of_files=content)
+        return render_template('form.html', my_bucket=bucket, list_of_files=list_files)
 
     # Retrieve the studentID from the query parameters
     student_id = request.args.get('studentID')

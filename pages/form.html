@@ -161,14 +161,13 @@
 				</div>
 			</div>
 
-			<h1>List of Files in S3 Bucket</h1>
 			<ul>
 
 				{% for file in list_of_files %}
 				<li>
 					<a href="{{ my_bucket.meta.client.generate_presigned_url('get_object', Params={'Bucket': my_bucket.name, 'Key': 'Student/' + file}) }}"
-						download="{{ file }}">
-						{{ file }} {{ list_of_files[0] }}
+						download="{{ list_of_files[0] }}">
+						{{ list_of_files[0] }}
 					</a>
 				</li>
 				{% endfor %}
@@ -185,6 +184,19 @@
 					<!-- First Submission -->
 					<label for="acceptanceForm">Company Acceptance Form:</label>
 					<input type="file" id="file1" name="acceptanceForm" required><br><br>
+
+					{% if list_of_files %}
+					{% for file in list_of_files %}
+					<a href="{{ my_bucket.meta.client.generate_presigned_url('get_object', Params={'Bucket': my_bucket.name, 'Key': 'Student/' + file}) }}"
+						download="{{ list_of_files[0] }}">
+						{{ list_of_files[0] }}
+					</a>
+					{% endfor %}
+					<script>
+						// Disable file input field when list_of_files exists
+						document.getElementById('file1').disabled = true;
+					</script>
+					{% endif %}
 				</div>
 
 				<div class="container">

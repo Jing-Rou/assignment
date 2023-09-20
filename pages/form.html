@@ -220,7 +220,6 @@
 							download="{{ list_of_files[0] }}">
 							{{ list_of_files[0] }}
 						</a>
-						{% endif %}
 						<i class="fas fa-trash trash-icon float-end" onclick="deleteFile(this)"></i>
 
 						<script>
@@ -245,6 +244,7 @@
 							}
 
 						</script>
+						{% endif %}
 					</div>
 				</div>
 
@@ -254,26 +254,25 @@
 					<input type="file" id="file2" name="parentForm" required><br><br>
 
 					<div class="sub-container mb-4">
-						{% if list_of_files %}
+						{% if list_of_files[1] %}
 						<i class="fas fa-file-pdf file-icon"></i>
 						<a href="{{ my_bucket.meta.client.generate_presigned_url('get_object', Params={'Bucket': my_bucket.name, 'Key': 'Student/' + list_of_files[1]}) }}"
 							download="{{ list_of_files[1] }}">
 							{{ list_of_files[1] }}
 						</a>
-						{% endif %}
-						<i class="fas fa-trash trash-icon float-end" onclick="deleteFile(this)"></i>
+						<i class="fas fa-trash trash-icon float-end" onclick="deleteFile1(this)"></i>
 
 						<script>
 							// Disable file input field when list_of_files exists
 							document.getElementById('file2').disabled = true;
 
 							// Function to delete the file name, PDF icon, and enable the "Choose File" input
-							function deleteFile(trashIconElement) {
+							function deleteFile1(trashIconElement) {
 								// Get the container element
 								const container1 = trashIconElement.parentElement;
 
 								// Remove the file name, PDF icon, and trash icon, but exclude the input file element
-								const elementsToRemove = container1.querySelectorAll('i, a');
+								const elementsToRemove = container1.querySelectorAll('i, a', 'i');
 								elementsToRemove.forEach(function (element) {
 									if (element !== trashIconElement) {
 										container1.removeChild(element);
@@ -285,6 +284,7 @@
 							}
 
 						</script>
+						{% endif %}
 					</div>
 				</div>
 

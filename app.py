@@ -264,7 +264,7 @@ def form():
 def report():
     if request.method == 'POST':
         studID = request.form['studentID']
-        reportForm_files = request.files('reportForm')
+        reportForm_files = request.files['reportForm']
 
         if reportForm_files == "":
             return "Please select at least one file to upload"

@@ -262,6 +262,51 @@ def form():
 
 @app.route("/report", methods=['GET'])
 def report():
+    if request.method == 'POST':
+        studID = request.form['studentID']
+        reportForm_files = request.files('reportForm')
+
+        if reportForm_files == "":
+            return "Please select at least one file to upload"
+
+        # Uplaod image file in S3 #
+        # emp_image_file_name_in_s3 = "emp-id-" + str(emp_id) + "_image_file"
+        s3 = boto3.resource('s3')
+
+        # Create a folder or prefix for the files in S3
+        # Replace 'your_folder_name' with your desired folder name
+        folder_name = 'Student/' + studID + "/" + "report/"
+
+        try:
+            print("Data inserted in MySQL RDS... uploading image to S3...")
+
+            # Construct the key with the folder prefix and file name
+            key = folder_name + reportForm_files.filename + "_progress_report"
+
+            # Upload the file into the specified folder
+            s3.Bucket(custombucket).put_object(Key=key, Body=reportForm_files)
+
+            # Generate the object URL
+            bucket_location = boto3.client('s3').get_bucket_location(Bucket=custombucket)
+            s3_location = (bucket_location['LocationConstraint'])
+
+            if s3_location is None:
+                s3_location = ''
+            else:
+                s3_location = '-' + s3_location
+
+            object_url = "https://s3{0}.amazonaws.com/{1}/{2}".format(
+                s3_location,
+                custombucket,
+                key)
+
+        except Exception as e:
+            return str('bucket', str(e))
+
+        bucket = s3.Bucket(custombucket)
+
+        return render_template('form.html', my_bucket=bucket, studentID=studID)
+
     # Retrieve the studentID from the query parameters
     student_id = request.args.get('studentID')
     print(student_id)

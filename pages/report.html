@@ -14,6 +14,53 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard-style.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard-responsive.css') }}">
 
+    <style>
+        /* Styles for the container */
+        .container {
+            background-color: white;
+            border: 2px solid #ccc;
+            border-radius: 10px;
+            padding: 20px;
+            width: 100%;
+            margin: 0 auto;
+            margin-bottom: 30px;
+            /* Add margin to create a gap between containers */
+        }
+
+        /* Styles for the form elements */
+        form {
+            margin: 0;
+            padding: 0;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: rgba(0, 0, 0, .6);
+        }
+
+        input[type="text"],
+        input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .submission-button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .error-message {
+            color: red;
+
+        }
+    </style>
 </head>
 
 <body>
@@ -50,7 +97,7 @@
         <div class="navcontainer">
             <nav class="nav">
                 <div class="nav-upper-options">
-                    <div class="nav-option option1">
+                    <div class="nav-option">
                         <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210182148/Untitled-design-(29).png"
                             class="nav-img" alt="dashboard">
                         <h3><a href="javascript:void(0);" class="user-link"
@@ -64,7 +111,7 @@
                                 onclick="submitStudentIDForm('{{ studentID }}')">Form Submission</a></h3>
                     </div>
 
-                    <div class="nav-option option3">
+                    <div class="nav-option option1">
                         <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210183320/5.png"
                             class="nav-img" alt="report">
                         <h3><a style="color: white;" href="javascript:void(0);" class="user-link"
@@ -105,12 +152,23 @@
                 </div>
             </div>
 
-            <input type="hidden" name="studentID" value="{{ studentID }}">
+            <form method="POST" action="/report" enctype="multipart/form-data" novalidate class="ms-4 me-5 mb-2 mt-2"
+                id="submission-form" onsubmit="return validateForm()">
 
-            <div class="mb-5">
-                <label for="formFile" class="form-label">Progress Report</label>
-                <input class="form-control" type="file" id="formFile">
-            </div>
+                <input type="hidden" name="studentID" value="{{ studentID }}">
+
+                <div class="container mb-5">
+                    <label for="reportForm">Progress Report</label>
+                    <input type="file" id="reportForm" name="reportForm" required><br><br>
+                </div>
+
+                <!-- Submit Btn -->
+                <div class="mt-4 mb-4">
+                    <button type="submit" class="submission-button btn-rounded btn-lg"><b>Submit</b></button>
+                </div>
+
+                <p class="error-message" id="error-message" style="color: red;"></p>
+            </form>
 
             <div class="report-container">
                 <div class="report-header">
@@ -193,6 +251,7 @@
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 
@@ -238,6 +297,31 @@
             document.getElementById('studentIDFieldReport').value = studentID;
             // Submit the form
             document.getElementById('studentIDReportForm').submit();
+        }
+    </script>
+
+    <script>
+        // Function to validate the form
+        function validateForm() {
+            var fileInputs = document.querySelectorAll('input[type="file"]');
+            var isAnyFileSelected = false;
+
+            // Check if at least one file input has a selected file
+            for (var i = 0; i < fileInputs.length; i++) {
+                if (fileInputs[i].files.length > 0) {
+                    isAnyFileSelected = true;
+                    break;
+                }
+            }
+
+            if (!isAnyFileSelected) {
+                // Display an error message
+                var errorMessage = document.getElementById('error-message');
+                errorMessage.textContent = "Please select at least one file.";
+                return false; // Prevent form submission
+            }
+
+            return true; // Allow form submission if at least one file is selected
         }
     </script>
 

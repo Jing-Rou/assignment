@@ -165,7 +165,7 @@ def studentDashboard():
 
 def list_files(bucket):
     contents = []
-    for image in bucket.objects.all():
+    for image in bucket.objects.filter(Prefix='Student/'):
         contents.append(image.key)
     return contents
 

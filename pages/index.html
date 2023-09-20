@@ -125,7 +125,7 @@
                                             <li>
                                                 <hr class="dropdown-divider" />
                                             </li>
-                                            <li><a class="dropdown-item" href="#">Admin</a></li>
+                                            <li><a class="dropdown-item" href="{{ url_for('pages\adminRegister') }}">Admin</a></li>
                                             <li>
                                                 <hr class="dropdown-divider" />
                                             </li>
@@ -135,13 +135,14 @@
                                     <a href="{{ url_for('login') }}" class="btn head-btn1">Login</a>
                                     {% endif %}
                                 </div>
-
-                                <!-- Add a hidden form for submitting studentID -->
-                                <form id="studentIDForm" method="GET" action="{{ url_for('studentDashboard') }}">
-                                    <input type="hidden" name="studentID" id="studentIDField" value="">
-                                </form>
                             </div>
                         </div>
+
+                        <!-- Add a hidden form for submitting studentID -->
+                        <form id="studentIDForm" method="GET" action="{{ url_for('studentDashboard') }}">
+                            <input type="hidden" name="studentID" id="studentIDField" value="">
+                        </form>
+
                         <!-- Mobile Menu -->
                         <div class="col-12">
                             <div class="mobile_menu d-block d-lg-none"></div>

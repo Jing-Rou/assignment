@@ -425,12 +425,77 @@ def jobReg():
 
     return render_template('jobReg.html')
 
-# ------------------------------------------------------------------- Company END -------------------------------------------------------------------#
-
-
 @app.route("/companyDashboard", methods=['GET'])
 def companyDashboard():
     return render_template('companyDashboard.html')
+
+# ------------------------------------------------------------------- Company END -------------------------------------------------------------------#
+
+# Define the route for admin registration
+@app.route("/adminRegister", methods=['GET', 'POST'])
+def adminRegister():
+    if request.method == 'POST':
+        adminName = request.form['adName']
+        adminID = request.form['adID']
+        adminEmail = request.form['adEmail']
+        adminContact = request.form['adContact']
+        password = request.form['password']
+
+        insert_sql = "INSERT INTO admin VALUES (%s, %s, %s, %s, %s)"
+        cursor = db_conn.cursor()
+
+        try:
+            cursor.execute(insert_sql, (adName, adID, adEmail, adContact, password))
+            db_conn.commit()
+            cursor.close()
+            return redirect(url_for('adminLogin'))  # Redirect to admin login after successful registration
+        except Exception as e:
+            cursor.close()
+            return str(e)  # Handle any database errors here
+
+    return render_template('adminRegister.html')
+
+@app.route('/approve-company', methods=['POST'])
+def approve_company():
+    data = request.json  # Assuming you send JSON data with company_id
+
+    # Extract company_id from the request
+    company_id = data.get('company_id')
+
+    if not company_id:
+        return jsonify({"error": "Company ID is missing"}), 400
+
+    try:
+        with db_conn.cursor() as cursor:
+            # Update the company's status to 'approved' in the database
+            update_query = "UPDATE companies SET status = 'approved' WHERE id = %s"
+            cursor.execute(update_query, (company_id,))
+            db_conn.commit()
+
+            return jsonify({"message": "Company approved successfully"})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/reject-company', methods=['POST'])
+def reject_company():
+    data = request.json  # Assuming you send JSON data with company_id
+
+    # Extract company_id from the request
+    company_id = data.get('company_id')
+
+    if not company_id:
+        return jsonify({"error": "Company ID is missing"}), 400
+
+    try:
+        with db_conn.cursor() as cursor:
+            # Update the company's status to 'rejected' in the database
+            update_query = "UPDATE companies SET status = 'rejected' WHERE id = %s"
+            cursor.execute(update_query, (company_id,))
+            db_conn.commit()
+
+            return jsonify({"message": "Company rejected successfully"})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 
 if __name__ == '__main__':

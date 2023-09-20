@@ -162,6 +162,14 @@ def login():
 def studentDashboard():
     return render_template('studentDashboard.html')
 
+
+def list_files(bucket):
+    contents = []
+    for image in bucket.objects.all():
+        contents.append(image.key)
+    return contents
+
+
 @app.route("/form", methods=['GET', 'POST'])
 def form():
     if request.method == 'POST':         
@@ -206,6 +214,12 @@ def form():
         
         except Exception as e:
             return str('bucket', str(e))
+        
+        bucket = s3.Bucket(custombucket)
+
+        list_of_files = list_files(bucket)
+        
+        return render_template('form.html', my_bucket=bucket, list_of_files=list_of_files)
             
     return render_template('form.html')
 

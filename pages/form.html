@@ -143,6 +143,13 @@
 				</div>
 			</div>
 
+			<h1>List of Files in S3 Bucket</h1>
+			<ul>
+				{% for file in list_of_files %}
+				<li><a href="{{ file }}">{{ file }}</a></li>
+				{% endfor %}
+			</ul>
+
 			<form method="POST" action="/form" enctype="multipart/form-data" novalidate class="ms-4 me-5 mb-2 mt-2"
 				id="submission-form" onsubmit="return validateForm()">
 				<div class="container">

@@ -206,18 +206,15 @@
 
                     <div class="row">
                         <div class="col-md-6 mb-4">
-                            <div class="form-outline">
-                                <select id="ucSupervisor" name="ucSupervisor"
-                                    class="custom-select form-control form-control-lg" required>
-                                    <option value="" disabled selected>Select UC Supervisor</option>
-                                    {% for lecturer in list_of_lect %}
-                                    <option
-                                        value="lecturer[0] lecturer[1]">
-                                        lecturer[0]
-                                    </option>
-                                    {% endfor %}
-                                </select>
-                            </div>
+                            <select id="ucSupervisor" name="ucSupervisor"
+                                class="custom-select form-control form-control-lg" required>
+                                <option value="" disabled selected>Select UC Supervisor</option>
+                                {% for lecturer in list_of_lect %}
+                                <option value="{{ lecturer[0] lecturer[1] }}">
+                                    {{ lecturer[0] }}
+                                </option>
+                                {% endfor %}
+                            </select>
                         </div>
 
                         <div class="col-md-6 mb-4">

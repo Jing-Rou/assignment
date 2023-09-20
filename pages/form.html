@@ -146,7 +146,7 @@
 			<h1>List of Files in S3 Bucket</h1>
 			<ul>
 				{% for file in list_of_files %}
-				<li><a href="{{ file }}" >{{ file }}</a></li>
+				<li><a href="{{ file }}" download="{{ file_name }}">{{ file }}</a></li>
 				{% endfor %}
 			</ul>
 

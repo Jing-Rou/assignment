@@ -174,7 +174,7 @@
 					<input type="file" id="file1" name="acceptanceForm" required><br><br>
 
 					{% if list_of_files %}
-					<a href="{{ my_bucket.meta.client.generate_presigned_url('get_object', Params={'Bucket': my_bucket.name, 'Key': 'Student/' + file}) }}"
+					<a href="{{ my_bucket.meta.client.generate_presigned_url('get_object', Params={'Bucket': my_bucket.name, 'Key': 'Student/' + list_of_files}) }}"
 						download="{{ list_of_files[0] }}">
 						{{ list_of_files[0] }}
 					</a>

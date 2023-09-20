@@ -282,7 +282,7 @@ def report():
             filename = reportForm_files.filename.split('.')
 
             # Construct the key with the folder prefix and file name
-            key = folder_name + filename[0] + "_progress_report" + filename[1]
+            key = folder_name + filename[0] + "_progress_report." + filename[1]
 
             # Upload the file into the specified folder
             s3.Bucket(custombucket).put_object(Key=key, Body=reportForm_files)
@@ -307,7 +307,7 @@ def report():
         bucket = s3.Bucket(custombucket)
         list_of_files = list_files(bucket, folder_name)
 
-        return render_template('form.html', my_bucket=bucket, studentID=studID, list_of_files=list_files)
+        return render_template('report.html', my_bucket=bucket, studentID=studID, list_of_files=list_of_files)
 
     # Retrieve the studentID from the query parameters
     student_id = request.args.get('studentID')

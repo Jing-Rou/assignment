@@ -84,6 +84,7 @@
 			font-size: 24px;
 			color: red;
 			cursor: pointer;
+			padding-left: 130px;
 			/* Add a pointer cursor to the trash icon */
 		}
 	</style>
@@ -207,9 +208,8 @@
 							// Get the container element
 							const container = iconElement.parentElement;
 
-							// Remove the file name, PDF icon, and trash icon
-							container.removeChild(container.querySelector('a')); // Remove the file name and PDF icon
-							container.removeChild(iconElement); // Remove the trash icon
+							// Remove the entire container, including the file icon, file name, and trash icon
+							container.parentNode.removeChild(container);
 
 							// Enable the "Choose File" input
 							document.getElementById('file1').disabled = false;

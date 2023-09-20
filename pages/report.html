@@ -186,9 +186,17 @@
                         {% for files in list_of_files %}
                         <div class="item1">
                             <div closs="row">
-                                <h3 class="t-op-nextlvl col-4">{{ files }}</h3>
-                                <h3 class="t-op-nextlvl col-4">2.9k</h3>
-                                <h3 class="t-op-nextlvl col-4">210</h3>
+                                <div class="col-4">
+                                    <h3 class="t-op-nextlvl">{{ files }}</h3>
+                                </div>
+
+                                <div class="col-4">
+                                    <h3 class="t-op-nextlvl">2.9k</h3>
+                                </div>
+
+                                <div class="col-4">
+                                    <h3 class="t-op-nextlvl">210</h3>
+                                </div>
                             </div>
                         </div>
                         {% endfor %}

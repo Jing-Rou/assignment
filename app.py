@@ -138,7 +138,7 @@ def register():
 
     # Fetch data from the database here
     cursor = db_conn.cursor()
-    select_sql = "SELECT lectName FROM lecturer"
+    select_sql = "SELECT lectName, lectEmail FROM lecturer"
     cursor.execute(select_sql)
     data = cursor.fetchone()  # Fetch a single row
     print(data)

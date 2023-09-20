@@ -215,6 +215,7 @@
 
 					<div class="sub-container mb-4">
 						{% if list_of_files %}
+						{% if list_of_files[0]%}
 						<i class="fas fa-file-pdf file-icon"></i>
 						<a href="{{ my_bucket.meta.client.generate_presigned_url('get_object', Params={'Bucket': my_bucket.name, 'Key': 'Student/' + list_of_files[0]}) }}"
 							download="{{ list_of_files[0] }}">

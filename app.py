@@ -169,6 +169,25 @@ def login():
                     return render_template('login.html', pwd_error="Incorrect password. Please try again.")
             else:
                 return render_template('login.html', email_login_error="Email not found. Please register or try a different email.")
+        elif role == 'Company':
+            # Fetch data from the database here
+            cursor = db_conn.cursor()
+            select_sql = "SELECT compEmail, comPassword, compName FROM company WHERE compEmail = %s"
+            cursor.execute(select_sql, (email,))
+            data = cursor.fetchone()  # Fetch a single row
+
+            if data:
+                # Data is found in the database
+                stored_password = data[1]
+                name = data[2]
+
+                if password == stored_password:
+                    # Passwords match, user is authenticated
+                    return render_template('companyDashboard.html', user_authenticated=True)
+                else:
+                    return render_template('login.html', pwd_error="Incorrect password. Please try again.")
+            else:
+                return render_template('login.html', email_login_error="Email not found. Please register or try a different email.")
         elif role == 'Admin':
             # Fetch data from the database here
             cursor = db_conn.cursor()
@@ -391,6 +410,41 @@ def lectDashboard():
 # ------------------------------------------------------------------- Company START (Wong Kar Yan) -------------------------------------------------------------------#
 
 
+@app.route("/compRegister", methods=['GET', 'POST'])
+def compRegister():
+    if request.method == 'POST':
+        compName = request.form['compName']
+        compEmail = request.form['compEmail']
+        comPassword = request.form['comPassword']
+
+        # Check if the email is already in the database.
+        cursor = db_conn.cursor()
+        cursor.execute("SELECT * FROM company WHERE compEmail=%s", (compEmail))
+        results = cursor.fetchall()
+        cursor.close()
+
+        # If the email is already in the database, return an error message to the user and display it on the register.html page.
+        if len(results) > 0:
+            return render_template('compRegister.html', email_error="This company email is already in use.")
+
+        insert_sql = "INSERT INTO company VALUES (%s, %s, %s)"
+        cursor = db_conn.cursor()
+
+        try:
+            cursor.execute(insert_sql, (compName,
+                                        compEmail,
+                                        comPassword
+                                        ))
+            db_conn.commit()
+            cursor.close()
+            # Go to the dashboard after successful registration
+            return redirect(url_for('login'))
+        except Exception as e:
+            cursor.close()
+            return str(e)  # Handle any database errors here
+    return render_template('companyRegister.html')
+
+
 @app.route("/jobReg", methods=['GET', 'POST'])
 def jobReg():
     if request.method == 'POST':
@@ -408,39 +462,41 @@ def jobReg():
         insert_sql = "INSERT INTO jobApply VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
         cursor = db_conn.cursor()
 
-        # if companyImage.filename == "":
-        #     return "Please select a file"
+        if companyImage.filename == "":
+            return "Please select a file"
 
         cursor.execute(insert_sql, (comp_name, job_title, job_desc, job_req, sal_range,
                        contact_person_name, contact_person_email, contact_number, comp_state))
         db_conn.commit()
         cursor.close()
 
-        return redirect(url_for('companyDashboard'))
-        # # Uplaod image file in S3 #
-        # comp_image_file_name_in_s3 = "company-" + str(comp_name) + "_image_file"
-        # s3 = boto3.resource('s3')
+        # Uplaod image file in S3 #
+        comp_image_file_name_in_s3 = "company-" + \
+            str(comp_name) + "_image_file"
+        s3 = boto3.resource('s3')
 
-        # try:
-        #     print("Data inserted in MySQL RDS... uploading image to S3...")
-        #     s3.Bucket(custombucket).put_object(Key=comp_image_file_name_in_s3, Body=companyImage)
-        #     bucket_location = boto3.client('s3').get_bucket_location(Bucket=custombucket)
-        #     s3_location = (bucket_location['LocationConstraint'])
+        try:
+            print("Data inserted in MySQL RDS... uploading image to S3...")
+            s3.Bucket(custombucket).put_object(
+                Key=comp_image_file_name_in_s3, Body=companyImage)
+            bucket_location = boto3.client(
+                's3').get_bucket_location(Bucket=custombucket)
+            s3_location = (bucket_location['LocationConstraint'])
 
-        #     if s3_location is None:
-        #         s3_location = ''
-        #     else:
-        #         s3_location = '-' + s3_location
+            if s3_location is None:
+                s3_location = ''
+            else:
+                s3_location = '-' + s3_location
 
-        #     object_url = "https://s3%7B0%7D.amazonaws.com/%7B1%7D/%7B2%7D".format(
-        #         s3_location,
-        #         custombucket,
-        #         comp_image_file_name_in_s3)
-        #     return redirect(url_for('companyDashboard'))
-        # except Exception as e:
-        #     cursor.close()
-        #     print(f"Error during database insertion: {e}")
-        #     return str(e)  # Handle any database errors here
+            object_url = "https://s3%7B0%7D.amazonaws.com/%7B1%7D/%7B2%7D".format(
+                s3_location,
+                custombucket,
+                comp_image_file_name_in_s3)
+            return redirect(url_for('companyDashboard'))
+        except Exception as e:
+            cursor.close()
+            print(f"Error during database insertion: {e}")
+            return str(e)  # Handle any database errors here
 
     return render_template('jobReg.html')
 

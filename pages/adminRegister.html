@@ -22,7 +22,7 @@
     <!-- MDB -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.1/mdb.min.css" rel="stylesheet" />
 
-    <link rel="stylesheet" href="adminRegister.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/adminRegister.css' )}}">
 </head>
 
 
@@ -59,7 +59,8 @@
                     <div class="mb-4 pb-1">
                         <div class="form-outline">
                             <i class='fa-solid fa-envelope trailing text-danger'></i>
-                            <input type="text" class="form-control form-control-lg form-icon-trailing {% if adminEmail_error %}is-invalid{% endif %}"
+                            <input type="text"
+                                class="form-control form-control-lg form-icon-trailing {% if adminEmail_error %}is-invalid{% endif %}"
                                 id="adminEmail" name="adminEmail" required>
                             <label for="adminEmail" class="form-label">Admin Email</label>
                             <div class="invalid-feedback">
@@ -73,7 +74,8 @@
                     <!-- Admin Contact Input -->
                     <div class="mb-4 pb-1">
                         <div class="form-outline">
-                            <input type="text" id="adminContact" name="adminContact" class="form-control form-control-lg" />
+                            <input type="text" id="adminContact" name="adminContact"
+                                class="form-control form-control-lg" />
                             <label class="form-label" for="adminContact">Admin Contact</label>
                         </div>
                     </div>
@@ -104,7 +106,8 @@
 
                     <!-- Submit Button -->
                     <div class="mt-4 mb-4">
-                        <button type="submit" class="btn btn-danger btn-rounded btn-lg btn-block"><b>Register</b></button>
+                        <button type="submit"
+                            class="btn btn-danger btn-rounded btn-lg btn-block"><b>Register</b></button>
                     </div>
 
                     <!-- Click to Login Page -->
@@ -129,3 +132,7 @@
 
     <!-- AOS -->
     <script src="https://unpkg.com/a
+
+    <!-- login register validation -->
+    <script type=" text/javascript" src="{{ url_for('static', filename='js/login_register.js')}}"></script>'
+</body>'

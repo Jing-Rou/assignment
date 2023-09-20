@@ -25,6 +25,24 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/nice-select.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 
+    <style>
+        /* Style for the user icon */
+        .user-icon {
+            color: black;
+        }
+
+        /* Style for the user name */
+        .user-name {
+            color: black;
+            /* You can also adjust other styles like font-size, font-weight, etc. here */
+        }
+
+        /* Optional: Style for the user link (if needed) */
+        .user-link {
+            text-decoration: none;
+            /* Remove underline from the link */
+        }
+    </style>
 </head>
 
 <body>
@@ -81,11 +99,11 @@
                                     <!-- User is authenticated, show User Profile button -->
                                     <div class="user-profile">
                                         <a href="{{ url_for('studentDashboard') }}" class="user-link">
-                                            <i class="fas fa-user fa-2x user-icon"></i> 
+                                            <i class="fas fa-user fa-2x user-icon"></i>
                                             <span class="user-name">{{ user_login_name }}</span>
                                         </a>
                                     </div>
-                                    
+
                                     {% else %}
                                     <!-- User is not authenticated, show Register and Login buttons -->
                                     <div class="btn-group">

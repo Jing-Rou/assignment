@@ -79,6 +79,13 @@
 			color: red;
 			/* Set the desired color for the icon */
 		}
+
+		.trash-icon {
+			font-size: 24px;
+			color: red;
+			cursor: pointer;
+			/* Add a pointer cursor to the trash icon */
+		}
 	</style>
 </head>
 
@@ -189,11 +196,25 @@
 						download="{{ list_of_files[0] }}">
 						{{ list_of_files[0] }}
 					</a>
-					<i class="fas fa-trash"></i>
+					<i class="fas fa-trash trash-icon" onclick="deleteFile(this)"></i>
 
 					<script>
 						// Disable file input field when list_of_files exists
 						document.getElementById('file1').disabled = true;
+
+						// Function to delete the file and enable the "Choose File" input
+						function deleteFile(iconElement) {
+							// Get the container element
+							const container = iconElement.parentElement;
+
+							// Remove the file name, PDF icon, and trash icon
+							container.removeChild(container.querySelector('a')); // Remove the file name and PDF icon
+							container.removeChild(iconElement); // Remove the trash icon
+
+							// Enable the "Choose File" input
+							document.getElementById('file1').disabled = false;
+						}
+
 					</script>
 					{% endif %}
 				</div>

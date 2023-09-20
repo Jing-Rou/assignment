@@ -260,7 +260,7 @@ def form():
     return render_template('form.html', studentID=student_id)
 
 
-@app.route("/report", methods=['GET'])
+@app.route("/report", methods=['GET', 'POST'])
 def report():
     if request.method == 'POST':
         studID = request.form['studentID']

@@ -156,15 +156,15 @@ def login():
             if data:
                 # Data is found in the database
                 stored_password = data[1]
-
                 name = data[2]
+                studID = data[3]
 
                 # You should hash the provided password and compare it to the stored hashed password
                 hashed_password = hashlib.sha256(password.encode()).hexdigest()
 
                 if password == stored_password:
                     # Passwords match, user is authenticated
-                    return render_template('index.html', user_login_name=name, user_authenticated=True)
+                    return render_template('index.html', user_login_name=name, studentID=studID, user_authenticated=True)
                 else:
                     return render_template('login.html', pwd_error="Incorrect password. Please try again.")
             else:

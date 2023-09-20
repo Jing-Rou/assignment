@@ -136,7 +136,14 @@ def register():
             cursor.close()
             return str(e)  # Handle any database errors here
 
-    return render_template('register.html')
+    # Fetch data from the database here
+    cursor = db_conn.cursor()
+    select_sql = "SELECT lectName FROM lecturer"
+    cursor.execute(select_sql)
+    data = cursor.fetchone()  # Fetch a single row
+    print(data)
+
+    return render_template('register.html', list_of_lect=data)
 
 
 @app.route("/login", methods=['GET', 'POST'])
@@ -408,6 +415,8 @@ def lectDashboard():
 # ------------------------------------------------------------------- Lecturer END -------------------------------------------------------------------#
 
 # ------------------------------------------------------------------- Company START (Wong Kar Yan) -------------------------------------------------------------------#
+
+
 @app.route("/companyRegister", methods=['GET', 'POST'])
 def companyRegister():
     if request.method == 'POST':

@@ -206,9 +206,6 @@ def form():
             request.files.getlist('letterForm') + \
             request.files.getlist('hireEvi')
 
-        if not any(uploaded_files):
-            return "Please select at least one file to upload"
-
         # Uplaod image file in S3 #
         # emp_image_file_name_in_s3 = "emp-id-" + str(emp_id) + "_image_file"
         s3 = boto3.resource('s3')
@@ -265,9 +262,6 @@ def report():
     if request.method == 'POST':
         studID = request.form['studentID']
         reportForm_files = request.files['reportForm']
-
-        if reportForm_files == "":
-            return "Please select at least one file to upload"
 
         # Uplaod image file in S3
         s3 = boto3.resource('s3')

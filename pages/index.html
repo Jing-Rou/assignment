@@ -80,8 +80,10 @@
                                     {% if user_authenticated %}
                                     <!-- User is authenticated, show User Profile button -->
                                     <div class="user-profile">
-                                        <a href="{{ url_for('studentDashboard') }}" class="btn head-btn1">
-                                            <i class="fas fa-user"></i> {{ user_login_name }}
+                                        <a href="{{ url_for('studentDashboard') }}">
+                                            <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210180014/profile-removebg-preview.png"
+                                                class="dpicn" alt="dp">
+                                            {{ user_login_name }}
                                         </a>
                                     </div>
                                     {% else %}

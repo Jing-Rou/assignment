@@ -445,10 +445,11 @@ def adminRegister():
         select_sql = "SELECT max(adminID) FROM admin"
         cursor.execute(select_sql)
         data = cursor.fetchone()  # Fetch a single row
+        data = data[0]
 
         print(data)
-        if data[0] == None:
-            adminID = 'A' + 10001;
+        if data == None:
+            adminID = 'A' + str(10001);
         else:
             print(data[1:])
             admin_no = int(data[1:]) + 1

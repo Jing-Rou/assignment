@@ -447,7 +447,7 @@ def adminRegister():
         data = cursor.fetchone()  # Fetch a single row
 
         print(data)
-        if data == "":
+        if data[0] == None:
             adminID = 'A' + 10001;
         else:
             print(data[1:])

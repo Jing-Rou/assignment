@@ -410,8 +410,8 @@ def lectDashboard():
 # ------------------------------------------------------------------- Company START (Wong Kar Yan) -------------------------------------------------------------------#
 
 
-@app.route("/compRegister", methods=['GET', 'POST'])
-def compRegister():
+@app.route("/companyRegister", methods=['GET', 'POST'])
+def companyRegister():
     if request.method == 'POST':
         compName = request.form['compName']
         compEmail = request.form['compEmail']
@@ -425,7 +425,7 @@ def compRegister():
 
         # If the email is already in the database, return an error message to the user and display it on the register.html page.
         if len(results) > 0:
-            return render_template('compRegister.html', email_error="This company email is already in use.")
+            return render_template('companyRegister.html', email_error="This company email is already in use.")
 
         insert_sql = "INSERT INTO company VALUES (%s, %s, %s)"
         cursor = db_conn.cursor()

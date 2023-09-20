@@ -227,13 +227,18 @@
 							// Disable file input field when list_of_files exists
 							document.getElementById('file1').disabled = true;
 
-							// Function to delete the file and enable the "Choose File" input
-							function deleteFile(iconElement) {
+							// Function to delete the file name, PDF icon, and enable the "Choose File" input
+							function deleteFile(trashIconElement) {
 								// Get the container element
-								const container = iconElement.parentElement;
+								const container = trashIconElement.parentElement;
 
-								// Remove the entire container, including the file icon, file name, and trash icon
-								container.parentNode.removeChild(sub-container);
+								// Remove the file name, PDF icon, and trash icon, but exclude the input file element
+								const elementsToRemove = container.querySelectorAll('i, a');
+								elementsToRemove.forEach(function (element) {
+									if (element !== trashIconElement) {
+										container.removeChild(element);
+									}
+								});
 
 								// Enable the "Choose File" input
 								document.getElementById('file1').disabled = false;

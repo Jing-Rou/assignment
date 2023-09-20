@@ -174,13 +174,36 @@
 					<input type="file" id="file1" name="acceptanceForm" required><br><br>
 
 					{% if list_of_files %}
+					<i class="fas fa-file"></i>
 					<a href="{{ my_bucket.meta.client.generate_presigned_url('get_object', Params={'Bucket': my_bucket.name, 'Key': 'Student/' + list_of_files[0]}) }}"
 						download="{{ list_of_files[0] }}">
 						{{ list_of_files[0] }}
 					</a>
+					<i class="fas fa-trash" onclick="deleteFile('{{ list_of_files[0] }}')"></i>
+
 					<script>
 						// Disable file input field when list_of_files exists
 						document.getElementById('file1').disabled = true;
+
+						// Function to delete a file from the list
+						function deleteFile(fileName) {
+							// Remove the file from the list_of_files
+							const index = list_of_files.indexOf(fileName);
+							if (index !== -1) {
+								list_of_files.splice(index, 1);
+							}
+
+							// Update the HTML to remove the deleted file
+							const ul = document.querySelector('ul');
+							const liToDelete = ul.querySelector(`li:contains('${fileName}')`);
+							if (liToDelete) {
+								ul.removeChild(liToDelete);
+							}
+
+							// Enable the save button if there are no more files
+							if (list_of_files.length === 0) {
+								document.getElementById('submit-button').disabled = false;
+							}
 					</script>
 					{% endif %}
 				</div>
@@ -230,56 +253,56 @@
 		crossorigin="anonymous"></script>
 
 	<script>
-		// Function to validate the form
-		function validateForm() {
-			var fileInputs = document.querySelectorAll('input[type="file"]');
-			var isAnyFileSelected = false;
+							// Function to validate the form
+							function validateForm() {
+								var fileInputs = document.querySelectorAll('input[type="file"]');
+								var isAnyFileSelected = false;
 
-			// Check if at least one file input has a selected file
-			for (var i = 0; i < fileInputs.length; i++) {
-				if (fileInputs[i].files.length > 0) {
-					isAnyFileSelected = true;
-					break;
-				}
-			}
+								// Check if at least one file input has a selected file
+								for (var i = 0; i < fileInputs.length; i++) {
+									if (fileInputs[i].files.length > 0) {
+										isAnyFileSelected = true;
+										break;
+									}
+								}
 
-			if (!isAnyFileSelected) {
-				// Display an error message
-				var errorMessage = document.getElementById('error-message');
-				errorMessage.textContent = "Please select at least one file.";
-				return false; // Prevent form submission
-			}
+								if (!isAnyFileSelected) {
+									// Display an error message
+									var errorMessage = document.getElementById('error-message');
+									errorMessage.textContent = "Please select at least one file.";
+									return false; // Prevent form submission
+								}
 
-			return true; // Allow form submission if at least one file is selected
-		}
+								return true; // Allow form submission if at least one file is selected
+							}
 	</script>
 
 	<!-- JavaScript function to submit studentID -->
 	<script>
-		function submitStudentIDForm(studentID) {
-			// Set the value of the hidden input field
-			document.getElementById('studentIDField').value = studentID;
-			// Submit the form
-			document.getElementById('studentIDForm').submit();
-		}
+							function submitStudentIDForm(studentID) {
+								// Set the value of the hidden input field
+								document.getElementById('studentIDField').value = studentID;
+								// Submit the form
+								document.getElementById('studentIDForm').submit();
+							}
 	</script>
 
 	<script>
-		function submitStudentIDDash(studentID) {
-			// Set the value of the hidden input field
-			document.getElementById('studentIDFieldDash').value = studentID;
-			// Submit the form
-			document.getElementById('studentIDDashForm').submit();
-		}
+							function submitStudentIDDash(studentID) {
+								// Set the value of the hidden input field
+								document.getElementById('studentIDFieldDash').value = studentID;
+								// Submit the form
+								document.getElementById('studentIDDashForm').submit();
+							}
 	</script>
 
 	<script>
-		function submitStudentIDReport(studentID) {
-			// Set the value of the hidden input field
-			document.getElementById('studentIDFieldReport').value = studentID;
-			// Submit the form
-			document.getElementById('studentIDReportForm').submit();
-		}
+			function submitStudentIDReport(studentID) {
+				// Set the value of the hidden input field
+				document.getElementById('studentIDFieldReport').value = studentID;
+				// Submit the form
+				document.getElementById('studentIDReportForm').submit();
+			}
 	</script>
 </body>
 

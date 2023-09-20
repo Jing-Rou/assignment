@@ -451,10 +451,8 @@ def adminRegister():
         if data == None:
             adminID = 'A' + str(10001);
         else:
-            print(data[1:])
             admin_no = int(data[1:]) + 1
-            print(admin_no)
-            adminID = 'A' + admin_no
+            adminID = 'A' + str(admin_no)
 
         insert_sql = "INSERT INTO admin VALUES (%s, %s, %s, %s, %s)"
         cursor = db_conn.cursor()

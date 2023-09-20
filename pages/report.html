@@ -60,20 +60,6 @@
             color: red;
 
         }
-
-        /* Add CSS styles to align items horizontally */
-        .items {
-            display: flex;
-            flex-direction: row;
-            /* Horizontally align items */
-            justify-content: space-between;
-            /* Distribute space evenly between items */
-        }
-
-        .item1 {
-            flex-basis: 30%;
-            /* Adjust as needed to control item width */
-        }
     </style>
 </head>
 
@@ -199,7 +185,7 @@
                     <div class="items">
                         {% for files in list_of_files %}
                         <div class="item1">
-                            <div closs="row">
+                            <div class="row">
                                 <div class="col-4">
                                     <h3 class="t-op-nextlvl">{{ files }}</h3>
                                 </div>

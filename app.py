@@ -273,7 +273,6 @@ def report():
         s3 = boto3.resource('s3')
 
         # Create a folder or prefix for the files in S3
-        # Replace 'your_folder_name' with your desired folder name
         folder_name = 'Student/' + studID + "/" + "report/"
 
         try:
@@ -310,10 +309,17 @@ def report():
         return render_template('report.html', my_bucket=bucket, studentID=studID, list_of_files=list_of_files)
 
     # Retrieve the studentID from the query parameters
-    student_id = request.args.get('studentID')
-    print(student_id)
+    studID = request.args.get('studentID')
+    
+    folder_name = 'Student/' + studID + "/" + "report/"
 
-    return render_template('report.html', studentID=student_id)
+    # Uplaod image file in S3
+    s3 = boto3.resource('s3')
+
+    bucket = s3.Bucket(custombucket)
+    list_of_files = list_files(bucket, folder_name)
+
+    return render_template('report.html', my_bucket=bucket, studentID=studID, list_of_files=list_of_files)
 
 # -------------------------------------------------------------- Student End --------------------------------------------------------------#
 

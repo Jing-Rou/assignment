@@ -199,6 +199,8 @@ def list_files(bucket):
 @app.route("/form", methods=['GET', 'POST'])
 def form():
     if request.method == 'POST':
+        studID = request.form['studentID']
+
         uploaded_files = request.files.getlist('acceptanceForm') + \
             request.files.getlist('parentForm') + \
             request.files.getlist('letterForm') + \
@@ -212,7 +214,7 @@ def form():
         s3 = boto3.resource('s3')
 
         # Create a folder or prefix for the files in S3
-        folder_name = 'Student/'  # Replace 'your_folder_name' with your desired folder name
+        folder_name = 'Student/' + studID + "/" # Replace 'your_folder_name' with your desired folder name
 
         try:
             print("Data inserted in MySQL RDS... uploading image to S3...")

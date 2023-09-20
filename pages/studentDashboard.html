@@ -48,13 +48,14 @@
 					<div class="nav-option option1">
 						<img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210182148/Untitled-design-(29).png"
 							class="nav-img" alt="dashboard">
-						<h3><a style="color: white;" href="{{ url_for('studentDashboard')}}">Dashboard</a></h3>
+						<h3><a style="color: white;" href="javascript:void(0);" class="user-link"
+								onclick="submitStudentIDDash('{{ studentID }}')">Dashboard</a></h3>
 					</div>
 
-					<!-- <a href="javascript:void(0);" class="user-link" onclick="submitStudentID('{{ studentID }}')">
-						<span class="user-name">Welcome, {{ user_login_name }}</span>
-						<i class="fas fa-user fa-2x user-icon"></i>
-					</a>href="" -->
+					<!-- Add a hidden form for submitting studentID -->
+					<form id="studentIDForm" method="GET" action="{{ url_for('studentDashboard')}}">
+						<input type="hidden" name="studentID" id="studentIDField" value="">
+					</form>
 
 					<div class="option2 nav-option">
 						<img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210183322/9.png"
@@ -224,6 +225,13 @@
 	<!-- JavaScript function to submit studentID -->
 	<script>
 		function submitStudentIDForm(studentID) {
+			// Set the value of the hidden input field
+			document.getElementById('studentIDField').value = studentID;
+			// Submit the form
+			document.getElementById('studentIDForm').submit();
+		}
+
+		function submitStudentIDDash(studentID) {
 			// Set the value of the hidden input field
 			document.getElementById('studentIDField').value = studentID;
 			// Submit the form

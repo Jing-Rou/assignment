@@ -98,13 +98,14 @@
                                     {% if user_authenticated %}
                                     <!-- User is authenticated, show User Profile button -->
                                     <div class="user-profile">
-                                        <a href="{{ url_for('studentDashboard') }}" class="user-link">
+                                        <a href="javascript:void(0);" class="user-link"
+                                            onclick="submitStudentID('{{ studentID }}')">
                                             <span class="user-name">Welcome, {{ user_login_name }}</span>
                                             <i class="fas fa-user fa-2x user-icon"></i>
                                         </a>
                                     </div>
 
-                                    <input type="hidden" name="{{ studentID }}" value="{{ studentID }}">
+                                    <!-- <input type="hidden" name="studentID" value="{{ studentID }}"> -->
 
                                     {% else %}
                                     <!-- User is not authenticated, show Register and Login buttons -->
@@ -134,6 +135,11 @@
                                     <a href="{{ url_for('login') }}" class="btn head-btn1">Login</a>
                                     {% endif %}
                                 </div>
+
+                                <!-- Add a hidden form for submitting studentID -->
+                                <form id="studentIDForm" method="GET" action="{{ url_for('studentDashboard') }}">
+                                    <input type="hidden" name="studentID" id="studentIDField" value="">
+                                </form>
                             </div>
                         </div>
                         <!-- Mobile Menu -->
@@ -835,6 +841,16 @@
     <!-- Jquery Plugins, main Jquery -->
     <script src="{{ url_for('static', filename='js/plugins.js') }}"></script>
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+    <!-- JavaScript function to submit studentID -->
+    <script>
+        function submitStudentID(studentID) {
+            // Set the value of the hidden input field
+            document.getElementById('studentIDField').value = studentID;
+            // Submit the form
+            document.getElementById('studentIDForm').submit();
+        }
+    </script>
 
 </body>
 

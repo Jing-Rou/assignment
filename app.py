@@ -176,7 +176,11 @@ def login():
 
 @app.route("/studentDashboard", methods=['GET'])
 def studentDashboard():
-    return render_template('studentDashboard.html')
+    # Retrieve the studentID from the query parameters
+    student_id = request.args.get('studentID')
+
+    # Pass the studentID to the studentDashboard.html template
+    return render_template('studentDashboard.html', studentID=student_id)
 
 
 def list_files(bucket):
@@ -186,7 +190,7 @@ def list_files(bucket):
     for image in bucket.objects.filter(Prefix=folder_prefix):
         # Extract file name without the folder prefix
         file_name = image.key[len(folder_prefix):]
-        if file_name: 
+        if file_name:
             contents.append(file_name)
 
     return contents
@@ -251,8 +255,10 @@ def form():
 def report():
     return render_template('report.html')
 
-# -------------------------------------------------------------- Lecturer START (Kuah Jia Yu) --------------------------------------------------------------#
+# -------------------------------------------------------------- Student End --------------------------------------------------------------#
 
+
+# -------------------------------------------------------------- Lecturer START (Kuah Jia Yu) --------------------------------------------------------------#
 
 @app.route("/lectRegister", methods=['GET', 'POST'])
 def lectRegister():

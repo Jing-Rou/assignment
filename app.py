@@ -435,17 +435,31 @@ def companyDashboard():
 @app.route("/adminRegister", methods=['GET', 'POST'])
 def adminRegister():
     if request.method == 'POST':
-        adminName = request.form['adName']
-        adminID = request.form['adID']
-        adminEmail = request.form['adEmail']
-        adminContact = request.form['adContact']
+        adminName = request.form['adminName']
+        adminEmail = request.form['adminEmail']
+        adminContact = request.form['adminContact']
         password = request.form['password']
+
+        # Fetch data from the database here
+        cursor = db_conn.cursor()
+        select_sql = "SELECT max(adminID) FROM admin"
+        cursor.execute(select_sql)
+        data = cursor.fetchone()  # Fetch a single row
+
+        print(data)
+        if data == "":
+            adminID = 'A' + 10001;
+        else:
+            print(data[1:])
+            admin_no = int(data[1:]) + 1
+            print(admin_no)
+            adminID = 'A' + admin_no
 
         insert_sql = "INSERT INTO admin VALUES (%s, %s, %s, %s, %s)"
         cursor = db_conn.cursor()
 
         try:
-            cursor.execute(insert_sql, (adName, adID, adEmail, adContact, password))
+            cursor.execute(insert_sql, (adminID, adminName, adminEmail, adminContact, password))
             db_conn.commit()
             cursor.close()
             return redirect(url_for('adminLogin'))  # Redirect to admin login after successful registration

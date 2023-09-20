@@ -161,18 +161,6 @@
 				</div>
 			</div>
 
-			<ul>
-
-				{% for file in list_of_files %}
-				<li>
-					<a href="{{ my_bucket.meta.client.generate_presigned_url('get_object', Params={'Bucket': my_bucket.name, 'Key': 'Student/' + file}) }}"
-						download="{{ list_of_files[0] }}">
-						{{ list_of_files[0] }}
-					</a>
-				</li>
-				{% endfor %}
-			</ul>
-
 			<form method="POST" action="/form" enctype="multipart/form-data" novalidate class="ms-4 me-5 mb-2 mt-2"
 				id="submission-form" onsubmit="return validateForm()">
 				<!-- Inside studentDashboard.html -->
@@ -186,12 +174,10 @@
 					<input type="file" id="file1" name="acceptanceForm" required><br><br>
 
 					{% if list_of_files %}
-					{% for file in list_of_files %}
 					<a href="{{ my_bucket.meta.client.generate_presigned_url('get_object', Params={'Bucket': my_bucket.name, 'Key': 'Student/' + file}) }}"
 						download="{{ list_of_files[0] }}">
 						{{ list_of_files[0] }}
 					</a>
-					{% endfor %}
 					<script>
 						// Disable file input field when list_of_files exists
 						document.getElementById('file1').disabled = true;

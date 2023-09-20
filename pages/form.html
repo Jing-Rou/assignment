@@ -106,14 +106,14 @@
 		<div class="navcontainer">
 			<nav class="nav">
 				<div class="nav-upper-options">
-					<div class="nav-option option1">
+					<div class="nav-option">
 						<img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210182148/Untitled-design-(29).png"
 							class="nav-img" alt="dashboard">
 						<h3><a href="javascript:void(0);" class="user-link"
 								onclick="submitStudentIDDash('{{ studentID }}')">Dashboard</a></h3>
 					</div>
 
-					<div class="option2 nav-option">
+					<div class="option1 nav-option">
 						<img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210183322/9.png"
 							class="nav-img" alt="articles">
 						<h3><a style="color: white;" href="javascript:void(0);" class="user-link"
@@ -168,7 +168,7 @@
 				<li>
 					<a href="{{ my_bucket.meta.client.generate_presigned_url('get_object', Params={'Bucket': my_bucket.name, 'Key': 'Student/' + file}) }}"
 						download="{{ file }}">
-						{{ file }}
+						{{ file }} {{ list_of_files }}
 					</a>
 				</li>
 				{% endfor %}

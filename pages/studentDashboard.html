@@ -52,22 +52,12 @@
 								onclick="submitStudentIDDash('{{ studentID }}')">Dashboard</a></h3>
 					</div>
 
-					<!-- Add a hidden form for submitting studentID -->
-					<form id="studentIDDashForm" method="GET" action="{{ url_for('studentDashboard')}}">
-						<input type="hidden" name="studentIDDash" id="studentIDFieldDash" value="">
-					</form>
-
 					<div class="option2 nav-option">
 						<img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210183322/9.png"
 							class="nav-img" alt="articles">
 						<h3><a href="javascript:void(0);" class="user-link"
 								onclick="submitStudentIDForm('{{ studentID }}')">Form Submission</a></h3>
 					</div>
-
-					<!-- Add a hidden form for submitting studentID -->
-					<form id="studentIDForm" method="GET" action="{{ url_for('form')}}">
-						<input type="hidden" name="studentID" id="studentIDField" value="">
-					</form>
 
 					<div class="nav-option option3">
 						<img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210183320/5.png"
@@ -76,18 +66,29 @@
 								onclick="submitStudentIDReport('{{ studentID }}')">Report</a></h3>
 					</div>
 
-					<!-- Add a hidden form for submitting studentID -->
-					<form id="studentIDForm" method="GET" action="{{ url_for('report')}}">
-						<input type="hidden" name="studentID" id="studentIDField" value="">
-					</form>
-
 					<div class="nav-option logout">
 						<img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210183321/7.png"
 							class="nav-img" alt="logout">
 						<h3>Logout</h3>
 					</div>
-
 				</div>
+
+				<!-- Add a hidden form for submitting studentID -->
+				<form id="studentIDDashForm" method="GET" action="{{ url_for('studentDashboard')}}">
+					<input type="hidden" name="studentIDDash" id="studentIDFieldDash" value="">
+				</form>
+
+
+				<!-- Add a hidden form for submitting studentID -->
+				<form id="studentIDForm" method="GET" action="{{ url_for('form')}}">
+					<input type="hidden" name="studentID" id="studentIDField" value="">
+				</form>
+
+				<!-- Add a hidden form for submitting studentID -->
+				<form id="studentIDReportForm" method="GET" action="{{ url_for('report')}}">
+					<input type="hidden" name="studentID" id="studentIDFieldReport" value="">
+				</form>
+
 			</nav>
 		</div>
 
@@ -250,9 +251,9 @@
 	<script>
 		function submitStudentIDReport(studentID) {
 			// Set the value of the hidden input field
-			document.getElementById('studentIDField').value = studentID;
+			document.getElementById('studentIDFieldReport').value = studentID;
 			// Submit the form
-			document.getElementById('studentIDForm').submit();
+			document.getElementById('studentIDReportForm').submit();
 		}
 	</script>
 

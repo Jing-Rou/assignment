@@ -210,10 +210,12 @@
                                 <select id="ucSupervisor" name="ucSupervisor"
                                     class="custom-select form-control form-control-lg" required>
                                     <option value="" disabled selected>Select UC Supervisor</option>
+                                    {% for lecturer in list_of_lect %}
                                     <option
-                                        value="Bachelor of Science (Honours) in Management Mathematics with Computing">
-                                        Bachelor of Science (Honours) in Management Mathematics with Computing
+                                        value="lecturer[0] lecturer[1]">
+                                        lecturer[0]
                                     </option>
+                                    {% endfor %}
                                 </select>
                             </div>
                         </div>

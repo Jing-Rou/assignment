@@ -80,7 +80,8 @@ def register():
         cgpa = request.form['cgpa']
         ucSupervisor = request.form['ucSupervisor']
 
-        ucSupervisor_split = ucSupervisor.split(' ')
+        print(ucSupervisor)
+        ucSupervisor_split = ucSupervisor.split(', ')
         ucSuperName = ucSupervisor_split[0]
         ucSuperEmail = ucSupervisor_split[1]
 

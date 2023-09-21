@@ -246,11 +246,13 @@ def form():
     if request.method == 'POST':
         studID = request.form['studentID']
 
-        uploaded_files = request.files.getlist('acceptanceForm') + \
-                         request.files.getlist('parentForm') + \
-                         request.files.getlist('letterForm') + \
-                         request.files.getlist('hireEvi')
-        
+        # put the files into array
+        uploaded_files = []
+        uploaded_files[0] = request.files['acceptanceForm']
+        uploaded_files[1] = request.files['parentForm']
+        uploaded_files[2] = request.files['letterForm']
+        uploaded_files[3] = request.files['hireEvi']
+        print(uploaded_files)
         comp_form = request.form.get('acceptanceFormFileName', None)
         parent_form = request.form.get('parentFormFileName', None)
         letter = request.form.get('letterFormFileName', None)

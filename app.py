@@ -248,11 +248,11 @@ def form():
 
         # put the files into array
         # use the get() method to return None if the field is not present.
-        uploaded_files = []
-        uploaded_files.append(request.files.get('acceptanceForm'))
-        uploaded_files.append(request.files.get('parentForm'))
-        uploaded_files.append(request.files.get('letterForm'))
-        uploaded_files.append(request.files.get('hireEvi'))
+        uploaded_files = [' ', ' ', ' ', ' ']
+        uploaded_files[0] = request.files.get('acceptanceForm')
+        uploaded_files[1] = request.files.get('parentForm')
+        uploaded_files[2] = request.files.get('letterForm')
+        uploaded_files[3] = request.files.get('hireEvi')
         print(uploaded_files)
         comp_form = request.form.get('acceptanceFormFileName', None)
         parent_form = request.form.get('parentFormFileName', None)
@@ -288,10 +288,9 @@ def form():
             print("Data inserted in MySQL RDS... uploading image to S3...")
 
             for file in uploaded_files:
-                print(file)
                 if file == None:
                     file = ""
-
+                print(file)
                 list_files.append(file.filename)
                 # if not empty
                 if file:

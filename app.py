@@ -280,32 +280,34 @@ def form():
             print("Data inserted in MySQL RDS... uploading image to S3...")
 
             for file in uploaded_files:
-                list_files.append(file.filename)
+                # if not empty
+                if file:
+                    list_files.append(file.filename)
 
-                filename = file.filename.split('.')
-                print(filename)
+                    filename = file.filename.split('.')
+                    print(filename)
 
-                # Construct the key with the folder prefix and file name
-                # student
-                stud_key = folder_name + filename[0] + form_list[ctr] + filename[1]
-                print(stud_key)
-                #lecture
-                lect_key = lect_folder_name + filename[0] + form_list[ctr] + filename[1]
+                    # Construct the key with the folder prefix and file name
+                    # student
+                    stud_key = folder_name + filename[0] + form_list[ctr] + filename[1]
+                    print(stud_key)
+                    #lecture
+                    lect_key = lect_folder_name + filename[0] + form_list[ctr] + filename[1]
 
-                # Upload the file into the specified folder
-                # to student folder
-                s3.Bucket(custombucket).put_object(Key=stud_key, Body=file)
-                # to lecturer folder
-                s3.Bucket(custombucket).put_object(Key=lect_key, Body=file)
+                    # Upload the file into the specified folder
+                    # to student folder
+                    s3.Bucket(custombucket).put_object(Key=stud_key, Body=file)
+                    # to lecturer folder
+                    s3.Bucket(custombucket).put_object(Key=lect_key, Body=file)
 
-                # Generate the object URL
-                bucket_location = boto3.client('s3').get_bucket_location(Bucket=custombucket)
-                s3_location = (bucket_location['LocationConstraint'])
+                    # Generate the object URL
+                    bucket_location = boto3.client('s3').get_bucket_location(Bucket=custombucket)
+                    s3_location = (bucket_location['LocationConstraint'])
 
-                if s3_location is None:
-                    s3_location = ''
-                else:
-                    s3_location = '-' + s3_location
+                    if s3_location is None:
+                        s3_location = ''
+                    else:
+                        s3_location = '-' + s3_location
 
                 ctr += 1
 

@@ -544,7 +544,7 @@ def companyRegister():
         if len(results) > 0:
             return render_template('companyRegister.html', email_error="This company email is already in use.")
 
-        insert_sql = "INSERT INTO company VALUES (%s, %s, %s)"
+        insert_sql = "INSERT INTO company VALUES (%s, %s, %s, %s)"
         cursor = db_conn.cursor()
 
         try:

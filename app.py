@@ -30,12 +30,13 @@ def getCompFiles(path):
 
     s3 = boto3.resource('s3')
     bucket = s3.Bucket(custombucket)
+    expiration = 315360000  # 10 years in seconds
 
     for image in bucket.objects.filter(Prefix=folder_prefix):
         if (image.key.split('/')[1]):
             # Extract file name without the folder prefix
             file_name = image.key[len(folder_prefix):]
-            contents.append(bucket.meta.client.generate_presigned_url('get_object', Params={'Bucket': bucket.name, 'Key': path + file_name}))
+            contents.append(bucket.meta.client.generate_presigned_url('get_object', Params={'Bucket': bucket.name, 'Key': path + file_name}, ExpiresIn=expiration))
 
     return contents
 

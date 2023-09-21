@@ -116,11 +116,9 @@
 
 	<!-- for header part -->
 	<header>
-
-		<div class="logosec">
-			<div class="logo">GeeksForGeeks</div>
-			<img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210182541/Untitled-design-(30).png"
-				class="icn menuicn" id="menuicn" alt="menu-icon">
+		<div class="logo" style="margin-top:15px;">
+			<a href="{{ url_for('index') }}"><img src="{{ url_for('static', filename='img/logo/logo.png') }}"
+					alt=""></a>
 		</div>
 
 		<div class="searchbar">
@@ -215,38 +213,39 @@
 
 					<div class="sub-container mb-4">
 						{% if list_of_files %}
-							{% if list_of_files[0]%}
-								<i class="fas fa-file-pdf file-icon"></i>
-								<a href="{{ my_bucket.meta.client.generate_presigned_url('get_object', Params={'Bucket': my_bucket.name, 'Key': 'Student/' + studentID + '/' + list_of_files[0]}) }}"
-									download="{{ list_of_files[0] }}">
-									{{ list_of_files[0] }}
-								</a>
-								<input type="hidden" name="acceptanceFormFileName" id="acceptanceFormFileName" value="{{ list_of_files[0] }}">
-								<i class="fas fa-trash trash-icon float-end" onclick="deleteFile(this)"></i>
+						{% if list_of_files[0]%}
+						<i class="fas fa-file-pdf file-icon"></i>
+						<a href="{{ my_bucket.meta.client.generate_presigned_url('get_object', Params={'Bucket': my_bucket.name, 'Key': 'Student/' + studentID + '/' + list_of_files[0]}) }}"
+							download="{{ list_of_files[0] }}">
+							{{ list_of_files[0] }}
+						</a>
+						<input type="hidden" name="acceptanceFormFileName" id="acceptanceFormFileName"
+							value="{{ list_of_files[0] }}">
+						<i class="fas fa-trash trash-icon float-end" onclick="deleteFile(this)"></i>
 
-								<script>
-									// Disable file input field when list_of_files exists
-									document.getElementById('file1').disabled = true;
+						<script>
+							// Disable file input field when list_of_files exists
+							document.getElementById('file1').disabled = true;
 
-									// Function to delete the file name, PDF icon, and enable the "Choose File" input
-									function deleteFile(trashIconElement) {
-										// Get the container element
-										const container = trashIconElement.parentElement;
+							// Function to delete the file name, PDF icon, and enable the "Choose File" input
+							function deleteFile(trashIconElement) {
+								// Get the container element
+								const container = trashIconElement.parentElement;
 
-										// Remove the file name, PDF icon, and trash icon, but exclude the input file element
-										const elementsToRemove = container.querySelectorAll('i, a, input');
-										elementsToRemove.forEach(function (element) {
-											if (element !== trashIconElement) {
-												container.removeChild(element);
-											}
-										});
-
-										// Enable the "Choose File" input
-										document.getElementById('file1').disabled = false;
+								// Remove the file name, PDF icon, and trash icon, but exclude the input file element
+								const elementsToRemove = container.querySelectorAll('i, a, input');
+								elementsToRemove.forEach(function (element) {
+									if (element !== trashIconElement) {
+										container.removeChild(element);
 									}
+								});
 
-								</script>
-							{% endif %}
+								// Enable the "Choose File" input
+								document.getElementById('file1').disabled = false;
+							}
+
+						</script>
+						{% endif %}
 						{% endif %}
 					</div>
 				</div>
@@ -258,38 +257,39 @@
 
 					<div class="sub-container mb-4">
 						{% if list_of_files %}
-							{% if list_of_files[1]%}
-								<i class="fas fa-file-pdf file-icon"></i>
-								<a href="{{ my_bucket.meta.client.generate_presigned_url('get_object', Params={'Bucket': my_bucket.name, 'Key': 'Student/' + studentID + '/' + list_of_files[1]}) }}"
-									download="{{ list_of_files[1] }}">
-									{{ list_of_files[1] }}
-								</a>
-								<input type="hidden" name="parentFormFileName" id="parentFormFileName" value="{{ list_of_files[1] }}">
-								<i class="fas fa-trash trash-icon float-end" onclick="deleteFile1(this)"></i>
+						{% if list_of_files[1]%}
+						<i class="fas fa-file-pdf file-icon"></i>
+						<a href="{{ my_bucket.meta.client.generate_presigned_url('get_object', Params={'Bucket': my_bucket.name, 'Key': 'Student/' + studentID + '/' + list_of_files[1]}) }}"
+							download="{{ list_of_files[1] }}">
+							{{ list_of_files[1] }}
+						</a>
+						<input type="hidden" name="parentFormFileName" id="parentFormFileName"
+							value="{{ list_of_files[1] }}">
+						<i class="fas fa-trash trash-icon float-end" onclick="deleteFile1(this)"></i>
 
-								<script>
-									// Disable file input field when list_of_files exists
-									document.getElementById('file2').disabled = true;
+						<script>
+							// Disable file input field when list_of_files exists
+							document.getElementById('file2').disabled = true;
 
-									// Function to delete the file name, PDF icon, and enable the "Choose File" input
-									function deleteFile1(trashIconElement) {
-										// Get the container element
-										const container1 = trashIconElement.parentElement;
+							// Function to delete the file name, PDF icon, and enable the "Choose File" input
+							function deleteFile1(trashIconElement) {
+								// Get the container element
+								const container1 = trashIconElement.parentElement;
 
-										// Remove the file name, PDF icon, and trash icon, but exclude the input file element
-										const elementsToRemove = container1.querySelectorAll('i, a, input');
-										elementsToRemove.forEach(function (element) {
-											if (element !== trashIconElement) {
-												container1.removeChild(element);
-											}
-										});
-
-										// Enable the "Choose File" input
-										document.getElementById('file2').disabled = false;
+								// Remove the file name, PDF icon, and trash icon, but exclude the input file element
+								const elementsToRemove = container1.querySelectorAll('i, a, input');
+								elementsToRemove.forEach(function (element) {
+									if (element !== trashIconElement) {
+										container1.removeChild(element);
 									}
+								});
 
-								</script>
-							{% endif %}
+								// Enable the "Choose File" input
+								document.getElementById('file2').disabled = false;
+							}
+
+						</script>
+						{% endif %}
 						{% endif %}
 					</div>
 				</div>
@@ -301,38 +301,39 @@
 
 					<div class="sub-container mb-4">
 						{% if list_of_files %}
-							{% if list_of_files[2]%}
-								<i class="fas fa-file-pdf file-icon"></i>
-								<a href="{{ my_bucket.meta.client.generate_presigned_url('get_object', Params={'Bucket': my_bucket.name, 'Key': 'Student/' + studentID + '/' + list_of_files[2]}) }}"
-									download="{{ list_of_files[2] }}">
-									{{ list_of_files[2] }}
-								</a>
-								<input type="hidden" name="letterFormFileName" id="letterFormFileName" value="{{ list_of_files[2] }}">
-								<i class="fas fa-trash trash-icon float-end" onclick="deleteFile3(this)"></i>
+						{% if list_of_files[2]%}
+						<i class="fas fa-file-pdf file-icon"></i>
+						<a href="{{ my_bucket.meta.client.generate_presigned_url('get_object', Params={'Bucket': my_bucket.name, 'Key': 'Student/' + studentID + '/' + list_of_files[2]}) }}"
+							download="{{ list_of_files[2] }}">
+							{{ list_of_files[2] }}
+						</a>
+						<input type="hidden" name="letterFormFileName" id="letterFormFileName"
+							value="{{ list_of_files[2] }}">
+						<i class="fas fa-trash trash-icon float-end" onclick="deleteFile3(this)"></i>
 
-								<script>
-									// Disable file input field when list_of_files exists
-									document.getElementById('file3').disabled = true;
+						<script>
+							// Disable file input field when list_of_files exists
+							document.getElementById('file3').disabled = true;
 
-									// Function to delete the file name, PDF icon, and enable the "Choose File" input
-									function deleteFile3(trashIconElement) {
-										// Get the container element
-										const container2 = trashIconElement.parentElement;
+							// Function to delete the file name, PDF icon, and enable the "Choose File" input
+							function deleteFile3(trashIconElement) {
+								// Get the container element
+								const container2 = trashIconElement.parentElement;
 
-										// Remove the file name, PDF icon, and trash icon, but exclude the input file element
-										const elementsToRemove = container2.querySelectorAll('i, a, input');
-										elementsToRemove.forEach(function (element) {
-											if (element !== trashIconElement) {
-												container2.removeChild(element);
-											}
-										});
-
-										// Enable the "Choose File" input
-										document.getElementById('file3').disabled = false;
+								// Remove the file name, PDF icon, and trash icon, but exclude the input file element
+								const elementsToRemove = container2.querySelectorAll('i, a, input');
+								elementsToRemove.forEach(function (element) {
+									if (element !== trashIconElement) {
+										container2.removeChild(element);
 									}
+								});
 
-								</script>
-							{% endif %}
+								// Enable the "Choose File" input
+								document.getElementById('file3').disabled = false;
+							}
+
+						</script>
+						{% endif %}
 						{% endif %}
 					</div>
 				</div>
@@ -343,38 +344,38 @@
 
 					<div class="sub-container mb-4">
 						{% if list_of_files %}
-							{% if list_of_files[3]%}
-								<i class="fas fa-file-pdf file-icon"></i>
-								<a href="{{ my_bucket.meta.client.generate_presigned_url('get_object', Params={'Bucket': my_bucket.name, 'Key': 'Student/' + studentID + '/' + list_of_files[3]}) }}"
-									download="{{ list_of_files[3] }}">
-									{{ list_of_files[3] }}
-								</a>
-								<input type="hidden" name="hireEviFileName" id="hireEviFileName" value="{{ list_of_files[3] }}">
-								<i class="fas fa-trash trash-icon float-end" onclick="deleteFile4(this)"></i>
+						{% if list_of_files[3]%}
+						<i class="fas fa-file-pdf file-icon"></i>
+						<a href="{{ my_bucket.meta.client.generate_presigned_url('get_object', Params={'Bucket': my_bucket.name, 'Key': 'Student/' + studentID + '/' + list_of_files[3]}) }}"
+							download="{{ list_of_files[3] }}">
+							{{ list_of_files[3] }}
+						</a>
+						<input type="hidden" name="hireEviFileName" id="hireEviFileName" value="{{ list_of_files[3] }}">
+						<i class="fas fa-trash trash-icon float-end" onclick="deleteFile4(this)"></i>
 
-								<script>
-									// Disable file input field when list_of_files exists
-									document.getElementById('file4').disabled = true;
+						<script>
+							// Disable file input field when list_of_files exists
+							document.getElementById('file4').disabled = true;
 
-									// Function to delete the file name, PDF icon, and enable the "Choose File" input
-									function deleteFile4(trashIconElement) {
-										// Get the container element
-										const container3 = trashIconElement.parentElement;
+							// Function to delete the file name, PDF icon, and enable the "Choose File" input
+							function deleteFile4(trashIconElement) {
+								// Get the container element
+								const container3 = trashIconElement.parentElement;
 
-										// Remove the file name, PDF icon, and trash icon, but exclude the input file element
-										const elementsToRemove = container3.querySelectorAll('i, a, input');
-										elementsToRemove.forEach(function (element) {
-											if (element !== trashIconElement) {
-												container3.removeChild(element);
-											}
-										});
-
-										// Enable the "Choose File" input
-										document.getElementById('file4').disabled = false;
+								// Remove the file name, PDF icon, and trash icon, but exclude the input file element
+								const elementsToRemove = container3.querySelectorAll('i, a, input');
+								elementsToRemove.forEach(function (element) {
+									if (element !== trashIconElement) {
+										container3.removeChild(element);
 									}
+								});
 
-								</script>
-							{% endif %}
+								// Enable the "Choose File" input
+								document.getElementById('file4').disabled = false;
+							}
+
+						</script>
+						{% endif %}
 						{% endif %}
 					</div>
 				</div>

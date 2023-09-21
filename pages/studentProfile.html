@@ -48,8 +48,10 @@
             <div class="circle"></div>
             <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210183322/8.png" class="icn" alt="">
             <div class="dp">
-                <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210180014/profile-removebg-preview.png"
-                    class="dpicn" alt="dp">
+                <a href="javascript:void(0);" class="user-link" onclick="submitStudentIDdp('{{ studentID }}')">
+                    <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210180014/profile-removebg-preview.png"
+                        class="dpicn" alt="dp">
+                </a>
             </div>
         </div>
 
@@ -103,6 +105,10 @@
                     <input type="hidden" name="studentID" id="studentIDFieldReport" value="">
                 </form>
 
+                <!-- Add a hidden form for submitting studentID -->
+                <form id="studentIDdp" method="GET" action="{{ url_for('studentProfile')}}">
+                    <input type="hidden" name="studentID" id="studentIDFielddp" value="">
+                </form>
             </nav>
         </div>
 
@@ -120,12 +126,13 @@
             <section>
                 <div class="container">
                     <div class="row">
+                        {% if stud_data in student_infor %}
                         <div class="col-lg-4">
                             <div class="card mb-4">
                                 <div class="card-body text-center">
                                     <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
                                         alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
-                                    <h5 class="my-3">John Smith</h5>
+                                    <h5 class="my-3">stud_data['firstName'] stud_data['lastName']</h5>
                                     <p class="text-muted mb-1">Full Stack Developer</p>
                                     <p class="text-muted mb-4">Bay Area, San Francisco, CA</p>
                                     <div class="d-flex justify-content-center mb-2">
@@ -361,6 +368,14 @@
         }
     </script>
 
+    <script>
+        function submitStudentIDdp(studentID) {
+            // Set the value of the hidden input field
+            document.getElementById('studentIDFielddp').value = studentID;
+            // Submit the form
+            document.getElementById('studentIDdp').submit();
+        }
+    </script>
 </body>
 
 </html>

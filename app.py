@@ -261,7 +261,7 @@ def form():
 
         # Create a folder or prefix for the files in S3
         # submit form and store into student s3 
-        folder_name = 'Student/' + studID + "/"
+        folder_name = 'Student/' + studID + "/" + "Form/"
 
         # Fetch data from the lecturer database
         cursor = db_conn.cursor()
@@ -275,7 +275,7 @@ def form():
         lecturerID = data[0]
 
         # submit form to lecturer
-        lect_folder_name = 'Lecturer/' + lecturerID + "/" + studID + "/"
+        lect_folder_name = 'Lecturer/' + lecturerID + "/" + studID + "/" + "Form/"
 
         list_files = []
         form_list = ['_comp_form.', '_parent_form.', '_letter.', '_hire_evi.']

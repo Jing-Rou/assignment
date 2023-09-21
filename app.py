@@ -32,10 +32,7 @@ def getCompFiles(path):
     bucket = s3.Bucket(custombucket)
 
     for image in bucket.objects.filter(Prefix=folder_prefix):
-        print(image.key.split('/')[1])
         if (image.key.split('/')[1]):
-            print("a")
-        if image:
             # Extract file name without the folder prefix
             file_name = image.key[len(folder_prefix):]
             contents.append(bucket.meta.client.generate_presigned_url('get_object', Params={'Bucket': bucket.name, 'Key': path + file_name}))

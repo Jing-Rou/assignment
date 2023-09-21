@@ -267,9 +267,10 @@ def form():
         cursor.execute(select_sql, (studID,))
         data = cursor.fetchone()  # Fetch a single row
 
-        print(data)
+        lecturerID = data[0]
+
         # submit form to lecturer
-        folder_name = 'Lecturer/' + studID + "/"
+        lect_folder_name = 'Lecturer/' + lecturerID + "/" + studID + "/"
 
         list_files = []
 
@@ -278,11 +279,18 @@ def form():
 
             for file in uploaded_files:
                 list_files.append(file.filename)
+
                 # Construct the key with the folder prefix and file name
-                key = folder_name + file.filename
+                # student
+                stud_key = folder_name + file.filename
+                #lecture
+                lect_key = lect_folder_name + file.filename
 
                 # Upload the file into the specified folder
-                s3.Bucket(custombucket).put_object(Key=key, Body=file)
+                # to student folder
+                s3.Bucket(custombucket).put_object(Key=stud_key, Body=file)
+                # to lecturer folder
+                s3.Bucket(custombucket).put_object(Key=lect_key, Body=file)
 
                 # Generate the object URL
                 bucket_location = boto3.client(

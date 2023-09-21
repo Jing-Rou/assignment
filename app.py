@@ -288,9 +288,10 @@ def form():
             print("Data inserted in MySQL RDS... uploading image to S3...")
 
             for file in uploaded_files:
+                print(file)
                 if file == None:
                     file = ""
-                    
+
                 list_files.append(file.filename)
                 # if not empty
                 if file:

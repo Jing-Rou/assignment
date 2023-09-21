@@ -231,7 +231,8 @@ def login():
                     cursor.execute(select_students_sql, (email,))
                     student_data = cursor.fetchall()
                     
-                    return render_template('lectDashboard.html', user_login_name=name, lectID=lecturer_id, student_data=student_data)
+                    print(student_data)
+                    return render_template('lectDashboard.html', lectID=lecturer_id, student_data=student_data)
                 else:
                     return render_template('login.html', pwd_error="Incorrect password. Please try again.")
             else:

@@ -335,7 +335,7 @@ def list_files(bucket, path):
     contents = []
     folder_prefix = path
 
-    for image in bucket.objects.filter(Prefix=folder_prefix):
+    for object_summary in bucket.objects.filter(Prefix=folder_prefix):
         # Extract file name without the folder prefix
         file_name = object_summary.key[len(folder_prefix):]
         if file_name:

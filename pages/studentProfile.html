@@ -12,6 +12,18 @@
 
     <!-- MDB -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.1/mdb.min.css" rel="stylesheet" />
+
+    <style>
+        h3 {
+            display: flex;
+            font-size: 15px;
+            margin-block-start: 1em;
+            margin-block-end: 1em;
+            margin-inline-start: 0px;
+            margin-inline-end: 0px;
+            font-weight: bold;
+        }
+    </style>
 </head>
 
 <body>
@@ -19,7 +31,7 @@
     <!-- for header part -->
     <header>
 
-        <div class="logo" style="margin-top:15px;">
+        <div class="logo" style="margin-top:2px;">
             <a href="{{ url_for('index') }}"><img src="{{ url_for('static', filename='img/logo/logo.png') }}"
                     alt=""></a>
         </div>
@@ -94,7 +106,7 @@
             </nav>
         </div>
 
-        <div class="main">
+        <div class="main" style="background-color: #cad7fda4;">
 
             <div class="searchbar2">
                 <input type="text" name="" id="" placeholder="Search">
@@ -105,8 +117,8 @@
             </div>
 
             <!-- main content -->
-            <section style="background-color: #eee;">
-                <div class="container py-5">
+            <section>
+                <div class="container>
                     <div class="row">
                         <div class="col-lg-4">
                             <div class="card mb-4">

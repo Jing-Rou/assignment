@@ -177,7 +177,7 @@
 
                 <div class="report-body">
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col-5">
                             <h3 class="t-op">Files Name</h3>
                         </div>
                         <div class="col-5">
@@ -192,7 +192,7 @@
                         {% for files in list_of_files %}
                         <div>
                             <div class="row">
-                                <div class="col-6">
+                                <div class="col-5">
                                     <h3 class="t-op-nextlvl">{{ files['file_name'] }}</h3>
                                 </div>
 
@@ -206,6 +206,7 @@
 
                                 <div class="col-1">
                                     <form method="post" action="/delete">
+                                        <input type="hidden" name="studentID" value="{{ studentID }}">
                                         <input type="hidden" name="file_name" value="{{ files['file_name'] }}">
                                         <button type="submit" class="btn btn-danger">Delete</button>
                                     </form>

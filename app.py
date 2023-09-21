@@ -429,14 +429,29 @@ def report():
 @app.route("/delete", methods=['POST'])
 def delete_file():
     if request.method == 'POST':
+        studID = request.form['studentID']
         # Get the file key to delete from the form data
         file_key = request.form['file_name']
-        print(file_key)
+
+        # Fetch data from the lecturer database
+        cursor = db_conn.cursor()
+        select_sql = "SELECT l.lectID \
+                      FROM students s\
+                      JOIN lecturer l on s.ucSuperEmail = l.lectEmail \
+                      WHERE studentID = %s"
+        cursor.execute(select_sql, (studID,))
+        data = cursor.fetchone()  # Fetch a single row
+
+        lecturerID = data[0]
+        
+        stud_file_key = 'Student/' + studID + "/" + "report/" + file_key
+        lect_file_key = 'Lecturer/' + lecturerID + "/" + studID + "/" + file_key
 
         # Delete the file from S3
         try:
             s3 = boto3.client('s3')
-            s3.delete_object(Bucket=custombucket, Key=file_key)
+            s3.delete_object(Bucket=custombucket, Key=stud_file_key)
+            s3.delete_object(Bucket=custombucket, Key=lect_file_key)
             return redirect(request.referrer)  # Redirect back to the previous page
         except Exception as e:
             return str(e)

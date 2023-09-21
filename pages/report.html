@@ -184,7 +184,7 @@
                             <h3 class="t-op">Last Modified</h3>
                         </div>
                         <div class="col-1">
-                            <h3 class="t-op">Size</h3>
+                            <h3 class="t-op">Size (bytes)</h3>
                         </div>
                     </div>
 
@@ -193,15 +193,15 @@
                         <div>
                             <div class="row">
                                 <div class="col-7">
-                                    <h3 class="t-op-nextlvl">{{ files }}</h3>
+                                    <h3 class="t-op-nextlvl">{{ files['file_name'] }}</h3>
                                 </div>
 
                                 <div class="col-4">
-                                    <h3 class="t-op-nextlvl">2.9k</h3>
+                                    <h3 class="t-op-nextlvl">{{ files['last_modified'] }}</h3>
                                 </div>
 
                                 <div class="col-1">
-                                    <h3 class="t-op-nextlvl">210</h3>
+                                    <h3 class="t-op-nextlvl">{{ files['size'] }}</h3>
                                 </div>
                             </div>
                         </div>

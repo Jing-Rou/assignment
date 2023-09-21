@@ -46,6 +46,10 @@ def blog():
 def single_blog():
     return render_template('single_blog.html')
 
+@app.route("/elements", methods=['GET'])
+def elements():
+    return render_template('elements.html')
+
 @app.route("/job_details", methods=['GET'])
 def job_details():
     return render_template('job_details.html')

@@ -550,7 +550,8 @@ def companyRegister():
         try:
             cursor.execute(insert_sql, (compName,
                                         compEmail,
-                                        comPassword
+                                        comPassword,
+                                        'pending'
                                         ))
             db_conn.commit()
             cursor.close()

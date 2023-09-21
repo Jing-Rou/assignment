@@ -32,6 +32,7 @@ def getCompFiles(path):
     bucket = s3.Bucket(custombucket)
 
     for image in bucket.objects.filter(Prefix=folder_prefix):
+        print(image)
         if image:
             # Extract file name without the folder prefix
             file_name = image.key[len(folder_prefix):]

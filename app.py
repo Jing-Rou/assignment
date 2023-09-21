@@ -220,13 +220,13 @@ def studentDashboard():
     # Pass the studentID to the studentDashboard.html template
     return render_template('studentDashboard.html', studentID=student_id)
 
-@app.route("/studentProfile", methods=['GET'])
-def studentProfile():
-    # Retrieve the studentID from the query parameters
-    # student_id = request.args.get('studentID')
+# @app.route("/studentProfile", methods=['GET'])
+# def studentProfile():
+#     # Retrieve the studentID from the query parameters
+#     # student_id = request.args.get('studentID')
 
-    # Pass the studentID to the studentDashboard.html template
-    return render_template('studentProfile.html')
+#     # Pass the studentID to the studentDashboard.html template
+#     return render_template('studentProfile.html')
 
 @app.route("/form", methods=['GET', 'POST'])
 def form():

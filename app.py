@@ -59,7 +59,7 @@ def index():
     except Exception as e:
         return str(e) 
 
-    return render_template('index.html', my_bucket=bucket, image_files=list_of_comp, comp_data = data)
+    return render_template('index.html', image_files=list_of_comp, comp_data = data)
 
 @app.route('/s3_image/<path:filename>')
 def s3_image(filename):

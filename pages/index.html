@@ -345,7 +345,7 @@
                             <div class="job-items">
                                 <div class="company-img">
                                     <a href="{{ url_for('job_details') }}">
-                                        <img src="{{ my_bucket.meta.client.generate_presigned_url('get_object', Params={'Bucket': my_bucket.name, 'Key': 'Company/' + image_file}) }}"
+                                        <img src="{{ image_file }}"
                                             alt="{{ image_file }}">
                                     </a>
                                 </div>

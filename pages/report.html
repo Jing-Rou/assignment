@@ -203,6 +203,13 @@
                                 <div class="col-1">
                                     <h3 class="t-op-nextlvl">{{ files['size'] }}</h3>
                                 </div>
+
+                                <div class="col-1">
+                                    <form method="post" action="/delete">
+                                        <input type="hidden" name="file_name" value="{{ files['file_name'] }}">
+                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                         <hr>

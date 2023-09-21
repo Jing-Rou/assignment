@@ -424,14 +424,24 @@ def report():
     # Sort the list by last modified timestamp in descending order
     list_of_files.sort(key=lambda x: x['last_modified'], reverse=True)
 
-    # Now, list_of_files contains objects with file name, last modified timestamp, and size
-    for file_info in list_of_files:
-        print(f"File Name: {file_info['file_name']}")
-        print(f"Last Modified: {file_info['last_modified']}")
-        print(f"Size (bytes): {file_info['size']}")
-        print("----------")
-
     return render_template('report.html', my_bucket=bucket, studentID=studID, list_of_files=list_of_files)
+
+@app.route("/delete", methods=['POST'])
+def delete_file():
+    if request.method == 'POST':
+        # Get the file key to delete from the form data
+        file_key = request.form['file_name']
+        print(file_key)
+
+        # Delete the file from S3
+        try:
+            s3 = boto3.client('s3')
+            s3.delete_object(Bucket=custombucket, Key=file_key)
+            return redirect(request.referrer)  # Redirect back to the previous page
+        except Exception as e:
+            return str(e)
+
+    return "Method not allowed", 405
 
 # -------------------------------------------------------------- Student End --------------------------------------------------------------#
 

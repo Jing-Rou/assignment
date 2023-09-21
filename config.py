@@ -3,5 +3,4 @@ customuser = "aws_user"
 custompass = "abcd1234"
 customdb = "itps"
 custombucket = "ongjingrou-itps"
-customregion = "us-east-1"
-
+customregion = "US East (N. Virginia) us-east-1"

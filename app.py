@@ -247,11 +247,12 @@ def form():
         studID = request.form['studentID']
 
         # put the files into array
+        # use the get() method to return None if the field is not present.
         uploaded_files = []
-        uploaded_files.append(request.files['acceptanceForm'])
-        uploaded_files.append(request.files['parentForm'])
-        uploaded_files.append(request.files['letterForm'])
-        uploaded_files.append(request.files['hireEvi'])
+        uploaded_files.append(request.files.get('acceptanceForm'))
+        uploaded_files.append(request.files.get('parentForm'))
+        uploaded_files.append(request.files.get('letterForm'))
+        uploaded_files.append(request.files.get('hireEvi'))
         print(uploaded_files)
         comp_form = request.form.get('acceptanceFormFileName', None)
         parent_form = request.form.get('parentFormFileName', None)

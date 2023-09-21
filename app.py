@@ -29,21 +29,37 @@ def getCompFiles(bucket, path):
     folder_prefix = path
 
     for image in bucket.objects.filter(Prefix=folder_prefix):
-        print(image)
         # Extract file name without the folder prefix
         file_name = image.key[len(folder_prefix):]
         contents.append(file_name)
-        print(file_name)
 
     return contents
 
 @app.route("/", methods=['GET'], endpoint='index')
 def index():
+    # retrieve files rfom s3
     s3 = boto3.resource('s3')
     bucket = s3.Bucket(custombucket)
     list_of_comp = getCompFiles(bucket, 'Company/')
-    print(list_of_comp)
-    return render_template('index.html', my_bucket=bucket, image_files=list_of_comp)
+    
+    # retrive from database
+    cursor = db_conn.cursor()
+    select_sql = "SELECT c.compName, j.job_title, j.comp_state, j.sal_range \
+                 from company c \
+                 JOIN jobApply j ON c.compName = j.comp_name \
+                 where upper(c.compStatus) = 'PENDING'"
+    
+    try:
+        cursor.execute(select_sql)
+        data = cursor.fetchone()  # Fetch a single row
+
+        comp = data[0]
+
+        print(comp)
+    except Exception as e:
+        return str(e) 
+
+    return render_template('index.html', my_bucket=bucket, image_files=list_of_comp, comp_data = comp)
 
 @app.route('/s3_image/<path:filename>')
 def s3_image(filename):

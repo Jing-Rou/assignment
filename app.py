@@ -288,12 +288,10 @@ def form():
             print("Data inserted in MySQL RDS... uploading image to S3...")
 
             for file in uploaded_files:
-                if file == None:
-                    file = ""
                 print(file)
                 list_files.append(file.filename)
                 # if not empty
-                if file:
+                if file or file is not None:
                     filename = file.filename.split('.')
 
                     # Construct the key with the folder prefix and file name

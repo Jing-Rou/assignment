@@ -38,6 +38,10 @@ def job_listing():
 def about():
     return render_template('about.html')
 
+@app.route("/blog", methods=['GET'])
+def blog():
+    return render_template('blog.html')
+
 @app.route("/job_details", methods=['GET'])
 def job_details():
     return render_template('job_details.html')

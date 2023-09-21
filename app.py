@@ -80,13 +80,9 @@ def register():
         cgpa = request.form['cgpa']
         ucSupervisor = request.form['ucSupervisor']
 
-        print(ucSupervisor)
         ucSupervisor_split = ucSupervisor.split(', ')
         ucSuperName = ucSupervisor_split[0]
         ucSuperEmail = ucSupervisor_split[1]
-
-        print(tutorialGrp, "a")
-        print(programmeSelect, "b")
 
         # Check if the email is already in the database.
         cursor = db_conn.cursor()
@@ -174,9 +170,6 @@ def login():
                 name = data[2]
                 studID = data[3]
 
-                # You should hash the provided password and compare it to the stored hashed password
-                hashed_password = hashlib.sha256(password.encode()).hexdigest()
-
                 if password == stored_password:
                     # Passwords match, user is authenticated
                     return render_template('index.html', user_login_name=name, studentID=studID, user_authenticated=True)
@@ -258,13 +251,25 @@ def form():
             request.files.getlist('letterForm') + \
             request.files.getlist('hireEvi')
 
-        # Uplaod image file in S3 #
-        # emp_image_file_name_in_s3 = "emp-id-" + str(emp_id) + "_image_file"
+        # Uplaod image file in S3 
         s3 = boto3.resource('s3')
 
         # Create a folder or prefix for the files in S3
-        # Replace 'your_folder_name' with your desired folder name
+        # submit form and store into student s3 
         folder_name = 'Student/' + studID + "/"
+
+        # Fetch data from the database here
+        cursor = db_conn.cursor()
+        select_sql = "SELECT l.lectID \
+                      FROM students s\
+                      JOIN lecturer l on s.ucSuperEmail = l.lectEmail \
+                      WHERE studentID = %s"
+        cursor.execute(select_sql, (studID,))
+        data = cursor.fetchone()  # Fetch a single row
+
+        print(data)
+        # submit form to lecturer
+        folder_name = 'Lecturer/' + studID + "/"
 
         list_files = []
 
@@ -298,8 +303,6 @@ def form():
             return str('bucket', str(e))
 
         bucket = s3.Bucket(custombucket)
-
-        # list_of_files = list_files(bucket)
 
         return render_template('form.html', my_bucket=bucket, studentID=studID, list_of_files=list_files)
 

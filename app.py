@@ -63,12 +63,6 @@ def index():
     print(data)
     return render_template('index.html', comp_data = data)
 
-@app.route('/s3_image/<path:filename>')
-def s3_image(filename):
-    # Construct the S3 URL for the image using your bucket and path
-    s3_url = f'https://{custombucket}.s3.amazonaws.com/Company/{filename}'
-    return send_from_directory(s3_url, filename)
-
 @app.route("/job_listing", methods=['GET'])
 def job_listing():
     # get approved company name

@@ -258,7 +258,7 @@ def form():
         # submit form and store into student s3 
         folder_name = 'Student/' + studID + "/"
 
-        # Fetch data from the database here
+        # Fetch data from the lecturer database
         cursor = db_conn.cursor()
         select_sql = "SELECT l.lectID \
                       FROM students s\
@@ -273,6 +273,8 @@ def form():
         lect_folder_name = 'Lecturer/' + lecturerID + "/" + studID + "/"
 
         list_files = []
+        form_list = ['_comp_form.', '_parent_form.', '_letter.', '_hire_evi.']
+        ctr = 0
 
         try:
             print("Data inserted in MySQL RDS... uploading image to S3...")
@@ -280,11 +282,13 @@ def form():
             for file in uploaded_files:
                 list_files.append(file.filename)
 
+                filename = file.filename.split('.')
+
                 # Construct the key with the folder prefix and file name
                 # student
-                stud_key = folder_name + file.filename
+                stud_key = folder_name + filename[0] + form_list[ctr] + filename[1]
                 #lecture
-                lect_key = lect_folder_name + file.filename
+                lect_key = lect_folder_name + filename[0] + form_list[ctr] + filename[1]
 
                 # Upload the file into the specified folder
                 # to student folder
@@ -302,10 +306,7 @@ def form():
                 else:
                     s3_location = '-' + s3_location
 
-                object_url = "https://s3{0}.amazonaws.com/{1}/{2}".format(
-                    s3_location,
-                    custombucket,
-                    file.filename)
+                ctr += 1
 
         except Exception as e:
             return str('bucket', str(e))

@@ -3,7 +3,7 @@ from pymysql import connections
 import os
 import boto3
 from config import *
-import hashlib
+from flask import send_from_directory
 
 app = Flask(__name__)
 # Configure the 'templates' folder for HTML templates.
@@ -37,31 +37,19 @@ def getCompFiles(bucket, path):
 
     return contents
 
-# def list_files(bucket, path):
-#     contents = []
-#     folder_prefix = path
-
-#     for object_summary in bucket.objects.filter(Prefix=folder_prefix):
-#         # Extract file name without the folder prefix
-#         file_name = object_summary.key[len(folder_prefix):]
-#         if file_name:
-#             last_modified = object_summary.last_modified
-#             size = object_summary.size
-#             contents.append({
-#                 'file_name': file_name,
-#                 'last_modified': last_modified,
-#                 'size': size
-#             })
-
-#     return contents
-
 @app.route("/", methods=['GET'], endpoint='index')
 def index():
     s3 = boto3.resource('s3')
     bucket = s3.Bucket(custombucket)
     list_of_comp = getCompFiles(bucket, 'Company/')
     print(list_of_comp)
-    return render_template('index.html')
+    return render_template('index.html', image_files=list_of_comp)
+
+@app.route('/s3_image/<path:filename>')
+def s3_image(filename):
+    # Construct the S3 URL for the image using your bucket and path
+    s3_url = f'https://{custombucket}.s3.amazonaws.com/Company/{filename}'
+    return send_from_directory(s3_url, filename)
 
 @app.route("/job_listing", methods=['GET'])
 def job_listing():

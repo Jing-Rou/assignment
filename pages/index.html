@@ -52,8 +52,7 @@
             border-bottom: 0;
             padding: 29.5px 44px;
         }
-
-        </style>
+    </style>
 </head>
 
 <body>
@@ -499,14 +498,16 @@
                     <div class="col-xl-8 col-lg-8 col-md-10">
                         <div class="h1-testimonial-active dot-style">
                             <!-- Single Testimonial -->
-                            <div class="single-testimonial text-center">
-                                <!-- Testimonial Content -->
-                                <div class="testimonial-caption ">
-                                    <!-- founder -->
-                                    <div class="testimonial-founder  ">
+                            <div class="testimonial-caption">
+                                <!-- Loop through the image filenames -->
+                                {% for image_file in image_files %}
+                                <div class="single-testimonial text-center">
+                                    <!-- Testimonial Content -->
+                                    <div class="testimonial-founder">
                                         <div class="founder-img mb-30">
-                                            <img src="{{ url_for('static', filename='img/testmonial/testimonial-founder.png')}}"
-                                                alt="">
+                                            <!-- Set the src attribute to the URL of the S3 object -->
+                                            <img src="{{ url_for('s3_image', filename=image_file) }}"
+                                                alt="{{ image_file }}">
                                             <span>Margaret Lawson</span>
                                             <p>Creative Director</p>
                                         </div>
@@ -517,6 +518,7 @@
                                             clean it will care for you and workout hard.”</p>
                                     </div>
                                 </div>
+                                {% endfor %}
                             </div>
                             <!-- Single Testimonial -->
                             <div class="single-testimonial text-center">

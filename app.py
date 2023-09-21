@@ -24,7 +24,7 @@ db_conn = connections.Connection(
 output = {}
 table = 'students'
 
-def getCompFiles(bucket, path):
+def getCompFiles(path):
     contents = []
     folder_prefix = path
 
@@ -32,19 +32,17 @@ def getCompFiles(bucket, path):
     bucket = s3.Bucket(custombucket)
 
     for image in bucket.objects.filter(Prefix=folder_prefix):
-        # Extract file name without the folder prefix
-        file_name = image.key[len(folder_prefix):]
-        print(bucket.meta.client.generate_presigned_url('get_object', Params={'Bucket': bucket.name, 'Key': 'Company/' + file_name}))
-        contents.append(file_name)
+        if image:
+            # Extract file name without the folder prefix
+            file_name = image.key[len(folder_prefix):]
+            contents.append(bucket.meta.client.generate_presigned_url('get_object', Params={'Bucket': bucket.name, 'Key': path + file_name}))
 
     return contents
 
 @app.route("/", methods=['GET'], endpoint='index')
 def index():
-    # retrieve files rfom s3
-    s3 = boto3.resource('s3')
-    bucket = s3.Bucket(custombucket)
-    list_of_comp = getCompFiles(bucket, 'Company/')
+
+    list_of_comp = getCompFiles('Company/')
     
     # retrive from database
     cursor = db_conn.cursor()
@@ -56,14 +54,12 @@ def index():
     try:
         cursor.execute(select_sql)
         data = cursor.fetchall()  # Fetch a single row
+        print(data)
 
-        comp = data[0]
-
-        print(comp)
     except Exception as e:
         return str(e) 
 
-    return render_template('index.html', my_bucket=bucket, image_files=list_of_comp, comp_data = comp)
+    return render_template('index.html', my_bucket=bucket, image_files=list_of_comp, comp_data = data)
 
 @app.route('/s3_image/<path:filename>')
 def s3_image(filename):

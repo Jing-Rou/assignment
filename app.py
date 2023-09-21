@@ -318,15 +318,19 @@ def form():
             return str('bucket', str(e))
 
         print(comp_form)
+        print(list_files)
         if comp_form:
             list_files[0] = comp_form
 
+        print(parent_form)
         if parent_form:
             list_files[1] = parent_form
 
+        print(letter)
         if letter:
             list_files[2] = letter
         
+        print(hire_evi)
         if hire_evi:
             list_files[3] = hire_evi
 

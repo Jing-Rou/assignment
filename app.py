@@ -47,7 +47,7 @@ def index():
     
     # retrive from database
     cursor = db_conn.cursor()
-    select_sql = "SELECT c.compName, j.job_title, j.comp_state, j.sal_range \
+    select_sql = "SELECT c.compName, c.compProfile, j.job_title, j.comp_state, j.sal_range \
                  from company c \
                  JOIN jobApply j ON c.compName = j.comp_name \
                  where upper(c.compStatus) = 'PENDING'"
@@ -60,7 +60,8 @@ def index():
     except Exception as e:
         return str(e) 
 
-    return render_template('index.html', image_files=list_of_comp, comp_data = data)
+    print(data)
+    return render_template('index.html', comp_data = data)
 
 @app.route('/s3_image/<path:filename>')
 def s3_image(filename):

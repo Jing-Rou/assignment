@@ -339,24 +339,24 @@
                 <div class="row justify-content-center">
                     <div class="col-xl-10">
                         <!-- Loop through the image filenames -->
-                        {% for image_file in image_files %}
+                        {% for data in comp_data %}
                         <!-- single-job-content -->
                         <div class="single-job-items mb-30">
                             <div class="job-items">
                                 <div class="company-img">
                                     <a href="{{ url_for('job_details') }}">
-                                        <img src="{{ image_file }}"
-                                            alt="{{ image_file }}">
+                                        <img src="{{ data['compProfile'] }}"
+                                            alt="{{ data['compProfile'] }}">
                                     </a>
                                 </div>
                                 <div class="job-tittle">
                                     <a href="{{ url_for('job_details') }}">
-                                        <h4>Digital Marketer</h4>
+                                        <h4>{{ data['job_title'] }}</h4>
                                     </a>
                                     <ul>
-                                        <li>Creative Agency</li>
-                                        <li><i class="fas fa-map-marker-alt"></i>Athens, Greece</li>
-                                        <li>$3500 - $4000</li>
+                                        <li>{{ data['compName'] }}</li>
+                                        <li><i class="fas fa-map-marker-alt"></i>{{ data['comp_state'] }}</li>
+                                        <li>{{ data['sal_range'] }}</li>
                                     </ul>
                                 </div>
                             </div>

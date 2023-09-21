@@ -248,10 +248,10 @@ def form():
 
         # put the files into array
         uploaded_files = []
-        uploaded_files[0] = request.files['acceptanceForm']
-        uploaded_files[1] = request.files['parentForm']
-        uploaded_files[2] = request.files['letterForm']
-        uploaded_files[3] = request.files['hireEvi']
+        uploaded_files.append(request.files['acceptanceForm'])
+        uploaded_files.append(request.files['parentForm'])
+        uploaded_files.append(request.files['letterForm'])
+        uploaded_files.append(request.files['hireEvi'])
         print(uploaded_files)
         comp_form = request.form.get('acceptanceFormFileName', None)
         parent_form = request.form.get('parentFormFileName', None)

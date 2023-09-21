@@ -28,9 +28,13 @@ def getCompFiles(bucket, path):
     contents = []
     folder_prefix = path
 
+    s3 = boto3.resource('s3')
+    bucket = s3.Bucket(custombucket)
+
     for image in bucket.objects.filter(Prefix=folder_prefix):
         # Extract file name without the folder prefix
         file_name = image.key[len(folder_prefix):]
+        print(bucket.meta.client.generate_presigned_url('get_object', Params={'Bucket': bucket.name, 'Key': 'Company/' + file_name}))
         contents.append(file_name)
 
     return contents
@@ -51,7 +55,7 @@ def index():
     
     try:
         cursor.execute(select_sql)
-        data = cursor.fetchone()  # Fetch a single row
+        data = cursor.fetchall()  # Fetch a single row
 
         comp = data[0]
 

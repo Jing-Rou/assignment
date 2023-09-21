@@ -572,10 +572,8 @@ def companyRegister():
         if data == None:
             compID = 'C' + str(10001)
         else:
-            print(int(data[1:]))
             comp_no = int(data[1:]) + 1
             compID = 'C' + str(comp_no)
-
 
         # Check if the email is already in the database.
         cursor = db_conn.cursor()
@@ -587,7 +585,7 @@ def companyRegister():
         if len(results) > 0:
             return render_template('companyRegister.html', email_error="This company email is already in use.")
 
-        insert_sql = "INSERT INTO company VALUES (%s, %s, %s, %s)"
+        insert_sql = "INSERT INTO company VALUES (%s, %s, %s, %s, %s)"
         cursor = db_conn.cursor()
 
         try:

@@ -227,20 +227,6 @@ def studentDashboard():
     # Pass the studentID to the studentDashboard.html template
     return render_template('studentDashboard.html', studentID=student_id)
 
-
-def list_files(bucket, path):
-    contents = []
-    folder_prefix = path
-
-    for image in bucket.objects.filter(Prefix=folder_prefix):
-        # Extract file name without the folder prefix
-        file_name = image.key[len(folder_prefix):]
-        if file_name:
-            contents.append(file_name)
-
-    return contents
-
-
 @app.route("/form", methods=['GET', 'POST'])
 def form():
     if request.method == 'POST':
@@ -253,7 +239,7 @@ def form():
         uploaded_files[1] = request.files.get('parentForm')
         uploaded_files[2] = request.files.get('letterForm')
         uploaded_files[3] = request.files.get('hireEvi')
-        print(uploaded_files)
+
         comp_form = request.form.get('acceptanceFormFileName', None)
         parent_form = request.form.get('parentFormFileName', None)
         letter = request.form.get('letterFormFileName', None)
@@ -292,7 +278,7 @@ def form():
                     list_files.append('')
                 else:
                     list_files.append(file.filename)
-                    
+
                 # if not empty
                 if file and file is not None:
                     filename = file.filename.split('.')
@@ -323,20 +309,16 @@ def form():
         except Exception as e:
             return str('bucket', str(e))
 
-        print(comp_form)
-        print(list_files)
+        # get the submitted form w/o reupload it into s3
         if comp_form:
             list_files[0] = comp_form
 
-        print(parent_form)
         if parent_form:
             list_files[1] = parent_form
 
-        print(letter)
         if letter:
             list_files[2] = letter
         
-        print(hire_evi)
         if hire_evi:
             list_files[3] = hire_evi
 
@@ -349,6 +331,23 @@ def form():
 
     return render_template('form.html', studentID=student_id)
 
+def list_files(bucket, path):
+    contents = []
+    folder_prefix = path
+
+    for image in bucket.objects.filter(Prefix=folder_prefix):
+        # Extract file name without the folder prefix
+        file_name = object_summary.key[len(folder_prefix):]
+        if file_name:
+            last_modified = object_summary.last_modified
+            size = object_summary.size
+            contents.append({
+                'file_name': file_name,
+                'last_modified': last_modified,
+                'size': size
+            })
+
+    return contents
 
 @app.route("/report", methods=['GET', 'POST'])
 def report():
@@ -421,6 +420,16 @@ def report():
 
     bucket = s3.Bucket(custombucket)
     list_of_files = list_files(bucket, folder_name)
+
+    # Sort the list by last modified timestamp in descending order
+    list_of_files.sort(key=lambda x: x['last_modified'], reverse=True)
+
+    # Now, list_of_files contains objects with file name, last modified timestamp, and size
+    for file_info in list_of_files:
+        print(f"File Name: {file_info['file_name']}")
+        print(f"Last Modified: {file_info['last_modified']}")
+        print(f"Size (bytes): {file_info['size']}")
+        print("----------")
 
     return render_template('report.html', my_bucket=bucket, studentID=studID, list_of_files=list_of_files)
 

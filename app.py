@@ -285,12 +285,10 @@ def form():
                     list_files.append(file.filename)
 
                     filename = file.filename.split('.')
-                    print(filename)
 
                     # Construct the key with the folder prefix and file name
                     # student
                     stud_key = folder_name + filename[0] + form_list[ctr] + filename[1]
-                    print(stud_key)
                     #lecture
                     lect_key = lect_folder_name + filename[0] + form_list[ctr] + filename[1]
 
@@ -334,7 +332,22 @@ def report():
         s3 = boto3.resource('s3')
 
         # Create a folder or prefix for the files in S3
+        # to student s3 folder
         folder_name = 'Student/' + studID + "/" + "report/"
+
+        # Fetch data from the lecturer database
+        cursor = db_conn.cursor()
+        select_sql = "SELECT l.lectID \
+                      FROM students s\
+                      JOIN lecturer l on s.ucSuperEmail = l.lectEmail \
+                      WHERE studentID = %s"
+        cursor.execute(select_sql, (studID,))
+        data = cursor.fetchone()  # Fetch a single row
+
+        lecturerID = data[0]
+
+        # submit form to lecturer
+        lect_folder_name = 'Lecturer/' + lecturerID + "/" + studID + "/"
 
         try:
             print("Data inserted in MySQL RDS... uploading image to S3...")
@@ -342,10 +355,15 @@ def report():
             filename = reportForm_files.filename.split('.')
 
             # Construct the key with the folder prefix and file name
-            key = folder_name + filename[0] + "_progress_report." + filename[1]
+            stud_key = folder_name + filename[0] + "_progress_report." + filename[1]
+            #lecture
+            lect_key = lect_folder_name + filename[0] + "_progress_report." + filename[1]
 
             # Upload the file into the specified folder
-            s3.Bucket(custombucket).put_object(Key=key, Body=reportForm_files)
+            # to student folder
+            s3.Bucket(custombucket).put_object(Key=stud_key, Body=reportForm_files)
+            # to lecturer folder
+            s3.Bucket(custombucket).put_object(Key=lect_key, Body=reportForm_files)
 
             # Generate the object URL
             bucket_location = boto3.client(
@@ -356,11 +374,6 @@ def report():
                 s3_location = ''
             else:
                 s3_location = '-' + s3_location
-
-            object_url = "https://s3{0}.amazonaws.com/{1}/{2}".format(
-                s3_location,
-                custombucket,
-                key)
 
         except Exception as e:
             return str('bucket', str(e))

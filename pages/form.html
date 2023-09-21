@@ -221,6 +221,7 @@
 									download="{{ list_of_files[0] }}">
 									{{ list_of_files[0] }}
 								</a>
+								<input type="hidden" name="acceptanceFormFileName" id="acceptanceFormFileName" value="{{ list_of_files[0] }}">
 								<i class="fas fa-trash trash-icon float-end" onclick="deleteFile(this)"></i>
 
 								<script>
@@ -233,7 +234,7 @@
 										const container = trashIconElement.parentElement;
 
 										// Remove the file name, PDF icon, and trash icon, but exclude the input file element
-										const elementsToRemove = container.querySelectorAll('i, a');
+										const elementsToRemove = container.querySelectorAll('i, a, input');
 										elementsToRemove.forEach(function (element) {
 											if (element !== trashIconElement) {
 												container.removeChild(element);

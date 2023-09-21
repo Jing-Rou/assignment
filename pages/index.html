@@ -345,18 +345,18 @@
                             <div class="job-items">
                                 <div class="company-img">
                                     <a href="{{ url_for('job_details') }}">
-                                        <img src="{{ data['compProfile'] }}"
-                                            alt="{{ data['compProfile'] }}">
+                                        <img src="{{ data[1] }}"
+                                            alt="{{ data[1] }}">
                                     </a>
                                 </div>
                                 <div class="job-tittle">
                                     <a href="{{ url_for('job_details') }}">
-                                        <h4>{{ data['job_title'] }}</h4>
+                                        <h4>{{ data[2] }}</h4>
                                     </a>
                                     <ul>
-                                        <li>{{ data['compName'] }}</li>
-                                        <li><i class="fas fa-map-marker-alt"></i>{{ data['comp_state'] }}</li>
-                                        <li>{{ data['sal_range'] }}</li>
+                                        <li>{{ data[0] }}</li>
+                                        <li><i class="fas fa-map-marker-alt"></i>{{ data[3] }}</li>
+                                        <li>{{ data[4] }}</li>
                                     </ul>
                                 </div>
                             </div>

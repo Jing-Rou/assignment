@@ -26,6 +26,16 @@
             margin-inline-end: 0px;
             font-weight: bold;
         }
+
+        /* Remove border from input type="text" */
+        input[type="text"] {
+            border: none;
+        }
+
+        /* Change background color to white when input is disabled */
+        input[type="text"]:disabled {
+            background-color: white;
+        }
     </style>
 </head>
 
@@ -170,7 +180,8 @@
                                             <p class="mb-0">Date-of-Birth</p>
                                         </div>
                                         <div class="col-sm-9">
-                                            <input type="text" class="form-control form-control-lg form-icon-trailing" value="aaa" disabled>
+                                            <input type="text" class="form-control form-control-lg form-icon-trailing"
+                                                value="aaa" disabled>
                                         </div>
                                     </div>
                                     <hr>

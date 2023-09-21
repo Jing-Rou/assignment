@@ -24,18 +24,18 @@ db_conn = connections.Connection(
 output = {}
 table = 'students'
 
-def getCompFiles(bucket, folder):
-    s3 = boto3.client('s3')
+def getCompFiles(bucket, path):
     contents = []
-    
-    # List objects in the specified folder
-    response = s3.list_objects(Bucket=bucket, Prefix=folder)
-    # Check if the folder exists
-    if 'Contents' in response:
-        for item in response['Contents']:
-            contents.append(item['Key'])
-    
-    return contents  
+    folder_prefix = path
+
+    for image in bucket.objects.filter(Prefix=folder_prefix):
+        print(image)
+        # Extract file name without the folder prefix
+        file_name = image.key[len(folder_prefix):]
+        contents.append(file_name)
+        print(file_name)
+
+    return contents
 
 # def list_files(bucket, path):
 #     contents = []

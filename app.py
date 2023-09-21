@@ -454,8 +454,11 @@ def delete_file():
             s3.delete_object(Bucket=custombucket, Key=stud_file_key)
             s3.delete_object(Bucket=custombucket, Key=lect_file_key)
             
+            # Uplaod image file in S3
+            s3 = boto3.resource('s3')
+
             folder_name = 'Student/' + studID + "/" + "report/"
-            
+
             bucket = s3.Bucket(custombucket)
             list_of_files = list_files(bucket, folder_name)
 

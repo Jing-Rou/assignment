@@ -430,6 +430,7 @@ def report():
 def delete_file():
     if request.method == 'POST':
         studID = request.form['studentID']
+        print(studID)
         # Get the file key to delete from the form data
         file_key = request.form['file_name']
 
@@ -452,9 +453,19 @@ def delete_file():
             s3 = boto3.client('s3')
             s3.delete_object(Bucket=custombucket, Key=stud_file_key)
             s3.delete_object(Bucket=custombucket, Key=lect_file_key)
-            return redirect(request.referrer)  # Redirect back to the previous page
+            
+            folder_name = 'Student/' + studID + "/" + "report/"
+            
+            bucket = s3.Bucket(custombucket)
+            list_of_files = list_files(bucket, folder_name)
+
+            # Sort the list by last modified timestamp in descending order
+            list_of_files.sort(key=lambda x: x['last_modified'], reverse=True)
+
+            return render_template('report.html', my_bucket=bucket, studentID=studID, list_of_files=list_of_files)
         except Exception as e:
             return str(e)
+
 
     return "Method not allowed", 405
 

@@ -79,7 +79,13 @@ def register():
         studentID = request.form['studentID']
         cgpa = request.form['cgpa']
         ucSupervisor = request.form['ucSupervisor']
-        ucSupervisorEmail = request.form['ucSupervisorEmail']
+
+        ucSupervisor_split = ucSupervisor.split(' ')
+        ucSuperName = ucSupervisor_split[0]
+        ucSuperEmail = ucSupervisor_split[1]
+
+        print(tutorialGrp, "a")
+        print(programmeSelect, "b")
 
         # Check if the email is already in the database.
         cursor = db_conn.cursor()
@@ -112,7 +118,7 @@ def register():
         if len(results) > 0:
             return render_template('register.html', studentID_error="The student ID is already in use.")
 
-        insert_sql = "INSERT INTO students VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+        insert_sql = "INSERT INTO students VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
         cursor = db_conn.cursor()
 
         try:
@@ -126,7 +132,8 @@ def register():
                                         programmeSelect,
                                         tutorialGrp,
                                         cgpa,
-                                        ucSupervisor
+                                        ucSuperName,
+                                        ucSuperEmail
                                         ))
             db_conn.commit()
             cursor.close()

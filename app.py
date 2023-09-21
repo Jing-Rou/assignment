@@ -534,6 +534,21 @@ def companyRegister():
         compEmail = request.form['compEmail']
         comPassword = request.form['comPassword']
 
+        # Fetch data from the database here
+        cursor = db_conn.cursor()
+        select_sql = "SELECT max(compID) FROM company"
+        cursor.execute(select_sql)
+        data = cursor.fetchone()  # Fetch a single row
+        data = data[0]
+
+        print(data)
+        if data == None:
+            compID = 'C' + str(10001)
+        else:
+            comp_no = int(data[1:]) + 1
+            compID = 'C' + str(comp_no)
+
+
         # Check if the email is already in the database.
         cursor = db_conn.cursor()
         cursor.execute("SELECT * FROM company WHERE compEmail=%s", (compEmail))
@@ -548,7 +563,8 @@ def companyRegister():
         cursor = db_conn.cursor()
 
         try:
-            cursor.execute(insert_sql, (compName,
+            cursor.execute(insert_sql, (compID,
+                                        compName,
                                         compEmail,
                                         comPassword,
                                         'pending'
@@ -626,8 +642,6 @@ def companyDashboard():
 # ------------------------------------------------------------------- Company END -------------------------------------------------------------------#
 
 # Define the route for admin registration
-
-
 @app.route("/adminRegister", methods=['GET', 'POST'])
 def adminRegister():
     if request.method == 'POST':

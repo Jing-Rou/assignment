@@ -504,9 +504,9 @@
                                 <div class="single-testimonial text-center">
                                     <!-- Testimonial Content -->
                                     <div class="testimonial-founder">
-                                        <div class="founder-img mb-30">
+                                        <div class="founder-img mb-30"> 
                                             <!-- Set the src attribute to the URL of the S3 object -->
-                                            <img src="{{ url_for('s3_image', filename=image_file) }}"
+                                            <img src="{{ my_bucket.meta.client.generate_presigned_url('get_object', Params={'Bucket': my_bucket.name, 'Key': 'Company/' + image_file}) }}"
                                                 alt="{{ image_file }}">
                                             <span>Margaret Lawson</span>
                                             <p>Creative Director</p>

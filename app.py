@@ -43,7 +43,7 @@ def index():
     bucket = s3.Bucket(custombucket)
     list_of_comp = getCompFiles(bucket, 'Company/')
     print(list_of_comp)
-    return render_template('index.html', image_files=list_of_comp)
+    return render_template('index.html', my_bucket=bucket, image_files=list_of_comp)
 
 @app.route('/s3_image/<path:filename>')
 def s3_image(filename):

@@ -24,6 +24,7 @@ db_conn = connections.Connection(
 output = {}
 table = 'students'
 
+
 def getCompFiles(path):
     contents = []
     folder_prefix = path
@@ -36,61 +37,71 @@ def getCompFiles(path):
         if (image.key.split('/')[1]):
             # Extract file name without the folder prefix
             file_name = image.key[len(folder_prefix):]
-            contents.append(bucket.meta.client.generate_presigned_url('get_object', Params={'Bucket': bucket.name, 'Key': path + file_name}, ExpiresIn=expiration))
+            contents.append(bucket.meta.client.generate_presigned_url('get_object', Params={
+                            'Bucket': bucket.name, 'Key': path + file_name}, ExpiresIn=expiration))
 
     return contents
+
 
 @app.route("/", methods=['GET'], endpoint='index')
 def index():
 
     list_of_comp = getCompFiles('Company/')
-    
+
     # retrive from database
     cursor = db_conn.cursor()
     select_sql = "SELECT c.compName, c.compProfile, j.job_title, j.comp_state, j.sal_range \
                  from company c \
                  JOIN jobApply j ON c.compName = j.comp_name \
                  where upper(c.compStatus) = 'PENDING'"
-    
+
     try:
         cursor.execute(select_sql)
         data = cursor.fetchall()  # Fetch a single row
         print(data)
 
     except Exception as e:
-        return str(e) 
+        return str(e)
 
     print(data)
-    return render_template('index.html', comp_data = data)
+    return render_template('index.html', comp_data=data)
+
 
 @app.route("/job_listing", methods=['GET'])
 def job_listing():
     # get approved company name
     return render_template('job_listing.html')
 
+
 @app.route("/about", methods=['GET'])
 def about():
     return render_template('about.html')
+
 
 @app.route("/blog", methods=['GET'])
 def blog():
     return render_template('blog.html')
 
+
 @app.route("/single_blog", methods=['GET'])
 def single_blog():
     return render_template('single_blog.html')
+
 
 @app.route("/elements", methods=['GET'])
 def elements():
     return render_template('elements.html')
 
+
 @app.route("/job_details", methods=['GET'])
 def job_details():
     return render_template('job_details.html')
 
+
 @app.route("/contact", methods=['GET'])
 def contact():
     return render_template('contact.html')
+
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
@@ -263,7 +274,7 @@ def login():
                                         WHERE l.lectEmail = %s"
                     cursor.execute(select_students_sql, (email,))
                     student_data = cursor.fetchall()
-                    
+
                     print(student_data)
                     return render_template('lectDashboard.html', lectID=lecturer_id, student_data=student_data)
                 else:
@@ -282,13 +293,27 @@ def studentDashboard():
     # Pass the studentID to the studentDashboard.html template
     return render_template('studentDashboard.html', studentID=student_id)
 
+
 @app.route("/studentProfile", methods=['GET'])
 def studentProfile():
     # Retrieve the studentID from the query parameters
-    # student_id = request.args.get('studentID')
+    student_id = request.args.get('studentID')
+
+    # retrive from database
+    cursor = db_conn.cursor()
+    select_sql = "SELECT * from students where studentID = %s"
+
+    try:
+        cursor.execute(select_sql, (student_id))
+        data = cursor.fetchall()  # Fetch a single row
+        print(data)
+
+    except Exception as e:
+        return str(e)
 
     # Pass the studentID to the studentDashboard.html template
-    return render_template('studentProfile.html')
+    return render_template('studentProfile.html', studentID=student_id, student_infor=data)
+
 
 @app.route("/form", methods=['GET', 'POST'])
 def form():
@@ -308,11 +333,11 @@ def form():
         letter = request.form.get('letterFormFileName', None)
         hire_evi = request.form.get('hireEviFileName', None)
 
-        # Uplaod image file in S3 
+        # Uplaod image file in S3
         s3 = boto3.resource('s3')
 
         # Create a folder or prefix for the files in S3
-        # submit form and store into student s3 
+        # submit form and store into student s3
         folder_name = 'Student/' + studID + "/" + "Form/"
 
         # Fetch data from the lecturer database
@@ -348,9 +373,11 @@ def form():
 
                     # Construct the key with the folder prefix and file name
                     # student
-                    stud_key = folder_name + filename[0] + form_list[ctr] + filename[1]
-                    #lecture
-                    lect_key = lect_folder_name + filename[0] + form_list[ctr] + filename[1]
+                    stud_key = folder_name + \
+                        filename[0] + form_list[ctr] + filename[1]
+                    # lecture
+                    lect_key = lect_folder_name + \
+                        filename[0] + form_list[ctr] + filename[1]
 
                     # Upload the file into the specified folder
                     # to student folder
@@ -359,7 +386,8 @@ def form():
                     s3.Bucket(custombucket).put_object(Key=lect_key, Body=file)
 
                     # Generate the object URL
-                    bucket_location = boto3.client('s3').get_bucket_location(Bucket=custombucket)
+                    bucket_location = boto3.client(
+                        's3').get_bucket_location(Bucket=custombucket)
                     s3_location = (bucket_location['LocationConstraint'])
 
                     if s3_location is None:
@@ -381,7 +409,7 @@ def form():
 
         if letter:
             list_files[2] = letter
-        
+
         if hire_evi:
             list_files[3] = hire_evi
 
@@ -393,6 +421,7 @@ def form():
     student_id = request.args.get('studentID')
 
     return render_template('form.html', studentID=student_id)
+
 
 def list_files(bucket, path):
     contents = []
@@ -411,6 +440,7 @@ def list_files(bucket, path):
             })
 
     return contents
+
 
 @app.route("/report", methods=['GET', 'POST'])
 def report():
@@ -445,15 +475,19 @@ def report():
             filename = reportForm_files.filename.split('.')
 
             # Construct the key with the folder prefix and file name
-            stud_key = folder_name + filename[0] + "_progress_report." + filename[1]
-            #lecture
-            lect_key = lect_folder_name + filename[0] + "_progress_report." + filename[1]
+            stud_key = folder_name + \
+                filename[0] + "_progress_report." + filename[1]
+            # lecture
+            lect_key = lect_folder_name + \
+                filename[0] + "_progress_report." + filename[1]
 
             # Upload the file into the specified folder
             # to student folder
-            s3.Bucket(custombucket).put_object(Key=stud_key, Body=reportForm_files)
+            s3.Bucket(custombucket).put_object(
+                Key=stud_key, Body=reportForm_files)
             # to lecturer folder
-            s3.Bucket(custombucket).put_object(Key=lect_key, Body=reportForm_files)
+            s3.Bucket(custombucket).put_object(
+                Key=lect_key, Body=reportForm_files)
 
             # Generate the object URL
             bucket_location = boto3.client(
@@ -489,6 +523,7 @@ def report():
 
     return render_template('report.html', my_bucket=bucket, studentID=studID, list_of_files=list_of_files)
 
+
 @app.route("/delete", methods=['POST'])
 def delete_file():
     if request.method == 'POST':
@@ -507,7 +542,7 @@ def delete_file():
         data = cursor.fetchone()  # Fetch a single row
 
         lecturerID = data[0]
-        
+
         stud_file_key = 'Student/' + studID + "/" + "report/" + file_key
         lect_file_key = 'Lecturer/' + lecturerID + "/" + studID + "/" + file_key
 
@@ -516,7 +551,7 @@ def delete_file():
             s3 = boto3.client('s3')
             s3.delete_object(Bucket=custombucket, Key=stud_file_key)
             s3.delete_object(Bucket=custombucket, Key=lect_file_key)
-            
+
             # Uplaod image file in S3
             s3 = boto3.resource('s3')
 
@@ -578,6 +613,7 @@ def lectLogin():
     data = cursor.fetchall()
     cursor.close()
     return render_template('lectLogin.html', lecturer=data)
+
 
 @app.route("/lectDashboard", methods=['GET'])
 def lectDashboard():
@@ -702,6 +738,8 @@ def companyDashboard():
 # ------------------------------------------------------------------- Company END -------------------------------------------------------------------#
 
 # Define the route for admin registration
+
+
 @app.route("/adminRegister", methods=['GET', 'POST'])
 def adminRegister():
     if request.method == 'POST':

@@ -375,7 +375,7 @@ def report():
         lecturerID = data[0]
 
         # submit form to lecturer
-        lect_folder_name = 'Lecturer/' + lecturerID + "/" + studID + "/"
+        lect_folder_name = 'Lecturer/' + lecturerID + "/" + studID + "/" + "report/"
 
         try:
             print("Data inserted in MySQL RDS... uploading image to S3...")

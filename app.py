@@ -247,9 +247,14 @@ def form():
         studID = request.form['studentID']
 
         uploaded_files = request.files.getlist('acceptanceForm') + \
-            request.files.getlist('parentForm') + \
-            request.files.getlist('letterForm') + \
-            request.files.getlist('hireEvi')
+                         request.files.getlist('parentForm') + \
+                         request.files.getlist('letterForm') + \
+                         request.files.getlist('hireEvi')
+        
+        comp_form = request.form['acceptanceFormFileName']
+        parent_form = request.form['parentFormFileName']
+        letter = request.form['letterFormFileName']
+        hire_evi = request.form['hireEviFileName']
 
         # Uplaod image file in S3 
         s3 = boto3.resource('s3')
@@ -280,9 +285,9 @@ def form():
             print("Data inserted in MySQL RDS... uploading image to S3...")
 
             for file in uploaded_files:
+                list_files.append(file.filename)
                 # if not empty
                 if file:
-                    list_files.append(file.filename)
 
                     filename = file.filename.split('.')
 
@@ -311,6 +316,18 @@ def form():
 
         except Exception as e:
             return str('bucket', str(e))
+
+        if comp_form:
+            list_files[0] = comp_form
+
+        if parent_form:
+            list_files[1] = parent_form
+
+        if letter:
+            list_files[2] = letter
+        
+        if hire_evi:
+            list_files[3] = hire_evi
 
         bucket = s3.Bucket(custombucket)
 

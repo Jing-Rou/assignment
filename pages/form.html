@@ -264,6 +264,7 @@
 									download="{{ list_of_files[1] }}">
 									{{ list_of_files[1] }}
 								</a>
+								<input type="hidden" name="parentFormFileName" id="parentFormFileName" value="{{ list_of_files[1] }}">
 								<i class="fas fa-trash trash-icon float-end" onclick="deleteFile1(this)"></i>
 
 								<script>
@@ -276,7 +277,7 @@
 										const container1 = trashIconElement.parentElement;
 
 										// Remove the file name, PDF icon, and trash icon, but exclude the input file element
-										const elementsToRemove = container1.querySelectorAll('i, a', 'i');
+										const elementsToRemove = container1.querySelectorAll('i, a, input');
 										elementsToRemove.forEach(function (element) {
 											if (element !== trashIconElement) {
 												container1.removeChild(element);
@@ -306,6 +307,7 @@
 									download="{{ list_of_files[2] }}">
 									{{ list_of_files[2] }}
 								</a>
+								<input type="hidden" name="letterFormFileName" id="letterFormFileName" value="{{ list_of_files[2] }}">
 								<i class="fas fa-trash trash-icon float-end" onclick="deleteFile3(this)"></i>
 
 								<script>
@@ -318,7 +320,7 @@
 										const container2 = trashIconElement.parentElement;
 
 										// Remove the file name, PDF icon, and trash icon, but exclude the input file element
-										const elementsToRemove = container2.querySelectorAll('i, a');
+										const elementsToRemove = container2.querySelectorAll('i, a, input');
 										elementsToRemove.forEach(function (element) {
 											if (element !== trashIconElement) {
 												container2.removeChild(element);
@@ -347,6 +349,7 @@
 									download="{{ list_of_files[3] }}">
 									{{ list_of_files[3] }}
 								</a>
+								<input type="hidden" name="hireEviFileName" id="hireEviFileName" value="{{ list_of_files[3] }}">
 								<i class="fas fa-trash trash-icon float-end" onclick="deleteFile4(this)"></i>
 
 								<script>
@@ -359,7 +362,7 @@
 										const container3 = trashIconElement.parentElement;
 
 										// Remove the file name, PDF icon, and trash icon, but exclude the input file element
-										const elementsToRemove = container3.querySelectorAll('i, a');
+										const elementsToRemove = container3.querySelectorAll('i, a, input');
 										elementsToRemove.forEach(function (element) {
 											if (element !== trashIconElement) {
 												container3.removeChild(element);

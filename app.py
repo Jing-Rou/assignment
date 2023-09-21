@@ -211,15 +211,14 @@ def login():
         elif role == 'Lecturer':
             # Fetch data from the database here
             cursor = db_conn.cursor()
-            select_sql = "SELECT lectEmail, password, lectName, lectID FROM lecturer WHERE lectEmail = %s"
+            select_sql = "SELECT lectEmail, password, lectID FROM lecturer WHERE lectEmail = %s"
             cursor.execute(select_sql, (email,))
             data = cursor.fetchone()  # Fetch a single row
 
             if data:
                 # Data is found in the database
                 stored_password = data[1]
-                name = data[2]
-                lecturer_id = data[3]
+                lecturer_id = data[2]
 
                 if password == stored_password:
                     # Passwords match, user is authenticated

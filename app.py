@@ -42,6 +42,10 @@ def about():
 def blog():
     return render_template('blog.html')
 
+@app.route("/single_blog", methods=['GET'])
+def single_blog():
+    return render_template('single_blog.html')
+
 @app.route("/job_details", methods=['GET'])
 def job_details():
     return render_template('job_details.html')

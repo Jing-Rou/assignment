@@ -283,10 +283,12 @@ def form():
                 list_files.append(file.filename)
 
                 filename = file.filename.split('.')
+                print(filename)
 
                 # Construct the key with the folder prefix and file name
                 # student
                 stud_key = folder_name + filename[0] + form_list[ctr] + filename[1]
+                print(stud_key)
                 #lecture
                 lect_key = lect_folder_name + filename[0] + form_list[ctr] + filename[1]
 
@@ -297,8 +299,7 @@ def form():
                 s3.Bucket(custombucket).put_object(Key=lect_key, Body=file)
 
                 # Generate the object URL
-                bucket_location = boto3.client(
-                    's3').get_bucket_location(Bucket=custombucket)
+                bucket_location = boto3.client('s3').get_bucket_location(Bucket=custombucket)
                 s3_location = (bucket_location['LocationConstraint'])
 
                 if s3_location is None:

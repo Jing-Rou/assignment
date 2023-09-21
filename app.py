@@ -291,7 +291,7 @@ def form():
                 print(file)
                 list_files.append(file.filename)
                 # if not empty
-                if file or file is not None:
+                if file and file is not None:
                     filename = file.filename.split('.')
 
                     # Construct the key with the folder prefix and file name

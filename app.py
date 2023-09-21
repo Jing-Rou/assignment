@@ -251,10 +251,10 @@ def form():
                          request.files.getlist('letterForm') + \
                          request.files.getlist('hireEvi')
         
-        comp_form = request.form['acceptanceFormFileName']
-        parent_form = request.form['parentFormFileName']
-        letter = request.form['letterFormFileName']
-        hire_evi = request.form['hireEviFileName']
+        comp_form = request.form.get('acceptanceFormFileName', None)
+        parent_form = request.form.get('parentFormFileName', None)
+        letter = request.form.get('letterFormFileName', None)
+        hire_evi = request.form.get('hireEviFileName', None)
 
         # Uplaod image file in S3 
         s3 = boto3.resource('s3')
@@ -317,6 +317,7 @@ def form():
         except Exception as e:
             return str('bucket', str(e))
 
+        print(comp_form)
         if comp_form:
             list_files[0] = comp_form
 

@@ -566,12 +566,13 @@ def companyRegister():
         select_sql = "SELECT max(compID) FROM company"
         cursor.execute(select_sql)
         data = cursor.fetchone()  # Fetch a single row
-        data = data[0]
+        data = str(data[0])
 
         print(data)
         if data == None:
             compID = 'C' + str(10001)
         else:
+            print(int(data[1:]))
             comp_no = int(data[1:]) + 1
             compID = 'C' + str(comp_no)
 

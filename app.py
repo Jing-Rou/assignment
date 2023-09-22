@@ -342,8 +342,6 @@ def studentProfile():
         data_list[12] = str(data_list[12])[:10]
         data = tuple(data_list)  # Convert the list back to a tuple
 
-        print(data)
-
     except Exception as e:
         return str(e)
 
@@ -365,7 +363,7 @@ def studentProfilePersonal():
     print(student_id)
     
     # Update database
-    update_sql = "UPDATE lecturer SET gender = %s, \
+    update_sql = "UPDATE students SET gender = %s, \
                                       ic = %s, \
                                       dob = %s, \
                                       contact = %s, \

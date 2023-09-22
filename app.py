@@ -759,9 +759,12 @@ def companyRegister():
         comPassword = request.form['comPassword']
         companyImage = request.files['companyImage']
         
-        print(companyImage.filename)
+        # Uplaod image file in S3
+        s3 = boto3.resource('s3')
+
+        bucket = s3.Bucket(custombucket)
+
         companyImageType = companyImage.filename.split('.')
-        print(companyImageType)
         compProfile = "https://" + bucket.name + ".s3.amazonaws.com/Company/" + compName + '.' + companyImageType[1]
         print(compProfile)
 
@@ -807,7 +810,6 @@ def companyRegister():
 
              # Uplaod image file in S3 #
             comp_image_file_name_in_s3 = "company-" + str(compName) + "_image_file"
-            s3 = boto3.resource('s3')
         
             try:
                 print("Data inserted in MySQL RDS... uploading image to S3...")

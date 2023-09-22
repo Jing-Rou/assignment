@@ -46,16 +46,16 @@
 		<div class="navcontainer">
             <nav class="nav">
                 <div class="nav-upper-options">
-                    <div class="nav-option option1">
+                    <div class="nav-option">
 						<img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210182148/Untitled-design-(29).png"
 							class="nav-img" alt="dashboard">
-						<h3><a style="color: white;" href="{{ url_for('companyDashboard')}}">Dashboard</a></h3> 
+						<h3><a href="{{ url_for('companyDashboard')}}">Dashboard</a></h3> 
                     </div>
 
-                    <div class="nav-option option2 ">
+                    <div class="nav-option option1 ">
 						<img src= "{{ url_for('static', filename='img/icon/jobApplicationicon.png') }}"
 							class="nav-img" alt="dashboard">
-						<h3><a href="{{ url_for('jobReg')}}">Job Application</a></h3>
+						<h3><a style="color: white;" href="{{ url_for('jobReg')}}">Job Application</a></h3>
                     </div>
 
                     <div class="nav-option logout">
@@ -90,11 +90,6 @@
                     <div class="form-container">
                         <form autocomplete="on" method="POST" enctype="multipart/form-data">
                             <div class="side-by-side">
-                                <label for="comp_name"><b>Company Name in FULL:</b></label>
-                                <textarea id="comp_name" name="comp_name" rows="2" cols="50"
-                                    placeholder="Eg: Tunku Abdul Rahman University of Management and Technology"
-                                    required></textarea>
-                                <br>
                                 <label for="job_title"><b>Job Title/Position:</b></label>
                                 <textarea id="job_title" name="job_title" rows="2" cols="50"
                                     placeholder="Eg: Data Science" required></textarea>

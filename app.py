@@ -834,6 +834,7 @@ def companyRegister():
                     s3_location,
                     custombucket,
                     comp_image_file_name_in_s3)
+                print(object_url)
                 return redirect(url_for('login'))  # Go to the dashboard after successful registration
             except Exception as e:
                 cursor.close()
@@ -858,7 +859,6 @@ def jobReg():
         contact_number = request.form['contact_number']
         comp_state = request.form['comp_state']
         compID = session.get('compID', None)
-        print(compID)
 
         # Fetch data from the database here
         cursor = db_conn.cursor()

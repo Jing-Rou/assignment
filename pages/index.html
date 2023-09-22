@@ -340,31 +340,33 @@
                     <div class="col-xl-10">
                         <!-- Loop through the image filenames -->
                         {% for data in comp_data %}
-                        <!-- single-job-content -->
-                        <div class="single-job-items mb-30">
-                            <div class="job-items">
-                                <div class="company-img">
-                                    <a href="{{ url_for('job_details') }}">
-                                        <img src="{{ data[1] }}"
-                                            alt="{{ data[1] }}">
-                                    </a>
+                            {% if loop.index <= 5 %}
+                                <!-- single-job-content -->
+                                <div class="single-job-items mb-30">
+                                    <div class="job-items">
+                                        <div class="company-img">
+                                            <a href="{{ url_for('job_details') }}">
+                                                <img src="{{ data[1] }}"
+                                                    alt="{{ data[1] }}">
+                                            </a>
+                                        </div>
+                                        <div class="job-tittle">
+                                            <a href="{{ url_for('job_details') }}">
+                                                <h4>{{ data[2] }}</h4>
+                                            </a>
+                                            <ul>
+                                                <li>{{ data[0] }}</li>
+                                                <li><i class="fas fa-map-marker-alt"></i>{{ data[3] }}</li>
+                                                <li>{{ data[4] }}</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="items-link f-right">
+                                        <a href="{{ url_for('job_details') }}">Full Time</a>
+                                        <span>7 hours ago</span>
+                                    </div>
                                 </div>
-                                <div class="job-tittle">
-                                    <a href="{{ url_for('job_details') }}">
-                                        <h4>{{ data[2] }}</h4>
-                                    </a>
-                                    <ul>
-                                        <li>{{ data[0] }}</li>
-                                        <li><i class="fas fa-map-marker-alt"></i>{{ data[3] }}</li>
-                                        <li>{{ data[4] }}</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="items-link f-right">
-                                <a href="{{ url_for('job_details') }}">Full Time</a>
-                                <span>7 hours ago</span>
-                            </div>
-                        </div>
+                            {% endif %}
                         {% endfor %}
                     </div>
                 </div>

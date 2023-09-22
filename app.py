@@ -4,7 +4,7 @@ import os
 import boto3
 from config import *
 from flask import send_from_directory
-import urllib.parse 
+import urllib.parse
 from urllib.parse import unquote_plus
 
 app = Flask(__name__)
@@ -40,7 +40,8 @@ def getCompFiles(path):
         if (image.key.split('/')[1]):
             # Extract file name without the folder prefix
             file_name = image.key[len(folder_prefix):]
-            contents.append("https://" + bucket.name + ".s3.amazonaws.com/Company/" + file_name)
+            contents.append("https://" + bucket.name +
+                            ".s3.amazonaws.com/Company/" + file_name)
 
     return contents
 
@@ -68,9 +69,22 @@ def index():
 
 @app.route("/job_listing", methods=['GET'])
 def job_listing():
-    # get approved company name
-    return render_template('job_listing.html')
+    # retrive from database
+    cursor = db_conn.cursor()
+    select_sql = "SELECT c.compName, c.compProfile, j.job_title, j.comp_state, j.sal_range \
+                 from company c \
+                 JOIN jobApply j ON c.compID = j.compID \
+                 where upper(c.compStatus) = 'APPROVED'"
 
+    try:
+        cursor.execute(select_sql)
+        data = cursor.fetchall()  # Fetch a single row
+        print(data)
+
+    except Exception as e:
+        return str(e)
+
+    return render_template('job_listing.html', comp_data=data)
 
 @app.route("/about", methods=['GET'])
 def about():
@@ -257,7 +271,7 @@ def login():
 
                 if password == stored_password:
                     session['user_login_name'] = name
-                    session['compID'] = data[3] 
+                    session['compID'] = data[3]
 
                     # Fetch job data from the database (assuming you have a SQL query for this)
                     select_sql = "SELECT * FROM jobApply J JOIN company C ON C.compID = J.compID WHERE C.compID = %s"
@@ -356,6 +370,7 @@ def studentProfile():
     # Pass the studentID to the studentDashboard.html template
     return render_template('studentProfile.html', studentID=student_id, student_infor=data)
 
+
 @app.route("/studentProfilePersonal", methods=['POST'])
 def studentProfilePersonal():
     # Get the form data from the request
@@ -369,7 +384,7 @@ def studentProfilePersonal():
     # Retrieve the studentID from the query parameters
     student_id = request.form.get('studentID')
     print(gender, nric, dob, contact, homeAdd, correspondenceAdd)
-    
+
     # Update database
     update_sql = "UPDATE students SET gender = %s, \
                                       ic = %s, \
@@ -381,7 +396,8 @@ def studentProfilePersonal():
     cursor = db_conn.cursor()
 
     try:
-        cursor.execute(update_sql, (gender, nric, dob, contact, homeAdd, correspondenceAdd, student_id))
+        cursor.execute(update_sql, (gender, nric, dob, contact,
+                       homeAdd, correspondenceAdd, student_id))
         db_conn.commit()
         cursor.close()
 
@@ -407,7 +423,8 @@ def studentProfilePersonal():
     except Exception as e:
         cursor.close()
         return str(e)  # Handle any database errors here
-    
+
+
 @app.route("/studentPersonal", methods=['POST'])
 def studentPersonal():
     # Get the form data from the request
@@ -418,7 +435,7 @@ def studentPersonal():
 
     # Retrieve the studentID from the query parameters
     student_id = request.form.get('studentID')
-    
+
     # Update database
     update_sql = "UPDATE students SET stud_email = %s, \
                                       programme = %s, \
@@ -428,7 +445,8 @@ def studentPersonal():
     cursor = db_conn.cursor()
 
     try:
-        cursor.execute(update_sql, (stud_email, programme, tutGroup, cgpa, student_id))
+        cursor.execute(update_sql, (stud_email, programme,
+                       tutGroup, cgpa, student_id))
         db_conn.commit()
         cursor.close()
 
@@ -454,6 +472,7 @@ def studentPersonal():
     except Exception as e:
         cursor.close()
         return str(e)  # Handle any database errors here
+
 
 @app.route("/form", methods=['GET', 'POST'])
 def form():
@@ -763,6 +782,7 @@ def lectDashboard():
 
 # ------------------------------------------------------------------- Company START (Wong Kar Yan) -------------------------------------------------------------------#
 
+
 @app.route("/companyRegister", methods=['GET', 'POST'])
 def companyRegister():
     if request.method == 'POST':
@@ -770,12 +790,13 @@ def companyRegister():
         compEmail = request.form['compEmail']
         comPassword = request.form['comPassword']
         companyImage = request.files['companyImage']
-        
+
         # Uplaod image file in S3
         s3 = boto3.resource('s3')
         bucket = s3.Bucket(custombucket)
-        compProfile = "https://" + bucket.name + ".s3.amazonaws.com/" + "company-" + compName + "_image_file"
-        
+        compProfile = "https://" + bucket.name + \
+            ".s3.amazonaws.com/" + "company-" + compName + "_image_file"
+
         # Fetch data from the database here
         cursor = db_conn.cursor()
         select_sql = "SELECT max(compID) FROM company"
@@ -798,16 +819,16 @@ def companyRegister():
         # If the email is already in the database, return an error message to the user and display it on the register.html page.
         if len(results) > 0:
             return render_template('compRegister.html', email_error="This company email is already in use.")
-        
+
         if companyImage.filename == "":
             return "Please select a file"
-        
+
         insert_sql = "INSERT INTO company VALUES (%s, %s, %s, %s, %s, %s)"
         cursor = db_conn.cursor()
-        
+
         try:
             cursor.execute(insert_sql, (compID,
-                                        compName, 
+                                        compName,
                                         compEmail,
                                         comPassword,
                                         'pending',
@@ -816,13 +837,16 @@ def companyRegister():
             db_conn.commit()
             cursor.close()
 
-             # Uplaod image file in S3 #
-            comp_image_file_name_in_s3 = "company-" + str(compName) + "_image_file"
-        
+            # Uplaod image file in S3 #
+            comp_image_file_name_in_s3 = "company-" + \
+                str(compName) + "_image_file"
+
             try:
                 print("Data inserted in MySQL RDS... uploading image to S3...")
-                s3.Bucket(custombucket).put_object(Key=comp_image_file_name_in_s3, Body=companyImage)
-                bucket_location = boto3.client('s3').get_bucket_location(Bucket=custombucket)
+                s3.Bucket(custombucket).put_object(
+                    Key=comp_image_file_name_in_s3, Body=companyImage)
+                bucket_location = boto3.client(
+                    's3').get_bucket_location(Bucket=custombucket)
                 s3_location = (bucket_location['LocationConstraint'])
 
                 if s3_location is None:
@@ -835,16 +859,18 @@ def companyRegister():
                     custombucket,
                     comp_image_file_name_in_s3)
                 print(object_url)
-                return redirect(url_for('login'))  # Go to the dashboard after successful registration
+                # Go to the dashboard after successful registration
+                return redirect(url_for('login'))
             except Exception as e:
                 cursor.close()
                 print(f"Error during database insertion: {e}")
                 return str(e)  # Handle any database errors here
-                
+
         finally:
             cursor.close()
-            
+
     return render_template('companyRegister.html')
+
 
 @app.route("/jobReg", methods=['GET', 'POST'])
 def jobReg():
@@ -876,7 +902,8 @@ def jobReg():
         insert_sql = "INSERT INTO jobApply VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
         cursor = db_conn.cursor()
 
-        cursor.execute(insert_sql, (job_id, compID, job_title, job_desc, job_req, sal_range, contact_person_name, contact_person_email, contact_number, comp_state))
+        cursor.execute(insert_sql, (job_id, compID, job_title, job_desc, job_req, sal_range,
+                       contact_person_name, contact_person_email, contact_number, comp_state))
         db_conn.commit()
         cursor.close()
 
@@ -898,6 +925,7 @@ def companyDashboard():
 
     return render_template('companyDashboard.html', user_login_name=name, job_data=job_data)
 
+
 def list_files(bucket, path_name):
 
     contents = []
@@ -906,10 +934,11 @@ def list_files(bucket, path_name):
         contents.append("https://wky-company.s3.amazonaws.com/" + image.key)
     return contents
 
+
 @app.route('/jobDetail/<string:user_login_name>/<string:job_name>', methods=['GET'])
 def jobDetail(user_login_name, job_name):
-    
-     # URL-decode the job_name to get the original string
+
+    # URL-decode the job_name to get the original string
     decoded_job_name = unquote_plus(job_name)
 
     # Fetch job details from the database using job_id
@@ -934,16 +963,18 @@ def jobDetail(user_login_name, job_name):
 
         # Update the row with the split description and requirement points
         row_with_description = list(row)
-        row_with_description[3] = description_points  # Assuming job_desc is in the third column (index 2)
-        row_with_description[4] = req_points  # Replace X with the appropriate index of job_req
-        
+        # Assuming job_desc is in the third column (index 2)
+        row_with_description[3] = description_points
+        # Replace X with the appropriate index of job_req
+        row_with_description[4] = req_points
+
         # Append the updated row to the new list
         job_data_with_description.append(tuple(row_with_description))
 
-    #here code for print the image 
+    # here code for print the image
     # Build the object key and URL
     comp_image_file_name_in_s3 = f"company-{urllib.parse.quote_plus(user_login_name)}_image_file"
-   
+
     # Uplaod image file in S3
     s3 = boto3.resource('s3')
 
@@ -958,9 +989,9 @@ def jobDetail(user_login_name, job_name):
 def edit_job(job_id):
 
     if request.method == 'POST':
-        
-        column = request.form.get('column') 
-        updated_value = request.form.get('updated_value')   
+
+        column = request.form.get('column')
+        updated_value = request.form.get('updated_value')
 
         if column == 'job_title':
 
@@ -1018,13 +1049,14 @@ def edit_job(job_id):
             cursor.execute(update_sql, (updated_value, job_id,))
             db_conn.commit()
             cursor.close()
-        
+
     # Redirect to a confirmation page or back to the job details page
     return redirect(url_for('companyDashboard'))
 
+
 @app.route('/delete_job/<string:job_id>', methods=['POST'])
 def delete_job(job_id):
-    
+
     delete_sql = "DELETE FROM jobApply WHERE job_id= %s"
     cursor = db_conn.cursor()
     cursor.execute(delete_sql, (job_id,))

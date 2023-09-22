@@ -399,6 +399,55 @@ def studentProfilePersonal():
     except Exception as e:
         cursor.close()
         return str(e)  # Handle any database errors here
+    
+@app.route("/studentPersonal", methods=['POST'])
+def studentPersonal():
+    # Get the form data from the request
+    stud_email = request.form.get('email')
+    programme = request.form.get('programme')
+    tutGroup = request.form.get('tutGroup')
+    cgpa = request.form.get('cgpa')
+    ucSupervisor = request.form.get('ucSupervisor')
+
+    # Retrieve the studentID from the query parameters
+    student_id = request.form.get('studentID')
+    
+    # Update database
+    update_sql = "UPDATE students SET stud_email = %s, \
+                                      programme = %s, \
+                                      tutGroup = %s, \
+                                      cgpa = %s, \
+                                      ucSupevisor = %s, \
+                  WHERE studentID = %s"
+    cursor = db_conn.cursor()
+
+    try:
+        cursor.execute(update_sql, (stud_email, programme, tutGroup, cgpa, ucSupervisor, student_id))
+        db_conn.commit()
+        cursor.close()
+
+        # retrive from database
+        cursor = db_conn.cursor()
+        select_sql = "SELECT * from students where studentID = %s"
+
+        try:
+            cursor.execute(select_sql, (student_id))
+            data = cursor.fetchall()  # Fetch a single row
+            data = data[0]
+
+            # Create a new list with the modified value
+            data_list = list(data)
+            data_list[12] = str(data_list[12])[:10]
+            data = tuple(data_list)  # Convert the list back to a tuple
+
+        except Exception as e:
+            return str(e)
+
+        # Pass the studentID to the studentDashboard.html template
+        return render_template('studentProfile.html', studentID=student_id, student_infor=data)
+    except Exception as e:
+        cursor.close()
+        return str(e)  # Handle any database errors here
 
 @app.route("/form", methods=['GET', 'POST'])
 def form():

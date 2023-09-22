@@ -178,7 +178,8 @@
                                             </div>
                                             <div class="col-sm-9">
                                                 <input type="text" id="genderField" name="genderField"
-                                                    class="text-muted" style="width: 100%;" value="{{ student_infor[3] }}" disabled>
+                                                    class="text-muted" style="width: 100%;"
+                                                    value="{{ student_infor[3] }}" disabled>
                                             </div>
                                         </div>
                                         <hr>
@@ -187,8 +188,8 @@
                                                 <p class="mb-0">NRIC No.</p>
                                             </div>
                                             <div class="col-sm-9">
-                                                <input type="text" class="text-muted" style="width: 100%;" id="nric" name="nric"
-                                                    value="{{ student_infor[6] }}" disabled>
+                                                <input type="text" class="text-muted" style="width: 100%;" id="nric"
+                                                    name="nric" value="{{ student_infor[6] }}" disabled>
                                             </div>
                                         </div>
                                         <hr>
@@ -197,8 +198,8 @@
                                                 <p class="mb-0">Date-of-Birth</p>
                                             </div>
                                             <div class="col-sm-9">
-                                                <input type="text" class="text-muted" style="width: 100%;" id="dob" name="dob"
-                                                    value="{{ student_infor[12] }}" disabled>
+                                                <input type="text" class="text-muted" style="width: 100%;" id="dob"
+                                                    name="dob" value="{{ student_infor[12] }}" disabled>
                                             </div>
                                         </div>
                                         <hr>
@@ -207,8 +208,8 @@
                                                 <p class="mb-0">Mobile No.</p>
                                             </div>
                                             <div class="col-sm-9">
-                                                <input type="text" class="text-muted" style="width: 100%;" id="contact" name="contact"
-                                                    value="{{ student_infor[13] }}" disabled>
+                                                <input type="text" class="text-muted" style="width: 100%;" id="contact"
+                                                    name="contact" value="{{ student_infor[13] }}" disabled>
                                             </div>
                                         </div>
                                         <hr>
@@ -217,8 +218,8 @@
                                                 <p class="mb-0">Home Address</p>
                                             </div>
                                             <div class="col-sm-9">
-                                                <input type="text" class="text-muted" style="width: 100%;" id="homeAdd" name="homeAdd"
-                                                    value="{{ student_infor[14] }}" disabled>
+                                                <input type="text" class="text-muted" style="width: 100%;" id="homeAdd"
+                                                    name="homeAdd" value="{{ student_infor[14] }}" disabled>
                                             </div>
                                         </div>
                                         <hr>
@@ -227,8 +228,9 @@
                                                 <p class="mb-0">Correspondence Address</p>
                                             </div>
                                             <div class="col-sm-9">
-                                                <input type="text" class="text-muted" style="width: 100%;" id="correspondenceAdd"
-                                                    name="correspondenceAdd" value="{{ student_infor[15] }}" disabled>
+                                                <input type="text" class="text-muted" style="width: 100%;"
+                                                    id="correspondenceAdd" name="correspondenceAdd"
+                                                    value="{{ student_infor[15] }}" disabled>
                                             </div>
                                         </div>
                                     </form>
@@ -239,129 +241,76 @@
                         </div>
 
                         <div class="col-lg-12">
+                            <!-- Header with light grey background -->
+                            <div
+                                style="background-color: #f5f5f5; padding: 2px 10px; border-top-left-radius: 5px; border-top-right-radius: 5px;">
+                                <h5 class="d-flex align-items-center justify-content-between my-3">
+                                    Student Particulars
+                                    <button class="btn btn-link" style="color: #00A65A; cursor: pointer;"
+                                        id="editStudentButton">Edit</button>
+                                </h5>
+                            </div>
                             <div class="card mb-4">
                                 <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-sm-3">
-                                            <p class="mb-0">Email</p>
+                                    <form id="profileFormStudent" method="POST" action="/studentPersonal">
+                                        <input type="hidden" name="studentID" id="studentID" value="{{ studentID }}">
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <p class="mb-0">Email</p>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="text-muted" style="width: 100%;" id="email"
+                                                    name="email" value="{{ student_infor[4] }}" disabled>
+                                            </div>
                                         </div>
-                                        <div class="col-sm-9">
-                                            <p class="text-muted mb-0"><i class="fa-solid fa-envelope"></i> {{
-                                                student_infor[4] }}</p>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <p class="mb-0">Programme</p>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="text-muted" style="width: 100%;"
+                                                    id="programme" name="programme" value="{{ student_infor[7] }}"
+                                                    disabled>
+                                            </div>
                                         </div>
-                                    </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <p class="mb-0">Tutorial Group</p>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="text-muted" style="width: 100%;" id="tutGroup"
+                                                    name="tutGroup" value="{{ student_infor[8] }}" disabled>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <p class="mb-0">CGPA</p>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="text-muted" style="width: 100%;" id="cgpa"
+                                                    name="cgpa" value="{{ student_infor[9] }}" disabled>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <p class="mb-0">UC Supervisor</p>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="text-muted" style="width: 100%;"
+                                                    id="ucSupervisor" name="ucSupervisor"
+                                                    value="{{ student_infor[10] }}" disabled>
+                                            </div>
+                                        </div>
+                                    </form>
                                     <hr>
-                                    <div class="row">
-                                        <div class="col-sm-3">
-                                            <p class="mb-0">Programme</p>
-                                        </div>
-                                        <div class="col-sm-9">
-                                            <p class="text-muted mb-0">{{ student_infor[7] }}</p>
-                                        </div>
-                                    </div>
-                                    <hr>
-                                    <div class="row">
-                                        <div class="col-sm-3">
-                                            <p class="mb-0">Tutorial Group</p>
-                                        </div>
-                                        <div class="col-sm-9">
-                                            <p class="text-muted mb-0">{{ student_infor[8] }}</p>
-                                        </div>
-                                    </div>
-                                    <hr>
-                                    <div class="row">
-                                        <div class="col-sm-3">
-                                            <p class="mb-0">CGPA</p>
-                                        </div>
-                                        <div class="col-sm-9">
-                                            <p class="text-muted mb-0">{{ student_infor[9] }}</p>
-                                        </div>
-                                    </div>
-                                    <hr>
-                                    <div class="row">
-                                        <div class="col-sm-3">
-                                            <p class="mb-0">UC Supervisor</p>
-                                        </div>
-                                        <div class="col-sm-9">
-                                            <p class="text-muted mb-0">{{ student_infor[10] }}</p>
-                                        </div>
-                                    </div>
+                                    <button id="saveStudentButton" type="button" class="btn btn-primary">Save</button>
                                 </div>
                             </div>
                         </div>
-
-                        <!-- <div class="row">
-                                <div class="col-md-6">
-                                    <div class="card mb-4 mb-md-0">
-                                        <div class="card-body">
-                                            <p class="mb-4"><span class="text-primary font-italic me-1">assigment</span>
-                                                Project
-                                                Status
-                                            </p>
-                                            <p class="mb-1" style="font-size: .77rem;">Web Design</p>
-                                            <div class="progress rounded" style="height: 5px;">
-                                                <div class="progress-bar" role="progressbar" style="width: 80%"
-                                                    aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-                                            </div>
-                                            <p class="mt-4 mb-1" style="font-size: .77rem;">Website Markup</p>
-                                            <div class="progress rounded" style="height: 5px;">
-                                                <div class="progress-bar" role="progressbar" style="width: 72%"
-                                                    aria-valuenow="72" aria-valuemin="0" aria-valuemax="100"></div>
-                                            </div>
-                                            <p class="mt-4 mb-1" style="font-size: .77rem;">One Page</p>
-                                            <div class="progress rounded" style="height: 5px;">
-                                                <div class="progress-bar" role="progressbar" style="width: 89%"
-                                                    aria-valuenow="89" aria-valuemin="0" aria-valuemax="100"></div>
-                                            </div>
-                                            <p class="mt-4 mb-1" style="font-size: .77rem;">Mobile Template</p>
-                                            <div class="progress rounded" style="height: 5px;">
-                                                <div class="progress-bar" role="progressbar" style="width: 55%"
-                                                    aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
-                                            </div>
-                                            <p class="mt-4 mb-1" style="font-size: .77rem;">Backend API</p>
-                                            <div class="progress rounded mb-2" style="height: 5px;">
-                                                <div class="progress-bar" role="progressbar" style="width: 66%"
-                                                    aria-valuenow="66" aria-valuemin="0" aria-valuemax="100"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="card mb-4 mb-md-0">
-                                        <div class="card-body">
-                                            <p class="mb-4"><span class="text-primary font-italic me-1">assigment</span>
-                                                Project
-                                                Status
-                                            </p>
-                                            <p class="mb-1" style="font-size: .77rem;">Web Design</p>
-                                            <div class="progress rounded" style="height: 5px;">
-                                                <div class="progress-bar" role="progressbar" style="width: 80%"
-                                                    aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-                                            </div>
-                                            <p class="mt-4 mb-1" style="font-size: .77rem;">Website Markup</p>
-                                            <div class="progress rounded" style="height: 5px;">
-                                                <div class="progress-bar" role="progressbar" style="width: 72%"
-                                                    aria-valuenow="72" aria-valuemin="0" aria-valuemax="100"></div>
-                                            </div>
-                                            <p class="mt-4 mb-1" style="font-size: .77rem;">One Page</p>
-                                            <div class="progress rounded" style="height: 5px;">
-                                                <div class="progress-bar" role="progressbar" style="width: 89%"
-                                                    aria-valuenow="89" aria-valuemin="0" aria-valuemax="100"></div>
-                                            </div>
-                                            <p class="mt-4 mb-1" style="font-size: .77rem;">Mobile Template</p>
-                                            <div class="progress rounded" style="height: 5px;">
-                                                <div class="progress-bar" role="progressbar" style="width: 55%"
-                                                    aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
-                                            </div>
-                                            <p class="mt-4 mb-1" style="font-size: .77rem;">Backend API</p>
-                                            <div class="progress rounded mb-2" style="height: 5px;">
-                                                <div class="progress-bar" role="progressbar" style="width: 66%"
-                                                    aria-valuenow="66" aria-valuemin="0" aria-valuemax="100"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> -->
                     </div>
                     {% endif %}
                 </div>
@@ -456,16 +405,6 @@
         const saveButton = document.getElementById("saveButton");
         const profileForm = document.getElementById("profileForm");
 
-        // Store the initial values when the page loads
-        let initialValues = {
-            gender: genderField.value,
-            nric: nricField.value,
-            dob: dobField.value,
-            contact: contactField.value,
-            homeAdd: homeAddField.value,
-            correspondenceAdd: correspondenceAddField.value,
-        };
-
         editButton.addEventListener("click", function () {
             if (editButton.textContent === "Edit") {
                 // Enable all input fields
@@ -499,14 +438,6 @@
         });
 
         saveButton.addEventListener("click", function () {
-            // Update the form values with the re-entered values
-            // genderField.value = initialValues.gender;
-            // nricField.value = initialValues.nric;
-            // dobField.value = initialValues.dob;
-            // contactField.value = initialValues.contact;
-            // homeAddField.value = initialValues.homeAdd;
-            // correspondenceAddField.value = initialValues.correspondenceAdd;
-
             // Submit the form when the Save button is clicked
             profileForm.submit();
 
@@ -523,6 +454,65 @@
 
             // Hide the Save button
             saveButton.style.display = "none";
+        });
+    </script>
+
+    <script>
+        const editStudentButton = document.getElementById("editStudentButton");
+        const emailField = document.getElementById("email");
+        const programmeField = document.getElementById("programme");
+        const tutGroupField = document.getElementById("tutGroup");
+        const cgpaField = document.getElementById("cgpa");
+        const ucSupervisorField = document.getElementById("ucSupervisor");
+        const saveStudentButton = document.getElementById("saveStudentButton");
+        const profileFormStudent = document.getElementById("profileFormStudent");
+
+        editButton.addEventListener("click", function () {
+            if (editButton.textContent === "Edit") {
+                // Enable all input fields
+                emailField.disabled = false;
+                programmeField.disabled = false;
+                tutGroupField.disabled = false;
+                cgpaField.disabled = false;
+                ucSupervisorField.disabled = false;
+
+                // Change button text to "Cancel"
+                editStudentButton.textContent = "Cancel";
+
+                // Show the Save button
+                saveStudentButton.style.display = "block";
+            } else {
+                // Reset fields and disable them
+                emailField.disabled = true;
+                programmeField.disabled = true;
+                tutGroupField.disabled = true;
+                cgpaField.disabled = true;
+                ucSupervisorField.disabled = true;
+
+                // Change button text back to "Edit"
+                editStudentButton.textContent = "Edit";
+
+                // Hide the Save button
+                saveStudentButton.style.display = "none";
+            }
+        });
+
+        saveStudentButton.addEventListener("click", function () {
+            // Submit the form when the Save button is clicked
+            profileFormStudent.submit();
+
+            // Disable all input fields
+            emailField.disabled = true;
+            programmeField.disabled = true;
+            tutGroupField.disabled = true;
+            contactField.disabled = true;
+            ucSupervisorField.disabled = true;
+
+            // Change button text back to "Edit"
+            editStudentButton.textContent = "Edit";
+
+            // Hide the Save button
+            saveStudentButton.style.display = "none";
         });
     </script>
 

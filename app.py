@@ -360,7 +360,7 @@ def studentProfilePersonal():
 
     # Retrieve the studentID from the query parameters
     student_id = request.form.get('studentID')
-    print(student_id)
+    print(gender, nric, dob, contact, homeAdd, correspondenceAdd)
     
     # Update database
     update_sql = "UPDATE students SET gender = %s, \

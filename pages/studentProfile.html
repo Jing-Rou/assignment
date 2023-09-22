@@ -160,8 +160,8 @@
                                 style="background-color: #f5f5f5; padding: 2px 10px; border-top-left-radius: 5px; border-top-right-radius: 5px;">
                                 <h5 class="d-flex align-items-center justify-content-between my-3">
                                     Personal Particulars
-                                    <i class="fas fa-edit" style="color: #00A65A; cursor: pointer;" id="editIcon"></i>
-                                    <!-- Edit icon in light green color -->
+                                    <button class="btn btn-link" style="color: #00A65A; cursor: pointer;"
+                                        id="editButton">Edit</button>
                                 </h5>
                             </div>
                             <div class="card mb-4">
@@ -193,8 +193,7 @@
                                             </div>
                                             <div class="col-sm-9">
                                                 <input type="text" class="text-muted" id="dob" name="dob"
-                                                    value="{{ student_infor[12] }}"
-                                                    disabled>
+                                                    value="{{ student_infor[12] }}" disabled>
                                             </div>
                                         </div>
                                         <hr>
@@ -443,7 +442,7 @@
     </script>
 
     <script>
-        const editIcon = document.getElementById("editIcon");
+        const editButton = document.getElementById("editButton");
         const genderField = document.getElementById("genderField");
         const nricField = document.getElementById("nric");
         const dobField = document.getElementById("dob");
@@ -452,17 +451,36 @@
         const correspondenceAddField = document.getElementById("correspondenceAdd");
         const saveButton = document.getElementById("saveButton");
 
-        editIcon.addEventListener("click", function () {
-            // Enable all input fields
-            genderField.disabled = false;
-            nricField.disabled = false;
-            dobField.disabled = false;
-            contactField.disabled = false;
-            homeAddField.disabled = false;
-            correspondenceAddField.disabled = false;
+        editButton.addEventListener("click", function () {
+            if (editButton.textContent === "Edit") {
+                // Enable all input fields
+                genderField.disabled = false;
+                nricField.disabled = false;
+                dobField.disabled = false;
+                contactField.disabled = false;
+                homeAddField.disabled = false;
+                correspondenceAddField.disabled = false;
 
-            // Show the Save button
-            saveButton.style.display = "block";
+                // Change button text to "Cancel"
+                editButton.textContent = "Cancel";
+
+                // Show the Save button
+                saveButton.style.display = "block";
+            } else {
+                // Reset fields and disable them
+                genderField.disabled = true;
+                nricField.disabled = true;
+                dobField.disabled = true;
+                contactField.disabled = true;
+                homeAddField.disabled = true;
+                correspondenceAddField.disabled = true;
+
+                // Change button text back to "Edit"
+                editButton.textContent = "Edit";
+
+                // Hide the Save button
+                saveButton.style.display = "none";
+            }
         });
 
         saveButton.addEventListener("click", function () {
@@ -477,10 +495,14 @@
             homeAddField.disabled = true;
             correspondenceAddField.disabled = true;
 
+            // Change button text back to "Edit"
+            editButton.textContent = "Edit";
+
             // Hide the Save button
             saveButton.style.display = "none";
         });
     </script>
+
 </body>
 
 </html>

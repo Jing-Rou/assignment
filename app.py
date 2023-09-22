@@ -33,15 +33,12 @@ def getCompFiles(path):
 
     s3 = boto3.resource('s3')
     bucket = s3.Bucket(custombucket)
-    print(bucket)
     expiration = 315360000  # 10 years in seconds
-
     for image in bucket.objects.filter(Prefix=folder_prefix):
         if (image.key.split('/')[1]):
             # Extract file name without the folder prefix
             file_name = image.key[len(folder_prefix):]
-            contents.append(bucket.meta.client.generate_presigned_url('get_object', Params={
-                            'Bucket': bucket.name, 'Key': path + file_name}, ExpiresIn=expiration))
+            contents.append("https://" + bucket.name + ".s3.amazonaws.com/Company/" + file_name)
 
     return contents
 
@@ -56,7 +53,7 @@ def index():
     select_sql = "SELECT c.compName, c.compProfile, j.job_title, j.comp_state, j.sal_range \
                  from company c \
                  JOIN jobApply j ON c.compName = j.compID \
-                 where upper(c.compStatus) = 'PENDING'"
+                 where upper(c.compStatus) = 'APPROVED'"
 
     try:
         cursor.execute(select_sql)

@@ -766,7 +766,6 @@ def companyRegister():
 
         companyImageType = companyImage.filename.split('.')
         compProfile = "https://" + bucket.name + ".s3.amazonaws.com/Company/" + compName + '.' + companyImageType[1]
-        print(compProfile)
 
         # Fetch data from the database here
         cursor = db_conn.cursor()
@@ -775,7 +774,6 @@ def companyRegister():
         data = cursor.fetchone()  # Fetch a single row
         data = str(data[0])
 
-        print(data)
         if data == None:
             compID = 'C' + str(10001)
         else:
@@ -795,7 +793,7 @@ def companyRegister():
         if companyImage.filename == "":
             return "Please select a file"
         
-        insert_sql = "INSERT INTO company VALUES (%s, %s, %s, %s, %s)"
+        insert_sql = "INSERT INTO company VALUES (%s, %s, %s, %s, %s, %s)"
         cursor = db_conn.cursor()
         
         try:
@@ -803,7 +801,8 @@ def companyRegister():
                                         compName, 
                                         compEmail,
                                         comPassword,
-                                        'pending'
+                                        'pending',
+                                        compProfile
                                         ))
             db_conn.commit()
             cursor.close()

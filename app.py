@@ -876,6 +876,7 @@ def jobReg():
 def companyDashboard():
 
     name = session.get('user_login_name', None)
+    print(name)
     # Fetch job data from the database (assuming you have a SQL query for this)
     select_sql = "SELECT * FROM jobApply J JOIN company C ON C.compID = J.compID WHERE C.compName = %s"
     cursor = db_conn.cursor()

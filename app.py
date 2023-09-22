@@ -349,6 +349,7 @@ def studentProfile():
         data = cursor.fetchall()  # Fetch a single row
         data = data[0]
         data[12] = str(data[12])[:10]
+        print(data)
 
     except Exception as e:
         return str(e)

@@ -348,7 +348,7 @@ def studentProfile():
         cursor.execute(select_sql, (student_id))
         data = cursor.fetchall()  # Fetch a single row
         data = data[0]
-        print(data[12][0:10])
+        print(str(data[12])[:10])
 
     except Exception as e:
         return str(e)

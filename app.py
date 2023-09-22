@@ -867,7 +867,7 @@ def jobReg():
         db_conn.commit()
         cursor.close()
 
-    compID = request.form['compID']
+    compID = student_id = request.args.get('compID')
 
     return render_template('jobReg.html', compID=compID)
 

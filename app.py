@@ -122,9 +122,15 @@ def register():
         ucSuperName = ucSupervisor_split[0]
         ucSuperEmail = ucSupervisor_split[1]
 
+        # Fetch data from the database here
+        cursor = db_conn.cursor()
+        select_sql = "SELECT lectName, lectEmail FROM lecturer"
+        cursor.execute(select_sql)
+        data = cursor.fetchall()  # Fetch a single row
+
         # If the email is already in the database, return an error message to the user and display it on the register.html page.
         if len(ic) != 12:
-            return render_template('register.html', ic_error="Invalid IC number")
+            return render_template('register.html', ic_error="Invalid IC number", list_of_lect=data)
 
         # Check if the email is already in the database.
         cursor = db_conn.cursor()
@@ -134,7 +140,7 @@ def register():
 
         # If the email is already in the database, return an error message to the user and display it on the register.html page.
         if len(results) > 0:
-            return render_template('register.html', email_error="The email is already in use.")
+            return render_template('register.html', email_error="The email is already in use.", list_of_lect=data)
 
         # Otherwise, check if the IC is already in the database.
         cursor = db_conn.cursor()
@@ -144,7 +150,7 @@ def register():
 
         # If the IC is already in the database, return an error message to the user and display it on the register.html page.
         if len(results) > 0:
-            return render_template('register.html', ic_error="The IC is already in use.")
+            return render_template('register.html', ic_error="The IC is already in use.", list_of_lect=data)
 
         # Otherwise, check if the student ID is already in the database.
         cursor = db_conn.cursor()
@@ -155,7 +161,7 @@ def register():
 
         # If the student ID is already in the database, return an error message to the user and display it on the register.html page.
         if len(results) > 0:
-            return render_template('register.html', studentID_error="The student ID is already in use.")
+            return render_template('register.html', studentID_error="The student ID is already in use.", list_of_lect=data)
         
         # Extract the birthdate portion from the IC number
         birthdate_part = ic[:6]
@@ -207,7 +213,6 @@ def register():
     select_sql = "SELECT lectName, lectEmail FROM lecturer"
     cursor.execute(select_sql)
     data = cursor.fetchall()  # Fetch a single row
-    print(data)
 
     return render_template('register.html', list_of_lect=data)
 

@@ -193,7 +193,8 @@
                                             </div>
                                             <div class="col-sm-9">
                                                 <input type="text" class="text-muted" id="dob" name="dob"
-                                                    value="{{ student_infor[12] | default('') | slice(0, 10) }}" disabled>
+                                                    value="{{ student_infor[12] }}"
+                                                    disabled>
                                             </div>
                                         </div>
                                         <hr>
@@ -228,7 +229,8 @@
                                         </div>
                                     </form>
                                     <hr>
-                                    <button id="saveButton" type="button" class="btn btn-primary">Save</button>
+                                    <button id="saveButton" type="button" class="btn btn-primary"
+                                        style="display: none;">Save</button>
                                 </div>
                             </div>
                         </div>

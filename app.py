@@ -862,16 +862,16 @@ def jobReg():
 
         # Fetch data from the database here
         cursor = db_conn.cursor()
-        select_sql = "SELECT max(job_id) FROM company"
+        select_sql = "SELECT max(job_id) FROM jobApply"
         cursor.execute(select_sql)
         data = cursor.fetchone()  # Fetch a single row
         data = str(data[0])
 
         if data == None:
-            job_id = 'C' + str(10001)
+            job_id = 'J' + str(10001)
         else:
-            comp_no = int(data[1:]) + 1
-            job_id = 'C' + str(comp_no)
+            job_id = int(data[1:]) + 1
+            job_id = 'J' + str(job_id)
 
         insert_sql = "INSERT INTO jobApply VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
         cursor = db_conn.cursor()

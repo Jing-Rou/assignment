@@ -362,6 +362,7 @@ def studentProfilePersonal():
 
     # Retrieve the studentID from the query parameters
     student_id = request.args.get('studentID')
+    print(student_id)
     
     # Update database
     update_sql = "UPDATE lecturer SET gender = %s, \

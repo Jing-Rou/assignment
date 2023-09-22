@@ -175,7 +175,8 @@ def register():
         
         dob = f"{year:04}-{month:02}-{day:02}"
 
-        insert_sql = "INSERT INTO students VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+        insert_sql = "INSERT INTO students (studentID, firstName, lastName, gender, stud_email, password, ic, programme, tutGroup, cgpa, ucSupevisor, ucSuperEmail, dob) \
+                      VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
         cursor = db_conn.cursor()
 
         try:

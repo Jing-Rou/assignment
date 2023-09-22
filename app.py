@@ -757,8 +757,8 @@ def lectDashboard():
 
 # ------------------------------------------------------------------- Company START (Wong Kar Yan) -------------------------------------------------------------------#
 
-@app.route("/compRegister", methods=['GET', 'POST'])
-def compRegister():
+@app.route("/companyRegister", methods=['GET', 'POST'])
+def companyRegister():
     if request.method == 'POST':
         compName = request.form['compName']
         compEmail = request.form['compEmail']

@@ -256,6 +256,7 @@ def login():
                 name = data[2]
 
                 if password == stored_password:
+                    session['user_login_name'] = name
                     # Passwords match, user is authenticated
                     return render_template('companyDashboard.html')
                 else:

@@ -886,6 +886,22 @@ def jobReg():
         comp_state = request.form['comp_state']
         compID = session.get('compID', None)
 
+        cursor = db_conn.cursor()
+        select_sql = "SELECT c.compStatus \
+                    from company \
+                    where upper(c.compID) = %s"
+
+        try:
+            cursor.execute(select_sql, (compID))
+            data = cursor.fetchone()  # Fetch a single row
+            print(data)
+
+            if (data[0]) != 'APPROVED': 
+                return render_template('jobReg.html', jobRegError='sorry you\'re not allowed to post any job applicants')
+            
+        except Exception as e:
+            return str(e)
+
         # Fetch data from the database here
         cursor = db_conn.cursor()
         select_sql = "SELECT max(job_id) FROM jobApply"

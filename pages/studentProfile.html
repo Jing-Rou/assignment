@@ -37,7 +37,7 @@
             background-color: white;
         }
 
-        #saveButton{
+        #saveButton {
             display: none;
         }
     </style>
@@ -453,6 +453,17 @@
         const homeAddField = document.getElementById("homeAdd");
         const correspondenceAddField = document.getElementById("correspondenceAdd");
         const saveButton = document.getElementById("saveButton");
+        const profileForm = document.getElementById("profileForm");
+
+        // Store the initial values when the page loads
+        let initialValues = {
+            gender: genderField.value,
+            nric: nricField.value,
+            dob: dobField.value,
+            contact: contactField.value,
+            homeAdd: homeAddField.value,
+            correspondenceAdd: correspondenceAddField.value,
+        };
 
         editButton.addEventListener("click", function () {
             if (editButton.textContent === "Edit") {
@@ -487,8 +498,16 @@
         });
 
         saveButton.addEventListener("click", function () {
+            // Update the form values with the re-entered values
+            genderField.value = initialValues.gender;
+            nricField.value = initialValues.nric;
+            dobField.value = initialValues.dob;
+            contactField.value = initialValues.contact;
+            homeAddField.value = initialValues.homeAdd;
+            correspondenceAddField.value = initialValues.correspondenceAdd;
+
             // Submit the form when the Save button is clicked
-            document.getElementById("profileForm").submit();
+            profileForm.submit();
 
             // Disable all input fields
             genderField.disabled = true;

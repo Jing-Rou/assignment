@@ -323,7 +323,7 @@ def studentDashboard():
     return render_template('studentDashboard.html', studentID=student_id)
 
 
-@app.route("/studentProfile", methods=['GET'])
+@app.route("/studentProfile", methods=['GET', 'POST'])
 def studentProfile():
     if request.method == 'POST':
         # Get the form data from the request
@@ -348,7 +348,7 @@ def studentProfile():
         cursor.execute(select_sql, (student_id))
         data = cursor.fetchall()  # Fetch a single row
         data = data[0]
-        
+
         # Create a new list with the modified value
         data_list = list(data)
         data_list[12] = str(data_list[12])[:10]

@@ -36,6 +36,10 @@
         input[type="text"]:disabled {
             background-color: white;
         }
+
+        #saveButton{
+            display: none;
+        }
     </style>
 </head>
 
@@ -203,7 +207,7 @@
                                             </div>
                                             <div class="col-sm-9">
                                                 <input type="text" class="text-muted" id="contact" name="contact"
-                                                    value="{{ student_infor[12]}}" disabled>
+                                                    value="" disabled>
                                             </div>
                                         </div>
                                         <hr>
@@ -213,7 +217,7 @@
                                             </div>
                                             <div class="col-sm-9">
                                                 <input type="text" class="text-muted" d="homeAdd" name="homeAdd"
-                                                    value="{{ student_infor[12]}}" disabled>
+                                                    value="-" disabled>
                                             </div>
                                         </div>
                                         <hr>
@@ -223,13 +227,12 @@
                                             </div>
                                             <div class="col-sm-9">
                                                 <input type="text" class="text-muted" d="correspondenceAdd"
-                                                    name="correspondenceAdd" value="{{ student_infor[12]}}" disabled>
+                                                    name="correspondenceAdd" value="-" disabled>
                                             </div>
                                         </div>
                                     </form>
                                     <hr>
-                                    <button id="saveButton" type="button" class="btn btn-primary"
-                                        style="display: none;">Save</button>
+                                    <button id="saveButton" type="button" class="btn btn-primary">Save</button>
                                 </div>
                             </div>
                         </div>

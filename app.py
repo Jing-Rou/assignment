@@ -45,9 +45,6 @@ def getCompFiles(path):
 
 @app.route("/", methods=['GET'], endpoint='index')
 def index():
-
-    list_of_comp = getCompFiles('Company/')
-
     # retrive from database
     cursor = db_conn.cursor()
     select_sql = "SELECT c.compName, c.compProfile, j.job_title, j.comp_state, j.sal_range \
@@ -761,6 +758,11 @@ def companyRegister():
         compEmail = request.form['compEmail']
         comPassword = request.form['comPassword']
         companyImage = request.files['companyImage']
+
+        companyImageType = companyImage.split('.')
+        print(companyImageType)
+        compProfile = "https://" + bucket.name + ".s3.amazonaws.com/Company/" + compName + '.' + companyImageType[1]
+        print(compProfile)
 
         # Fetch data from the database here
         cursor = db_conn.cursor()

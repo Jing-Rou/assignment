@@ -33,6 +33,7 @@ def getCompFiles(path):
 
     s3 = boto3.resource('s3')
     bucket = s3.Bucket(custombucket)
+    print(bucket)
     expiration = 315360000  # 10 years in seconds
 
     for image in bucket.objects.filter(Prefix=folder_prefix):
@@ -260,7 +261,7 @@ def login():
 
                 if password == stored_password:
                     # Passwords match, user is authenticated
-                    return render_template('companyDashboard.html', user_authenticated=True)
+                    return render_template('companyDashboard.html')
                 else:
                     return render_template('login.html', pwd_error="Incorrect password. Please try again.")
             else:
@@ -306,7 +307,6 @@ def login():
                     cursor.execute(select_students_sql, (email,))
                     student_data = cursor.fetchall()
 
-                    print(student_data)
                     return render_template('lectDashboard.html', lectID=lecturer_id, student_data=student_data)
                 else:
                     return render_template('login.html', pwd_error="Incorrect password. Please try again.")

@@ -122,6 +122,10 @@ def register():
         ucSuperName = ucSupervisor_split[0]
         ucSuperEmail = ucSupervisor_split[1]
 
+        # If the email is already in the database, return an error message to the user and display it on the register.html page.
+        if len(ic) != 12:
+            return render_template('register.html', ic_error="Invalid IC number")
+
         # Check if the email is already in the database.
         cursor = db_conn.cursor()
         cursor.execute("SELECT * FROM students WHERE stud_email=%s", (email))
@@ -152,8 +156,26 @@ def register():
         # If the student ID is already in the database, return an error message to the user and display it on the register.html page.
         if len(results) > 0:
             return render_template('register.html', studentID_error="The student ID is already in use.")
+        
+        # Extract the birthdate portion from the IC number
+        birthdate_part = ic[:6]
+        
+        # Parse the birthdate in YYMMDD format
+        year = int(birthdate_part[:2])
+        month = int(birthdate_part[2:4])
+        day = int(birthdate_part[4:])
+        
+        # Convert to a full date of birth
+        # Assumption: This code assumes the IC number represents birthdates from 1900 to 2099
+        if year >= 0 and year <= 99:
+            if year >= 0 and year <= 30:
+                year += 2000
+            else:
+                year += 1900
+        
+        dob = f"{year:04}-{month:02}-{day:02}"
 
-        insert_sql = "INSERT INTO students VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+        insert_sql = "INSERT INTO students VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
         cursor = db_conn.cursor()
 
         try:
@@ -168,7 +190,8 @@ def register():
                                         tutorialGrp,
                                         cgpa,
                                         ucSuperName,
-                                        ucSuperEmail
+                                        ucSuperEmail,
+                                        dob
                                         ))
             db_conn.commit()
             cursor.close()

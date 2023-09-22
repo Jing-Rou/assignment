@@ -407,7 +407,6 @@ def studentPersonal():
     programme = request.form.get('programme')
     tutGroup = request.form.get('tutGroup')
     cgpa = request.form.get('cgpa')
-    ucSupervisor = request.form.get('ucSupervisor')
 
     # Retrieve the studentID from the query parameters
     student_id = request.form.get('studentID')
@@ -416,13 +415,12 @@ def studentPersonal():
     update_sql = "UPDATE students SET stud_email = %s, \
                                       programme = %s, \
                                       tutGroup = %s, \
-                                      cgpa = %s, \
-                                      ucSupevisor = %s \
+                                      cgpa = %s \ \
                   WHERE studentID = %s"
     cursor = db_conn.cursor()
 
     try:
-        cursor.execute(update_sql, (stud_email, programme, tutGroup, cgpa, ucSupervisor, student_id))
+        cursor.execute(update_sql, (stud_email, programme, tutGroup, cgpa, student_id))
         db_conn.commit()
         cursor.close()
 

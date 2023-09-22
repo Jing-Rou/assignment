@@ -417,7 +417,7 @@ def studentPersonal():
                                       programme = %s, \
                                       tutGroup = %s, \
                                       cgpa = %s, \
-                                      ucSupevisor = %s, \
+                                      ucSupevisor = %s \
                   WHERE studentID = %s"
     cursor = db_conn.cursor()
 

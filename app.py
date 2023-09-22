@@ -6,6 +6,8 @@ from config import *
 from flask import send_from_directory
 
 app = Flask(__name__)
+app.secret_key = 'my_super_secret_key_12345'
+
 # Configure the 'templates' folder for HTML templates.
 app.template_folder = 'pages'
 app.static_folder = 'static'
@@ -755,13 +757,13 @@ def lectDashboard():
 
 # ------------------------------------------------------------------- Company START (Wong Kar Yan) -------------------------------------------------------------------#
 
-
-@app.route("/companyRegister", methods=['GET', 'POST'])
-def companyRegister():
+@app.route("/compRegister", methods=['GET', 'POST'])
+def compRegister():
     if request.method == 'POST':
         compName = request.form['compName']
         compEmail = request.form['compEmail']
         comPassword = request.form['comPassword']
+        companyImage = request.files['companyImage']
 
         # Fetch data from the database here
         cursor = db_conn.cursor()
@@ -785,27 +787,53 @@ def companyRegister():
 
         # If the email is already in the database, return an error message to the user and display it on the register.html page.
         if len(results) > 0:
-            return render_template('companyRegister.html', email_error="This company email is already in use.")
-
+            return render_template('compRegister.html', email_error="This company email is already in use.")
+        
+        if companyImage.filename == "":
+            return "Please select a file"
+        
         insert_sql = "INSERT INTO company VALUES (%s, %s, %s, %s, %s)"
         cursor = db_conn.cursor()
-
+        
         try:
             cursor.execute(insert_sql, (compID,
-                                        compName,
+                                        compName, 
                                         compEmail,
                                         comPassword,
                                         'pending'
                                         ))
             db_conn.commit()
             cursor.close()
-            # Go to the dashboard after successful registration
-            return redirect(url_for('login'))
-        except Exception as e:
-            cursor.close()
-            return str(e)  # Handle any database errors here
-    return render_template('companyRegister.html')
 
+             # Uplaod image file in S3 #
+            comp_image_file_name_in_s3 = "company-" + str(compName) + "_image_file"
+            s3 = boto3.resource('s3')
+        
+            try:
+                print("Data inserted in MySQL RDS... uploading image to S3...")
+                s3.Bucket(custombucket).put_object(Key=comp_image_file_name_in_s3, Body=companyImage)
+                bucket_location = boto3.client('s3').get_bucket_location(Bucket=custombucket)
+                s3_location = (bucket_location['LocationConstraint'])
+
+                if s3_location is None:
+                    s3_location = ''
+                else:
+                    s3_location = '-' + s3_location
+
+                object_url = "https://s3%7B0%7D.amazonaws.com/%7B1%7D/%7B2%7D".format(
+                    s3_location,
+                    custombucket,
+                    comp_image_file_name_in_s3)
+                return redirect(url_for('login'))  # Go to the dashboard after successful registration
+            except Exception as e:
+                cursor.close()
+                print(f"Error during database insertion: {e}")
+                return str(e)  # Handle any database errors here
+                
+        finally:
+            cursor.close()
+            
+    return render_template('companyRegister.html')
 
 @app.route("/jobReg", methods=['GET', 'POST'])
 def jobReg():
@@ -819,54 +847,178 @@ def jobReg():
         contact_person_email = request.form['contact_person_email']
         contact_number = request.form['contact_number']
         comp_state = request.form['comp_state']
-        companyImage = request.files['companyImage']
 
-        insert_sql = "INSERT INTO jobApply VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
+        # Fetch data from the database here
+        cursor = db_conn.cursor()
+        select_sql = "SELECT max(job_id) FROM company"
+        cursor.execute(select_sql)
+        data = cursor.fetchone()  # Fetch a single row
+        data = str(data[0])
+
+        print(data)
+        if data == None:
+            job_id = 'C' + str(10001)
+        else:
+            comp_no = int(data[1:]) + 1
+            job_id = 'C' + str(comp_no)
+
+        insert_sql = "INSERT INTO jobApply VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
         cursor = db_conn.cursor()
 
-        if companyImage.filename == "":
-            return "Please select a file"
-
-        cursor.execute(insert_sql, (comp_name, job_title, job_desc, job_req, sal_range,
-                       contact_person_name, contact_person_email, contact_number, comp_state))
+        cursor.execute(insert_sql, (job_id, comp_name, job_title, job_desc, job_req, sal_range, contact_person_name, contact_person_email, contact_number, comp_state))
         db_conn.commit()
         cursor.close()
-
-        # Uplaod image file in S3 #
-        comp_image_file_name_in_s3 = "company-" + \
-            str(comp_name) + "_image_file"
-        s3 = boto3.resource('s3')
-
-        try:
-            print("Data inserted in MySQL RDS... uploading image to S3...")
-            s3.Bucket(custombucket).put_object(
-                Key=comp_image_file_name_in_s3, Body=companyImage)
-            bucket_location = boto3.client(
-                's3').get_bucket_location(Bucket=custombucket)
-            s3_location = (bucket_location['LocationConstraint'])
-
-            if s3_location is None:
-                s3_location = ''
-            else:
-                s3_location = '-' + s3_location
-
-            object_url = "https://s3%7B0%7D.amazonaws.com/%7B1%7D/%7B2%7D".format(
-                s3_location,
-                custombucket,
-                comp_image_file_name_in_s3)
-            return redirect(url_for('companyDashboard'))
-        except Exception as e:
-            cursor.close()
-            print(f"Error during database insertion: {e}")
-            return str(e)  # Handle any database errors here
 
     return render_template('jobReg.html')
 
 
 @app.route("/companyDashboard", methods=['GET'])
 def companyDashboard():
-    return render_template('companyDashboard.html')
 
+    name = session.get('user_login_name', None)
+    # Fetch job data from the database (assuming you have a SQL query for this)
+    select_sql = "SELECT * FROM jobApply J JOIN company C ON C.compID = J.compID WHERE C.compName = %s"
+    cursor = db_conn.cursor()
+    cursor.execute(select_sql, (name,))
+    job_data = cursor.fetchall()
+    cursor.close()
+
+    return render_template('companyDashboard.html', user_login_name=name, job_data=job_data)
+
+def list_files(bucket, path_name):
+
+    contents = []
+
+    for image in bucket.objects.filter(Prefix=path_name):
+        contents.append("https://wky-company.s3.amazonaws.com/" + image.key)
+    return contents
+
+@app.route('/jobDetail/<string:user_login_name>/<string:job_name>', methods=['GET'])
+def jobDetail(user_login_name, job_name):
+    
+     # URL-decode the job_name to get the original string
+    decoded_job_name = unquote_plus(job_name)
+
+    # Fetch job details from the database using job_id
+    cursor = db_conn.cursor()
+    select_sql = "SELECT * FROM jobApply J JOIN company C ON C.compID = J.compID WHERE C.compName = %s AND J.job_title = %s"
+    cursor.execute(select_sql, (user_login_name, decoded_job_name,))
+    job_data = cursor.fetchall()
+    cursor.close()
+    session['job_data'] = job_data
+
+    # Assuming job_data is a list of rows fetched from the database
+    job_data_with_description = []
+
+    for row in job_data:
+        # Assuming job_desc is in the third column (index 2)
+        job_desc = row[3]
+        description_points = job_desc.split('-')
+
+        # Assuming job_req is in a different column (index X)
+        job_req = row[4]  # Replace X with the appropriate index of job_req
+        req_points = job_req.split('-')
+
+        # Update the row with the split description and requirement points
+        row_with_description = list(row)
+        row_with_description[3] = description_points  # Assuming job_desc is in the third column (index 2)
+        row_with_description[4] = req_points  # Replace X with the appropriate index of job_req
+        
+        # Append the updated row to the new list
+        job_data_with_description.append(tuple(row_with_description))
+
+    #here code for print the image 
+    # Build the object key and URL
+    comp_image_file_name_in_s3 = f"company-{urllib.parse.quote_plus(user_login_name)}_image_file"
+   
+    # Uplaod image file in S3
+    s3 = boto3.resource('s3')
+
+    bucket = s3.Bucket(custombucket)
+    list_of_files = list_files(bucket, comp_image_file_name_in_s3)
+
+    # Render the job details template and pass the job_data, job_name, and user_login_name
+    return render_template('jobDetails.html', job_data=job_data_with_description, list_of_files=list_of_files)
+
+
+@app.route('/edit/<string:job_id>', methods=['GET', 'POST'])
+def edit_job(job_id):
+
+    if request.method == 'POST':
+        
+        column = request.form.get('column') 
+        updated_value = request.form.get('updated_value')   
+
+        if column == 'job_title':
+
+            update_sql = "UPDATE jobApply SET job_title = %s WHERE job_id = %s"
+            cursor = db_conn.cursor()
+            cursor.execute(update_sql, (updated_value, job_id,))
+            db_conn.commit()
+            cursor.close()
+        elif column == 'job_desc':
+
+            update_sql = "UPDATE jobApply SET job_desc = %s WHERE job_id = %s"
+            cursor = db_conn.cursor()
+            cursor.execute(update_sql, (updated_value, job_id,))
+            db_conn.commit()
+            cursor.close()
+        elif column == 'job_req':
+
+            update_sql = "UPDATE jobApply SET job_req = %s WHERE job_id = %s"
+            cursor = db_conn.cursor()
+            cursor.execute(update_sql, (updated_value, job_id,))
+            db_conn.commit()
+            cursor.close()
+        elif column == 'sal_range':
+
+            update_sql = "UPDATE jobApply SET sal_range = %s WHERE job_id = %s"
+            cursor = db_conn.cursor()
+            cursor.execute(update_sql, (updated_value, job_id,))
+            db_conn.commit()
+            cursor.close()
+        elif column == 'contact_person_name':
+
+            update_sql = "UPDATE jobApply SET contact_person_name = %s WHERE job_id = %s"
+            cursor = db_conn.cursor()
+            cursor.execute(update_sql, (updated_value, job_id,))
+            db_conn.commit()
+            cursor.close()
+        elif column == 'contact_person_email':
+
+            update_sql = "UPDATE jobApply SET contact_person_email = %s WHERE job_id = %s"
+            cursor = db_conn.cursor()
+            cursor.execute(update_sql, (updated_value, job_id,))
+            db_conn.commit()
+            cursor.close()
+        elif column == 'contact_number':
+
+            update_sql = "UPDATE jobApply SET contact_number = %s WHERE job_id = %s"
+            cursor = db_conn.cursor()
+            cursor.execute(update_sql, (updated_value, job_id,))
+            db_conn.commit()
+            cursor.close()
+        else:
+
+            update_sql = "UPDATE jobApply SET comp_state = %s WHERE job_id = %s"
+            cursor = db_conn.cursor()
+            cursor.execute(update_sql, (updated_value, job_id,))
+            db_conn.commit()
+            cursor.close()
+        
+    # Redirect to a confirmation page or back to the job details page
+    return redirect(url_for('companyDashboard'))
+
+@app.route('/delete_job/<string:job_id>', methods=['POST'])
+def delete_job(job_id):
+    
+    delete_sql = "DELETE FROM jobApply WHERE job_id= %s"
+    cursor = db_conn.cursor()
+    cursor.execute(delete_sql, (job_id,))
+    db_conn.commit()
+    cursor.close()
+
+    return redirect(url_for('companyDashboard'))
 # ------------------------------------------------------------------- Company END -------------------------------------------------------------------#
 
 # Define the route for admin registration

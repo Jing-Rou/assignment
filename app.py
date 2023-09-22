@@ -244,18 +244,18 @@ def login():
         elif role == 'Company':
             # Fetch data from the database here
             cursor = db_conn.cursor()
-            select_sql = "SELECT compEmail, comPassword, compName FROM company WHERE compEmail = %s"
+            select_sql = "SELECT compEmail, comPassword, compID FROM company WHERE compEmail = %s"
             cursor.execute(select_sql, (email,))
             data = cursor.fetchone()  # Fetch a single row
 
             if data:
                 # Data is found in the database
                 stored_password = data[1]
-                name = data[2]
+                compID = data[2]
 
                 if password == stored_password:
                     # Passwords match, user is authenticated
-                    return render_template('companyDashboard.html')
+                    return render_template('companyDashboard.html', compID=compID)
                 else:
                     return render_template('login.html', pwd_error="Incorrect password. Please try again.")
             else:
@@ -867,7 +867,9 @@ def jobReg():
         db_conn.commit()
         cursor.close()
 
-    return render_template('jobReg.html')
+    compID = request.form['compID']
+
+    return render_template('jobReg.html', compID=compID)
 
 
 @app.route("/companyDashboard", methods=['GET'])

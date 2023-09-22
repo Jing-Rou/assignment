@@ -361,7 +361,7 @@ def studentProfilePersonal():
     correspondenceAdd = request.form.get('correspondenceAdd')
 
     # Retrieve the studentID from the query parameters
-    student_id = request.args.get('studentID')
+    student_id = request.form.get('studentID')
     print(student_id)
     
     # Update database

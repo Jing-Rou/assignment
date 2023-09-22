@@ -52,7 +52,7 @@ def index():
     cursor = db_conn.cursor()
     select_sql = "SELECT c.compName, c.compProfile, j.job_title, j.comp_state, j.sal_range \
                  from company c \
-                 JOIN jobApply j ON c.compName = j.comp_name \
+                 JOIN jobApply j ON c.compName = j.compID \
                  where upper(c.compStatus) = 'PENDING'"
 
     try:

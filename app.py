@@ -1,9 +1,11 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session
 from pymysql import connections
 import os
 import boto3
 from config import *
 from flask import send_from_directory
+import urllib.parse 
+from urllib.parse import unquote_plus
 
 app = Flask(__name__)
 app.secret_key = 'my_super_secret_key_12345'
@@ -244,18 +246,18 @@ def login():
         elif role == 'Company':
             # Fetch data from the database here
             cursor = db_conn.cursor()
-            select_sql = "SELECT compEmail, comPassword, compID FROM company WHERE compEmail = %s"
+            select_sql = "SELECT compEmail, comPassword, compName FROM company WHERE compEmail = %s"
             cursor.execute(select_sql, (email,))
             data = cursor.fetchone()  # Fetch a single row
 
             if data:
                 # Data is found in the database
                 stored_password = data[1]
-                compID = data[2]
+                name = data[2]
 
                 if password == stored_password:
                     # Passwords match, user is authenticated
-                    return render_template('companyDashboard.html', compID=compID)
+                    return render_template('companyDashboard.html')
                 else:
                     return render_template('login.html', pwd_error="Incorrect password. Please try again.")
             else:
@@ -867,9 +869,7 @@ def jobReg():
         db_conn.commit()
         cursor.close()
 
-    compID = student_id = request.args.get('compID')
-
-    return render_template('jobReg.html', compID=compID)
+    return render_template('jobReg.html')
 
 
 @app.route("/companyDashboard", methods=['GET'])

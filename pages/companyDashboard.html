@@ -42,21 +42,20 @@
 
     </header>
 
-    <div class="main-container">
-        <div class="navcontainer">
+	<div class="main-container">
+		<div class="navcontainer">
             <nav class="nav">
                 <div class="nav-upper-options">
                     <div class="nav-option option1">
-                        <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210182148/Untitled-design-(29).png"
-                            class="nav-img" alt="dashboard">
-                        <h3><a style="color: white;" href="{{ url_for('companyDashboard')}}">Dashboard</a></h3>
+						<img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210182148/Untitled-design-(29).png"
+							class="nav-img" alt="dashboard">
+						<h3><a style="color: white;" href="{{ url_for('companyDashboard')}}">Dashboard</a></h3> 
                     </div>
 
                     <div class="nav-option option2 ">
-                        <img src="{{ url_for('static', filename='img/icon/jobApplicationicon.png') }}" class="nav-img"
-                            alt="dashboard">
-                        <h3><a href="javascript:void(0);" class="user-link" onclick="submitcompID('{{ compID }}')">Job
-                                Application</a></h3>
+						<img src= "{{ url_for('static', filename='img/icon/jobApplicationicon.png') }}"
+							class="nav-img" alt="dashboard">
+						<h3><a href="{{ url_for('jobReg')}}">Job Application</a></h3>
                     </div>
 
                     <div class="nav-option logout">
@@ -69,74 +68,55 @@
             </nav>
         </div>
 
-        <!-- Add a hidden form for submitting studentID -->
-        <form id="compIDForm" method="GET" action="{{ url_for('jobReg') }}">
-            <input type="hidden" name="compID" id="compIDField" value="">
-        </form>
+		<div class="main">
 
-        <div class="main">
+			<div class="searchbar2">
+				<input type="text" name="" id="" placeholder="Search">
+				<div class="searchbtn">
+					<img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210180758/Untitled-design-(28).png"
+						class="icn srchicn" alt="search-button">
+				</div>
+			</div>
 
-            <div class="searchbar2">
-                <input type="text" name="" id="" placeholder="Search">
-                <div class="searchbtn">
-                    <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210180758/Untitled-design-(28).png"
-                        class="icn srchicn" alt="search-button">
-                </div>
-            </div>
+			<div class="box-container">
+				<div class="hero__caption">
+					<span class="user-name" style="color: rgb(21, 14, 45); font-size: 50px;"><b>Welcome,  {{ user_login_name }}</b></span>
+				</div>
+				
+			</div>
 
-            <div class="box-container">
-                <div class="hero__caption">
-                    <span class="user-name" style="color: rgb(21, 14, 45); font-size: 50px;"><b>Welcome, {{
-                            user_login_name }}</b></span>
-                </div>
+			<div class="report-container">
+				<div class="report-header">
+					<h1 class="recent-Articles">Job Posted</h1>
+					<button class="view">View All</button>
+				</div>
 
-            </div>
+				<div class="report-body">
+					<div class="report-topic-heading">
+						<h3 class="t-op">Job Title</h3>
+					</div>
 
-            <div class="report-container">
-                <div class="report-header">
-                    <h1 class="recent-Articles">Job Posted</h1>
-                    <button class="view">View All</button>
-                </div>
+					<div class="report-topic-heading">
+						<ol>
+							{% for job in job_data %}
+								<li>
+									<div class="t-op2">
+                                        <a href="{{ url_for('jobDetail', user_login_name=user_login_name, job_name=job[2]) }}"><h4>{{ job[2] }}</h4></a>
+									</div>
+								</li>
+							{% endfor %}
+						</ol>
 
-                <div class="report-body">
-                    <div class="report-topic-heading">
-                        <h3 class="t-op">Job Title</h3>
-                    </div>
+					</div>
+				</div>
+			</div>
+		</div> 
+	</div>
 
-                    <div class="report-topic-heading">
-                        <ol>
-                            {% for job in job_data %}
-                            <li>
-                                <div class="t-op2">
-                                    <a
-                                        href="{{ url_for('jobDetail', user_login_name=user_login_name, job_name=job[2]) }}">
-                                        <h4>{{ job[2] }}</h4>
-                                    </a>
-                                </div>
-                            </li>
-                            {% endfor %}
-                        </ol>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script src="{{ url_for('static', filename='js/dashboard-index.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/dashboard-index.js') }}"></script>
 
     <!-- login register validation -->
     <script type="text/javascript" src="{{ url_for('static', filename='js/company.js')}}"></script>
-
-    <!-- JavaScript function to submit studentID -->
-    <script>
-        function submitcompID(compID) {
-            // Set the value of the hidden input field
-            document.getElementById('compIDField').value = compID;
-            // Submit the form
-            document.getElementById('compIDForm').submit();
-        }
-    </script>
 </body>
 
 </html>

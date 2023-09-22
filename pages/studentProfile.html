@@ -193,7 +193,7 @@
                                             </div>
                                             <div class="col-sm-9">
                                                 <input type="text" class="text-muted" id="dob" name="dob"
-                                                    value="{{ str(student_infor[12])[:10] }}" disabled>
+                                                    value="{{ student_infor[12] | default('') | slice(0, 10) }}" disabled>
                                             </div>
                                         </div>
                                         <hr>

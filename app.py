@@ -246,7 +246,7 @@ def login():
         elif role == 'Company':
             # Fetch data from the database here
             cursor = db_conn.cursor()
-            select_sql = "SELECT compEmail, comPassword, compName, compID FROM company WHERE compEmail = %s"
+            select_sql = "SELECT compEmail, comPassword, compName FROM company WHERE compEmail = %s"
             cursor.execute(select_sql, (email,))
             data = cursor.fetchone()  # Fetch a single row
 
@@ -256,18 +256,8 @@ def login():
                 name = data[2]
 
                 if password == stored_password:
-                    session['user_login_name'] = name
-                    session['compID'] = data[3] 
-
-                    # Fetch job data from the database (assuming you have a SQL query for this)
-                    select_sql = "SELECT * FROM jobApply J JOIN company C ON C.compID = J.compID WHERE C.compID = %s"
-                    cursor = db_conn.cursor()
-                    cursor.execute(select_sql, (data[3],))
-                    job_data = cursor.fetchall()
-                    cursor.close()
-
                     # Passwords match, user is authenticated
-                    return render_template('companyDashboard.html', user_login_name=name, job_data=job_data)
+                    return render_template('companyDashboard.html')
                 else:
                     return render_template('login.html', pwd_error="Incorrect password. Please try again.")
             else:
@@ -848,7 +838,7 @@ def companyRegister():
 @app.route("/jobReg", methods=['GET', 'POST'])
 def jobReg():
     if request.method == 'POST':
-        # comp_name = request.form['comp_name']
+        comp_name = request.form['comp_name']
         job_title = request.form['job_title']
         job_desc = request.form['job_desc']
         job_req = request.form['job_req']
@@ -857,8 +847,6 @@ def jobReg():
         contact_person_email = request.form['contact_person_email']
         contact_number = request.form['contact_number']
         comp_state = request.form['comp_state']
-        compID = session.get('compID', None)
-        print(compID)
 
         # Fetch data from the database here
         cursor = db_conn.cursor()
@@ -867,6 +855,7 @@ def jobReg():
         data = cursor.fetchone()  # Fetch a single row
         data = str(data[0])
 
+        print(data)
         if data == None:
             job_id = 'C' + str(10001)
         else:
@@ -876,7 +865,7 @@ def jobReg():
         insert_sql = "INSERT INTO jobApply VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
         cursor = db_conn.cursor()
 
-        cursor.execute(insert_sql, (job_id, compID, job_title, job_desc, job_req, sal_range, contact_person_name, contact_person_email, contact_number, comp_state))
+        cursor.execute(insert_sql, (job_id, comp_name, job_title, job_desc, job_req, sal_range, contact_person_name, contact_person_email, contact_number, comp_state))
         db_conn.commit()
         cursor.close()
 
@@ -887,12 +876,10 @@ def jobReg():
 def companyDashboard():
 
     name = session.get('user_login_name', None)
-    compID = session.get('compID', None)
-
     # Fetch job data from the database (assuming you have a SQL query for this)
-    select_sql = "SELECT * FROM jobApply J JOIN company C ON C.compID = J.compID WHERE C.compID = %s"
+    select_sql = "SELECT * FROM jobApply J JOIN company C ON C.compID = J.compID WHERE C.compName = %s"
     cursor = db_conn.cursor()
-    cursor.execute(select_sql, (compID,))
+    cursor.execute(select_sql, (name,))
     job_data = cursor.fetchall()
     cursor.close()
 

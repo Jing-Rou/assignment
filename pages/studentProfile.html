@@ -172,8 +172,8 @@
                                                 <p class="mb-0">Gender</p>
                                             </div>
                                             <div class="col-sm-9">
-                                                <input type="text" id="genderField" name="genderField" class="text-muted"
-                                                    value="{{ student_infor[3] }}" disabled>
+                                                <input type="text" id="genderField" name="genderField"
+                                                    class="text-muted" value="{{ student_infor[3] }}" disabled>
                                             </div>
                                         </div>
                                         <hr>
@@ -182,8 +182,8 @@
                                                 <p class="mb-0">NRIC No.</p>
                                             </div>
                                             <div class="col-sm-9">
-                                                <input type="text" class="text-muted" id="nric" name="nric" value="{{ student_infor[6] }}"
-                                                    disabled>
+                                                <input type="text" class="text-muted" id="nric" name="nric"
+                                                    value="{{ student_infor[6] }}" disabled>
                                             </div>
                                         </div>
                                         <hr>
@@ -192,8 +192,8 @@
                                                 <p class="mb-0">Date-of-Birth</p>
                                             </div>
                                             <div class="col-sm-9">
-                                                <input type="text" class="text-muted" id="dob" name="dob" value="{{ student_infor[12]}}"
-                                                    disabled>
+                                                <input type="text" class="text-muted" id="dob" name="dob"
+                                                    value="{{ str(student_infor[12])[:10] }}" disabled>
                                             </div>
                                         </div>
                                         <hr>
@@ -202,8 +202,8 @@
                                                 <p class="mb-0">Mobile No.</p>
                                             </div>
                                             <div class="col-sm-9">
-                                                <input type="text" class="text-muted" id="contact" name="contact" value="{{ student_infor[12]}}"
-                                                    disabled>
+                                                <input type="text" class="text-muted" id="contact" name="contact"
+                                                    value="{{ student_infor[12]}}" disabled>
                                             </div>
                                         </div>
                                         <hr>
@@ -212,8 +212,8 @@
                                                 <p class="mb-0">Home Address</p>
                                             </div>
                                             <div class="col-sm-9">
-                                                <input type="text" class="text-muted" d="homeAdd" name="homeAdd" value="{{ student_infor[12]}}"
-                                                    disabled>
+                                                <input type="text" class="text-muted" d="homeAdd" name="homeAdd"
+                                                    value="{{ student_infor[12]}}" disabled>
                                             </div>
                                         </div>
                                         <hr>
@@ -222,8 +222,8 @@
                                                 <p class="mb-0">Correspondence Address</p>
                                             </div>
                                             <div class="col-sm-9">
-                                                <input type="text" class="text-muted" d="correspondenceAdd" name="correspondenceAdd" value="{{ student_infor[12]}}"
-                                                    disabled>
+                                                <input type="text" class="text-muted" d="correspondenceAdd"
+                                                    name="correspondenceAdd" value="{{ student_infor[12]}}" disabled>
                                             </div>
                                         </div>
                                     </form>
@@ -441,12 +441,42 @@
     </script>
 
     <script>
+        const editIcon = document.getElementById("editIcon");
+        const genderField = document.getElementById("genderField");
+        const nricField = document.getElementById("nric");
+        const dobField = document.getElementById("dob");
+        const contactField = document.getElementById("contact");
+        const homeAddField = document.getElementById("homeAdd");
+        const correspondenceAddField = document.getElementById("correspondenceAdd");
         const saveButton = document.getElementById("saveButton");
-        const profileForm = document.getElementById("profileForm");
+
+        editIcon.addEventListener("click", function () {
+            // Enable all input fields
+            genderField.disabled = false;
+            nricField.disabled = false;
+            dobField.disabled = false;
+            contactField.disabled = false;
+            homeAddField.disabled = false;
+            correspondenceAddField.disabled = false;
+
+            // Show the Save button
+            saveButton.style.display = "block";
+        });
 
         saveButton.addEventListener("click", function () {
-            // Submit the form when the "Save" button is clicked
-            profileForm.submit();
+            // Submit the form when the Save button is clicked
+            document.getElementById("profileForm").submit();
+
+            // Disable all input fields
+            genderField.disabled = true;
+            nricField.disabled = true;
+            dobField.disabled = true;
+            contactField.disabled = true;
+            homeAddField.disabled = true;
+            correspondenceAddField.disabled = true;
+
+            // Hide the Save button
+            saveButton.style.display = "none";
         });
     </script>
 </body>

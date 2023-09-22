@@ -170,7 +170,7 @@
                             </div>
                             <div class="card mb-4">
                                 <div class="card-body">
-                                    <form id="profileForm" method="POST" action="/studentProfile">
+                                    <form id="profileForm" method="POST" action="/studentProfilePersonal">
                                         <div class="row">
                                             <div class="col-sm-3">
                                                 <p class="mb-0">Gender</p>
@@ -207,7 +207,7 @@
                                             </div>
                                             <div class="col-sm-9">
                                                 <input type="text" class="text-muted" id="contact" name="contact"
-                                                    value="" disabled>
+                                                    value="{{ student_infor[13] }}" disabled>
                                             </div>
                                         </div>
                                         <hr>
@@ -217,7 +217,7 @@
                                             </div>
                                             <div class="col-sm-9">
                                                 <input type="text" class="text-muted" id="homeAdd" name="homeAdd"
-                                                    value="-" disabled>
+                                                    value="{{ student_infor[14] }}" disabled>
                                             </div>
                                         </div>
                                         <hr>
@@ -227,7 +227,7 @@
                                             </div>
                                             <div class="col-sm-9">
                                                 <input type="text" class="text-muted" id="correspondenceAdd"
-                                                    name="correspondenceAdd" value="-" disabled>
+                                                    name="correspondenceAdd" value="{{ student_infor[15] }}" disabled>
                                             </div>
                                         </div>
                                     </form>

@@ -325,18 +325,6 @@ def studentDashboard():
 
 @app.route("/studentProfile", methods=['GET', 'POST'])
 def studentProfile():
-    if request.method == 'POST':
-        # Get the form data from the request
-        gender = request.form.get('genderField')
-        nric = request.form.get('nric')
-
-        print(gender, nric)
-        # Perform database insertion with the form data
-        # (You need to implement database handling here)
-
-        # Redirect to a success page or return a response as needed
-        return "Form data submitted successfully!"
-
     # Retrieve the studentID from the query parameters
     student_id = request.args.get('studentID')
 
@@ -362,6 +350,56 @@ def studentProfile():
     # Pass the studentID to the studentDashboard.html template
     return render_template('studentProfile.html', studentID=student_id, student_infor=data)
 
+@app.route("/studentProfilePersonal", methods=['POST'])
+def studentProfilePersonal():
+    # Get the form data from the request
+    gender = request.form.get('genderField')
+    nric = request.form.get('nric')
+    dob = request.form.get('dob')
+    contact = request.form.get('contact')
+    homeAdd = request.form.get('homeAdd')
+    correspondenceAdd = request.form.get('correspondenceAdd')
+
+    # Retrieve the studentID from the query parameters
+    student_id = request.args.get('studentID')
+    
+    # Update database
+    update_sql = "UPDATE lecturer SET gender = %s, \
+                                      ic = %s, \
+                                      dob = %s, \
+                                      contact = %s, \
+                                      homeAddress = %s, \
+                                      correspondenceAddress = %s \
+                  WHERE studentID = %s"
+    cursor = db_conn.cursor()
+
+    try:
+        cursor.execute(update_sql, (gender, nric, dob, contact, homeAdd, correspondenceAdd, student_id))
+        db_conn.commit()
+        cursor.close()
+
+        # retrive from database
+        cursor = db_conn.cursor()
+        select_sql = "SELECT * from students where studentID = %s"
+
+        try:
+            cursor.execute(select_sql, (student_id))
+            data = cursor.fetchall()  # Fetch a single row
+            data = data[0]
+
+            # Create a new list with the modified value
+            data_list = list(data)
+            data_list[12] = str(data_list[12])[:10]
+            data = tuple(data_list)  # Convert the list back to a tuple
+
+        except Exception as e:
+            return str(e)
+
+        # Pass the studentID to the studentDashboard.html template
+        return render_template('studentProfile.html', studentID=student_id, student_infor=data)
+    except Exception as e:
+        cursor.close()
+        return str(e)  # Handle any database errors here
 
 @app.route("/form", methods=['GET', 'POST'])
 def form():

@@ -162,15 +162,15 @@ def register():
         # If the student ID is already in the database, return an error message to the user and display it on the register.html page.
         if len(results) > 0:
             return render_template('register.html', studentID_error="The student ID is already in use.", list_of_lect=data)
-        
+
         # Extract the birthdate portion from the IC number
         birthdate_part = ic[:6]
-        
+
         # Parse the birthdate in YYMMDD format
         year = int(birthdate_part[:2])
         month = int(birthdate_part[2:4])
         day = int(birthdate_part[4:])
-        
+
         # Convert to a full date of birth
         # Assumption: This code assumes the IC number represents birthdates from 1900 to 2099
         if year >= 0 and year <= 99:
@@ -178,7 +178,7 @@ def register():
                 year += 2000
             else:
                 year += 1900
-        
+
         dob = f"{year:04}-{month:02}-{day:02}"
 
         insert_sql = "INSERT INTO students (studentID, firstName, lastName, gender, stud_email, password, ic, programme, tutGroup, cgpa, ucSupevisor, ucSuperEmail, dob) \
@@ -325,6 +325,18 @@ def studentDashboard():
 
 @app.route("/studentProfile", methods=['GET'])
 def studentProfile():
+    if request.method == 'POST':
+        # Get the form data from the request
+        gender = request.form.get('genderField')
+        nric = request.form.get('nric')
+
+        print(gender, nric)
+        # Perform database insertion with the form data
+        # (You need to implement database handling here)
+
+        # Redirect to a success page or return a response as needed
+        return "Form data submitted successfully!"
+
     # Retrieve the studentID from the query parameters
     student_id = request.args.get('studentID')
 
@@ -336,7 +348,7 @@ def studentProfile():
         cursor.execute(select_sql, (student_id))
         data = cursor.fetchall()  # Fetch a single row
         data = data[0]
-        print(data)
+        print(data[12])
 
     except Exception as e:
         return str(e)

@@ -761,12 +761,9 @@ def companyRegister():
         
         # Uplaod image file in S3
         s3 = boto3.resource('s3')
-
         bucket = s3.Bucket(custombucket)
-
-        companyImageType = companyImage.filename.split('.')
-        compProfile = "https://" + bucket.name + ".s3.amazonaws.com/Company/" + compName + '.' + companyImageType[1]
-
+        compProfile = "https://" + bucket.name + ".s3.amazonaws.com/" + "company-" + compName + "_image_file"
+        
         # Fetch data from the database here
         cursor = db_conn.cursor()
         select_sql = "SELECT max(compID) FROM company"

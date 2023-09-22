@@ -415,7 +415,7 @@ def studentPersonal():
     update_sql = "UPDATE students SET stud_email = %s, \
                                       programme = %s, \
                                       tutGroup = %s, \
-                                      cgpa = %s \ \
+                                      cgpa = %s \
                   WHERE studentID = %s"
     cursor = db_conn.cursor()
 

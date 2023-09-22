@@ -759,6 +759,7 @@ def companyRegister():
         comPassword = request.form['comPassword']
         companyImage = request.files['companyImage']
 
+        print(companyImage)
         companyImageType = companyImage.split('.')
         print(companyImageType)
         compProfile = "https://" + bucket.name + ".s3.amazonaws.com/Company/" + compName + '.' + companyImageType[1]

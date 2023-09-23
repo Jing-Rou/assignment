@@ -120,110 +120,111 @@
 
 		<div class="main" style="background-color: #cad7fda4;">
 			<h1>Student Management</h1>
+			{% for studData in student_data %}
+			<!-- User List -->
+			<h5 class="mt-5">{{ studData[1] ~ ' ' ~ studData[2] }}</h5>
 			<div class="user-list">
-				{% for studData in student_data %}
-				<!-- User List -->
-				<h5 class="mt-5">{{ studData[1] ~ ' ' ~ studData[2] }}</h5>
-				<div class="user-list">
-					<div class="user">
-						<div class="row">
-							<div class="col-3">
-								<p class="mb-0">Student ID: </p>
-							</div>
-							<div class="col-3">
-								<input type="text" class="text-muted" style="width: 100%;" id="nric" name="studID"
-									value="{{ studData[0] }}" disabled>
-							</div>
-							<div class="col-3">
-								<p class="mb-0">Email: </p>
-							</div>
-							<div class="col-3">
-								<input type="text" class="text-muted" style="width: 100%;" id="nric" name="studID"
-									value="{{ studData[4] }}" disabled>
-							</div>
+				<div class="user">
+					<div class="row">
+						<div class="col-2">
+							<p class="mb-0">Student ID: </p>
 						</div>
-						<hr>
-						<div class="row">
-							<div class="col-3">
-								<p class="mb-0">NRIC No: </p>
-							</div>
-							<div class="col-3">
-								<input type="text" class="text-muted" style="width: 100%;" id="nric" name="studID"
-									value="{{ studData[6] }}" disabled>
-							</div>
-							<div class="col-3">
-								<p class="mb-0">Programme: </p>
-							</div>
-							<div class="col-3">
-								<input type="text" class="text-muted" style="width: 100%;" id="nric" name="studID"
-									value="{{ studData[7] }}" disabled>
-							</div>
+						<div class="col-4">
+							<input type="text" class="text-muted" style="width: 100%;" id="nric" name="studID"
+								value="{{ studData[0] }}" disabled>
 						</div>
-						<hr>
-						<div class="row">
-							<div class="col-3">
-								<p class="mb-0">Date-of-Birth: </p>
-							</div>
-							<div class="col-3">
-								<input type="text" class="text-muted" style="width: 100%;" id="nric" name="studID"
-									value="{{ studData[12] }}" disabled>
-							</div>
-							<div class="col-3">
-								<p class="mb-0">Tutorial Group: </p>
-							</div>
-							<div class="col-3">
-								<input type="text" class="text-muted" style="width: 100%;" id="nric" name="studID"
-									value="{{ studData[8] }}" disabled>
-							</div>
+						<div class="col-2">
+							<p class="mb-0">Email: </p>
 						</div>
-						<hr>
-						<div class="row">
-							<div class="col-3">
-								<p class="mb-0">Mobile No.: </p>
-							</div>
-							<div class="col-3">
-								<input type="text" class="text-muted" style="width: 100%;" id="nric" name="studID"
-									value="{{ studData[13] }}" disabled>
-							</div>
-							<div class="col-3">
-								<p class="mb-0">CGPA: </p>
-							</div>
-							<div class="col-3">
-								<input type="text" class="text-muted" style="width: 100%;" id="nric" name="studID"
-									value="{{ studData[9] }}" disabled>
-							</div>
-						</div>
-						<hr>
-						<div class="row">
-							<div class="col-3">
-								<p class="mb-0">Home Address: </p>
-							</div>
-							<div class="col-3">
-								<input type="text" class="text-muted" style="width: 100%;" id="nric" name="studID"
-									value="{{ studData[14] }}" disabled>
-							</div>
-							<div class="col-3">
-								<p class="mb-0">UC Supervisor: </p>
-							</div>
-							<div class="col-3">
-								<input type="text" class="text-muted" style="width: 100%;" id="nric" name="studID"
-									value="{{ studData[10] }}" disabled>
-							</div>
-						</div>
-						<hr>
-						<div class="row">
-							<div class="col-3">
-								<p class="mb-0">Correspondence Address: </p>
-							</div>
-							<div class="col-3">
-								<input type="text" class="text-muted" style="width: 100%;" id="nric" name="studID"
-									value="{{ studData[15] }}" disabled>
-							</div>
+						<div class="col-4">
+							<input type="text" class="text-muted" style="width: 100%;" id="nric" name="studID"
+								value="{{ studData[4] }}" disabled>
 						</div>
 					</div>
+					<hr>
+					<div class="row">
+						<div class="col-2">
+							<p class="mb-0">NRIC No: </p>
+						</div>
+						<div class="col-4">
+							<input type="text" class="text-muted" style="width: 100%;" id="nric" name="studID"
+								value="{{ studData[6] }}" disabled>
+						</div>
+						<div class="col-2">
+							<p class="mb-0">Programme: </p>
+						</div>
+						<div class="col-4">
+							<input type="text" class="text-muted" style="width: 100%;" id="nric" name="studID"
+								value="{{ studData[7] }}" disabled>
+						</div>
+					</div>
+					<hr>
+					<div class="row">
+						<div class="col-2">
+							<p class="mb-0">Date-of-Birth: </p>
+						</div>
+						<div class="col-4">
+							<input type="text" class="text-muted" style="width: 100%;" id="nric" name="studID"
+								value="{{ studData[12] }}" disabled>
+						</div>
+						<div class="col-2">
+							<p class="mb-0">Tutorial Group: </p>
+						</div>
+						<div class="col-4">
+							<input type="text" class="text-muted" style="width: 100%;" id="nric" name="studID"
+								value="{{ studData[8] }}" disabled>
+						</div>
+					</div>
+					<hr>
+					<div class="row">
+						<div class="col-2">
+							<p class="mb-0">Mobile No.: </p>
+						</div>
+						<div class="col-4">
+							<input type="text" class="text-muted" style="width: 100%;" id="nric" name="studID"
+								value="{{ studData[13] }}" disabled>
+						</div>
+						<div class="col-2">
+							<p class="mb-0">CGPA: </p>
+						</div>
+						<div class="col-4">
+							<input type="text" class="text-muted" style="width: 100%;" id="nric" name="studID"
+								value="{{ studData[9] }}" disabled>
+						</div>
+					</div>
+					<hr>
+					<div class="row">
+						<div class="col-2">
+							<p class="mb-0">Home Address: </p>
+						</div>
+						<div class="col-4">
+							<input type="text" class="text-muted" style="width: 100%;" id="nric" name="studID"
+								value="{{ studData[14] }}" disabled>
+						</div>
+						<div class="col-2">
+							<p class="mb-0">UC Supervisor: </p>
+						</div>
+						<div class="col-4">
+							<input type="text" class="text-muted" style="width: 100%;" id="nric" name="studID"
+								value="{{ studData[10] }}" disabled>
+						</div>
+					</div>
+					<hr>
+					<div class="row">
+						<div class="col-2">
+							<p class="mb-0">Correspondence Address: </p>
+						</div>
+						<div class="col-4">
+							<input type="text" class="text-muted" style="width: 100%;" id="nric" name="studID"
+								value="{{ studData[15] }}" disabled>
+						</div>
+					</div>
+					<hr>
+					<button>Edit</button>
+					<button class="delete-button">Delete</button>
 				</div>
-				{% endfor %}
 			</div>
+			{% endfor %}
 		</div>
 	</div>
 	<script src="../static/js/dashboard-index.js"></script>

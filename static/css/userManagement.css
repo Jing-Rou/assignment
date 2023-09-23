@@ -1,9 +1,10 @@
 /* User List styles */
 .user-list .user {
-    background-color: #f9f9f9;
+    background-color: white;
     padding: 20px;
     margin-bottom: 20px;
-    border-radius: 5px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
     box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
 }
 

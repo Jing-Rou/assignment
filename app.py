@@ -720,9 +720,12 @@ def list_files(bucket, path):
         if file_name:
             last_modified = object_summary.last_modified
             size = object_summary.size
+            last_modified = str(last_modified.split(' '))
+            print(last_modified)
             contents.append({
                 'file_name': file_name,
-                'last_modified': last_modified,
+                'last_modified': last_modified[0],
+                'time': last_modified[1],
                 'size': size
             })
 

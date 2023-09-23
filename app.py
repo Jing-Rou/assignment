@@ -660,7 +660,7 @@ def submitToLect(studID):
     try:
         print("Data inserted in MySQL RDS... uploading image to S3...")
 
-        filename = fileName.filename.split('.')
+        filename = fileName.split('.')
 
         # lecture
         lect_key = lect_folder_name + \

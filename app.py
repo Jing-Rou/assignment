@@ -703,11 +703,12 @@ def getStudFiles(lecturerID, studentID, type):
             last_modified = object_summary.last_modified
             size = object_summary.size
             last_modified = str(last_modified).split(' ')
-            print("aaaaaaaaaa", last_modified)
+            time = str(last_modified[1]).split(' ')
             contents.append({
                 'file_name': file_name,
+                'file_path': "https://" + bucket.name + ".s3.amazonaws.com/" + object_summary.key,
                 'last_modified': last_modified[0],
-                'time': last_modified[1],
+                'time': time,
                 'size': size
             })
     return contents

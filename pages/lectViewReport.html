@@ -97,18 +97,18 @@
 						{% for studFile in studFiles %}
 						<div class="rpt-details1  mb-60">
 							<div class="report-info">
-								<h5>Article 73</h5>
+								<h5>{{ studFile['file_path'] }}</h5>
 								<ul>
 									<li><strong>Submission Date:</strong> {{ studFile['last_modified'] }}</li>
-									<li><strong>Submission Time:</strong> {{ studFile['size'] }}</li>
+									<li><strong>Submission Time:</strong> {{ studFile['time'] }}</li>
 								</ul>
 							</div>
 							<div class="button-container">
 								<div class="view-btn">
-									<a href="{{ studFile['file_name'] }}" class="btn" onclick="showReport('{{ studFile['file_name'] }}')">View Report</a>
+									<a href="{{ studFile['file_path'] }}" class="btn" onclick="showReport('{{ studFile['file_path'] }}')">View Report</a>
 								</div>
 								<div class="download-btn">
-									<a href="{{ studFile['file_name'] }}" download class="btn">Download Report</a>
+									<a href="{{ studFile['file_path'] }}" download class="btn">Download Report</a>
 								</div>
 							</div>
 						</div>

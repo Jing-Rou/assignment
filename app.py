@@ -615,7 +615,7 @@ def report():
 
             filename = reportForm_files.filename.split('.')
 
-            comp_image_file_name_in_s3 = "company-" + "_image_file"
+            comp_image_file_name_in_s3 = 'Lecturer/' + lecturerID + "/" + studID + "/" + "report/" + "company" + "_image_file"
 
             # Construct the key with the folder prefix and file name
             stud_key = folder_name + \

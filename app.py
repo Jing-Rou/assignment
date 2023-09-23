@@ -625,10 +625,10 @@ def report():
                 filename[0] + "_progress_report." +  filename[1]
             
             # Upload the file to the first folder
-            s3.upload_file(reportForm_files.stream, custombucket, lect_key, ExtraArgs={'ContentType': content_type})
+            s3.upload_fileobj(reportForm_files.stream, custombucket, lect_key, ExtraArgs={'ContentType': content_type})
 
             # Upload the same file to the second folder
-            s3.upload_file(reportForm_files.stream, custombucket, stud_key, ExtraArgs={'ContentType': content_type})
+            s3.upload_fileobj(reportForm_files.stream, custombucket, stud_key, ExtraArgs={'ContentType': content_type})
 
 
             # # Upload the file into the specified folder

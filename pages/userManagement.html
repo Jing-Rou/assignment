@@ -89,15 +89,6 @@
 		</div>
 
 		<div class="main">
-
-			<div class="searchbar2">
-				<input type="text" name="" id="" placeholder="Search">
-				<div class="searchbtn">
-					<img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210180758/Untitled-design-(28).png"
-						class="icn srchicn" alt="search-button">
-				</div>
-			</div>
-
 			<h1>Student Management</h1>
 			<div class="user-list">
 				{% for studData in student_data %}
@@ -119,7 +110,11 @@
 							value="{{ studData[4] }}" disabled>
 					</div>
 				</div>
-				<hr>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+	<!-- <hr>
 				<div class="row">
 					<div class="col-3">
 						<p class="mb-0">NRIC No: </p>
@@ -196,18 +191,15 @@
 						<input type="text" class="text-muted" style="width: 100%;" id="nric" name="studID"
 							value="{{ studData[15] }}" disabled>
 					</div>
-				</div>
-
+				</div> -->
+	<!-- 
 				<button>Edit</button>
-				<button class="delete-button">Delete</button>
-				<!-- <p>Email: {{ studData[4] }}</p>
+				<button class="delete-button">Delete</button> -->
+	<!-- <p>Email: {{ studData[4] }}</p>
                     <p>IC: {{ studData[4] }}</p>
                      -->
 
-			</div>
-			{% endfor %}
-		</div>
-	</div>
+
 
 	<script src="../static/js/dashboard-index.js"></script>
 </body>

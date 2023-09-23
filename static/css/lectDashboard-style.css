@@ -381,15 +381,6 @@ header {
     border-radius: 4px;
 }
 
-/*View Report page*/
-/* Style for the report-body container with a single scrollbar */
-.report-body {
-    max-height: 450px;
-    /* Set a maximum height for the container */
-    overflow-y: auto;
-    /* Enable vertical scrollbar if content overflows */
-}
-
 /* Style for the report sections */
 .rpt-details1,
 .rpt-details2 {

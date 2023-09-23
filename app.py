@@ -494,6 +494,7 @@ def form():
         list_files = []
         form_list = ['_comp_form.', '_parent_form.', '_letter.', '_hire_evi.']
         ctr = 0
+        ctr1 = 0
 
         try:
             print("Data inserted in MySQL RDS... uploading image to S3...")
@@ -501,8 +502,11 @@ def form():
             for file in uploaded_files:
                 if file is None:
                     list_files.append('')
+                    ctr1 += 1
                 else:
-                    list_files.append(file.filename)
+                    filename = file.filename.split('.')
+                    list_files.append(filename[0] + form_list[ctr1] + filename[1])
+                    ctr1 += 1
 
                 # if not empty
                 if file and file is not None:

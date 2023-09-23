@@ -764,13 +764,17 @@ def lectViewReport():
 
         studFiles = getStudFiles(lecturer_id, studentID, 'report')
 
-        print(studFiles)
         return render_template('lectViewReport.html', studentID=studentID, studFiles=studFiles)
 
-@app.route("/lectViewForm", methods=['GET'])
+@app.route("/lectViewForm", methods=['GET', 'POST'])
 def lectViewForm():
+    if request.method == 'POST':
+        lecturer_id = session.get('lecturer_id', None)
+        studentID = request.form.get('studID')
 
-    return render_template('lectViewForm.html')
+        studFiles = getStudFiles(lecturer_id, studentID, 'Form')
+
+        return render_template('lectViewForm.html', studentID=studentID, studFiles=studFiles)
 
 # ------------------------------------------------------------------- Lecturer END -------------------------------------------------------------------#
 

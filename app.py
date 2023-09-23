@@ -809,7 +809,7 @@ def lecturerProfile():
         cursor = db_conn.cursor()
 
         try:
-            cursor.execute(update_sql, (gender, lectEmail, lecturer_id))
+            cursor.execute(update_sql, (lectEmail, gender, lecturer_id))
             db_conn.commit()
             cursor.close()
 

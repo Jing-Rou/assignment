@@ -635,6 +635,7 @@ def report():
 @app.route("/submitToLect/<studID>", methods=['GET'])
 def submitToLect(studID):
     reportForm_files = request.args.get('reportForm_files')
+    print(reportForm_files, studID)
 
     # Fetch data from the lecturer database
     cursor = db_conn.cursor()

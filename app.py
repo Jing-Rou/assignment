@@ -624,14 +624,13 @@ def report():
             # Upload the file into the specified folder
             # to student folder
             s3.Bucket(custombucket).put_object(
-                Key=stud_key, Body=reportForm_files)
+                Key=reportForm_files, Body=reportForm_files)
             # to lecturer folder
             s3.Bucket(custombucket).put_object(
                 Key=lect_key, Body=reportForm_files)
 
             # Generate the object URL
-            bucket_location = boto3.client(
-                's3').get_bucket_location(Bucket=custombucket)
+            bucket_location = boto3.client('s3').get_bucket_location(Bucket=custombucket)
             s3_location = (bucket_location['LocationConstraint'])
 
             if s3_location is None:
@@ -863,7 +862,6 @@ def companyRegister():
                     s3_location,
                     custombucket,
                     comp_image_file_name_in_s3)
-                print(object_url)
                 # Go to the dashboard after successful registration
                 return redirect(url_for('login'))
             except Exception as e:

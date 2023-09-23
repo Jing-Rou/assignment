@@ -623,12 +623,13 @@ def report():
                 filename[0] + "_progress_report." +  filename[1]
 
             # Upload the file into the specified folder
-            # to student folder
-            s3.Bucket(custombucket).put_object(
-                Key=stud_key, Body=reportForm_files, ContentType=mimetypes.guess_type(reportForm_files.filename)[0] or 'application/octet-stream')
             # to lecturer folder
             s3.Bucket(custombucket).put_object(
                 Key=lect_key, Body=reportForm_files, ContentType=mimetypes.guess_type(reportForm_files.filename)[0] or 'application/octet-stream')
+
+            # to student folder
+            s3.Bucket(custombucket).put_object(
+                Key=stud_key, Body=reportForm_files, ContentType=mimetypes.guess_type(reportForm_files.filename)[0] or 'application/octet-stream')
 
             # Generate the object URL
             bucket_location = boto3.client('s3').get_bucket_location(Bucket=custombucket)

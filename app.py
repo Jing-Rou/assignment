@@ -1232,8 +1232,11 @@ def user_management():
         homeAdd = request.form.get('homeAdd')
         ucSupervisor = request.form.get('ucSupervisor')
         correspondenceAdd = request.form.get('correspondenceAdd')
+        
+        ucSupervisor_split = ucSupervisor.split(', ')
+        ucSuperName = ucSupervisor_split[0]
+        ucSuperEmail = ucSupervisor_split[1]
 
-        print(ucSupervisor)
         # Update database
         update_sql = "UPDATE students SET gender = %s, \
                                         stud_email = %s, \
@@ -1242,6 +1245,7 @@ def user_management():
                                         tutGroup = %s, \
                                         cgpa = %s, \
                                         ucSupevisor = %s, \
+                                        ucSuperEmail = %s, \
                                         dob = %s, \
                                         contact = %s, \
                                         homeAddress = %s, \
@@ -1251,7 +1255,7 @@ def user_management():
         cursor = db_conn.cursor()
 
         try:
-            cursor.execute(update_sql, (gender, email, nric, programme, tutGroup, cgpa, ucSupervisor, dob, contact, homeAdd, correspondenceAdd, studID))
+            cursor.execute(update_sql, (gender, email, nric, programme, tutGroup, cgpa, ucSuperName, ucSuperEmail, dob, contact, homeAdd, correspondenceAdd, studID))
             db_conn.commit()
             cursor.close()
 
@@ -1280,7 +1284,6 @@ def user_management():
     select_sql = "SELECT lectName, lectEmail FROM lecturer"
     cursor.execute(select_sql)
     lecturer_data = cursor.fetchall()  # Fetch a single row
-    print("aaa", lecturer_data)
 
     return render_template('userManagement.html', student_data=student_data, lecturer_data=lecturer_data)
 

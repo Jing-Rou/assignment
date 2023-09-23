@@ -122,7 +122,17 @@
 			<h1>Student Management</h1>
 			{% for studData in student_data %}
 			<!-- User List -->
-			<h5 class="mt-5">{{ studData[1] ~ ' ' ~ studData[2] }}</h5>
+			<div class="row">
+				<div class="col-10">
+					<h5 class="mt-5">{{ studData[1] ~ ' ' ~ studData[2] }}</h5>
+				</div>
+				<div class="col-1">
+					<button>Edit</button>
+				</div>
+				<div class="col-1">
+					<button class="delete-button">Delete</button>
+				</div>
+			</div>
 			<div class="user-list">
 				<div class="user">
 					<div class="row">
@@ -220,8 +230,6 @@
 						</div>
 					</div>
 					<hr>
-					<button>Edit</button>
-					<button class="delete-button">Delete</button>
 				</div>
 			</div>
 			{% endfor %}

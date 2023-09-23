@@ -28,18 +28,16 @@
 
 	<!-- for header part -->
 	<header>
-
-		<div class="logosec">
-			<div class="logo">GeeksForGeeks</div>
-			<img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210182541/Untitled-design-(30).png"
-				class="icn menuicn" id="menuicn" alt="menu-icon">
+		<div class="logo" style="margin-top:15px;">
+			<a href="{{ url_for('index') }}"><img src="{{ url_for('static', filename='img/logo/logo.png') }}"
+					alt=""></a>
 		</div>
 
 		<div class="message">
 			<div class="circle"></div>
 			<img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210183322/8.png" class="icn" alt="">
 			<div class="dp">
-				<a href="{{ url_for(lecturerProfile) }}" class="user-link")">
+				<a href="{{ url_for( lecturerProfile) }}" class="user-link">
 					<img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210180014/profile-removebg-preview.png"
 						class="dpicn" alt="dp">
 				</a>

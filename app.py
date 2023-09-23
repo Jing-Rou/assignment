@@ -618,10 +618,10 @@ def report():
 
             # Construct the key with the folder prefix and file name
             stud_key = folder_name + \
-                filename[0] + "_progress_report." +  filename[1]
+                "s_" + filename[0] + "_progress_report." +  filename[1]
             # lecture
             lect_key = lect_folder_name + \
-                filename[0] + "_progress_report." +  filename[1]
+                "l_" + filename[0] + "_progress_report." +  filename[1]
 
             # Upload the file into the specified folder
             # to student folder
@@ -630,7 +630,7 @@ def report():
 
             # Uplaod image file in S3
             s3 = boto3.resource('s3')
-            
+
             # to lecturer folder
             s3.Bucket(custombucket).put_object(
                 Key=lect_key, Body=reportForm_files_lect, ContentType=mimetypes.guess_type(reportForm_files.filename)[0] or 'application/octet-stream')

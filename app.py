@@ -728,7 +728,7 @@ def lectRegister():
 
         # If the email is already in the database, return an error message to the user and display it on the register.html page.
         if len(results) > 0:
-            return render_template('register.html', lectID_error="The ID is already in use.")
+            return render_template('lectRegister.html', lectID_error="The ID is already in use.")
 
         # Otherwise, check if the IC is already in the database.
         cursor = db_conn.cursor()
@@ -738,7 +738,7 @@ def lectRegister():
 
         # If the IC is already in the database, return an error message to the user and display it on the register.html page.
         if len(results) > 0:
-            return render_template('register.html', lectEmail_error="The email is already in use.")
+            return render_template('lectRegister.html', lectEmail_error="The email is already in use.")
 
         insert_sql = "INSERT INTO lecturer VALUES (%s, %s, %s, %s, %s)"
         cursor = db_conn.cursor()

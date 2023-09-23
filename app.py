@@ -582,13 +582,11 @@ def list_files(bucket, path):
 
     return contents
 
-
 @app.route("/report", methods=['GET', 'POST'])
 def report():
     if request.method == 'POST':
         studID = request.form['studentID']
         reportForm_files = request.files['reportForm']
-        reportForm_files_lect = reportForm_files
 
         # Uplaod image file in S3
         s3 = boto3.resource('s3')
@@ -596,20 +594,6 @@ def report():
         # Create a folder or prefix for the files in S3
         # to student s3 folder
         folder_name = 'Student/' + studID + "/" + "report/"
-
-        # Fetch data from the lecturer database
-        cursor = db_conn.cursor()
-        select_sql = "SELECT l.lectID \
-                      FROM students s\
-                      JOIN lecturer l on s.ucSuperEmail = l.lectEmail \
-                      WHERE studentID = %s"
-        cursor.execute(select_sql, (studID,))
-        data = cursor.fetchone()  # Fetch a single row
-
-        lecturerID = data[0]
-
-        # submit form to lecturer
-        lect_folder_name = 'Lecturer/' + lecturerID + "/" + studID + "/" + "report/"
 
         try:
             print("Data inserted in MySQL RDS... uploading image to S3...")
@@ -626,28 +610,10 @@ def report():
                 Key=stud_key, Body=reportForm_files, ContentType=mimetypes.guess_type(reportForm_files.filename)[0] or 'application/octet-stream')
         except Exception as e:
             return str('bucket', str(e))
+
+        # Redirect to another route without rendering a template
+        return redirect(url_for('submitToLect', studID=studID, reportForm_files=reportForm_files))
         
-        try:
-            print("Data inserted in MySQL RDS... uploading image to S3...")
-
-            filename = reportForm_files.filename.split('.')
-
-            # lecture
-            lect_key = lect_folder_name + \
-                filename[0] + "_progress_report." +  filename[1]
-
-            # to lecturer folder
-            s3.Bucket(custombucket).put_object(
-                Key=lect_key, Body=reportForm_files_lect, ContentType=mimetypes.guess_type(reportForm_files.filename)[0] or 'application/octet-stream')
-
-        except Exception as e:
-            return str('bucket', str(e))
-
-        bucket = s3.Bucket(custombucket)
-        list_of_files = list_files(bucket, folder_name)
-
-        return render_template('report.html', my_bucket=bucket, studentID=studID, list_of_files=list_of_files)
-
     # Retrieve the studentID from the query parameters
     studID = request.args.get('studentID')
 
@@ -665,7 +631,52 @@ def report():
 
     return render_template('report.html', my_bucket=bucket, studentID=studID, list_of_files=list_of_files)
 
+# The route for submitting to lecturer
+@app.route("/submitToLect/<studID>", methods=['GET'])
+def submitToLect(studID):
+    reportForm_files = request.args.get('reportForm_files')
 
+    # Fetch data from the lecturer database
+    cursor = db_conn.cursor()
+    select_sql = "SELECT l.lectID \
+                    FROM students s\
+                    JOIN lecturer l on s.ucSuperEmail = l.lectEmail \
+                    WHERE studentID = %s"
+    cursor.execute(select_sql, (studID,))
+    data = cursor.fetchone()  # Fetch a single row
+
+    lecturerID = data[0]
+
+    # submit form to lecturer
+    lect_folder_name = 'Lecturer/' + lecturerID + "/" + studID + "/" + "report/"
+
+    folder_name = 'Student/' + studID + "/" + "report/"
+
+    # Uplaod image file in S3
+    s3 = boto3.resource('s3')
+
+    try:
+        print("Data inserted in MySQL RDS... uploading image to S3...")
+
+        filename = reportForm_files.filename.split('.')
+
+        # lecture
+        lect_key = lect_folder_name + \
+            filename[0] + "_progress_report." + filename[1]
+
+        # to lecturer folder
+        s3.Bucket(custombucket).put_object(
+            Key=lect_key, Body=reportForm_files, ContentType=mimetypes.guess_type(reportForm_files.filename)[0] or 'application/octet-stream')
+
+        # Get the list of files in the student's folder
+        bucket = s3.Bucket(custombucket)
+        list_of_files = list_files(bucket, folder_name)
+
+        return render_template('report.html', my_bucket=bucket, studentID=studID, list_of_files=list_of_files)
+
+    except Exception as e:
+        return str('bucket', str(e))
+    
 @app.route("/delete", methods=['POST'])
 def delete_file():
     if request.method == 'POST':

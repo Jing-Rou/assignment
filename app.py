@@ -612,7 +612,7 @@ def report():
             return str('bucket', str(e))
 
         # Redirect to another route without rendering a template
-        return redirect(url_for('submitToLect', studID=studID, reportForm_files=reportForm_files))
+        return redirect(url_for('submitToLect', studID=studID, reportForm_files=reportForm_files, fileName=reportForm_files.filename))
         
     # Retrieve the studentID from the query parameters
     studID = request.args.get('studentID')
@@ -635,7 +635,8 @@ def report():
 @app.route("/submitToLect/<studID>", methods=['GET'])
 def submitToLect(studID):
     reportForm_files = request.args.get('reportForm_files')
-    print(reportForm_files, studID)
+    fileName = request.args.get('fileName')
+    print(fileName, reportForm_files, studID)
 
     # Fetch data from the lecturer database
     cursor = db_conn.cursor()
@@ -659,7 +660,7 @@ def submitToLect(studID):
     try:
         print("Data inserted in MySQL RDS... uploading image to S3...")
 
-        filename = reportForm_files.filename.split('.')
+        filename = fileName.filename.split('.')
 
         # lecture
         lect_key = lect_folder_name + \

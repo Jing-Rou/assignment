@@ -1227,6 +1227,8 @@ def user_management():
     student_data = cursor.fetchall()
     cursor.close()
 
+    print(student_data)
+
     return render_template('userManagement.html', student_data=student_data)
 
 @app.route('/approve_company', methods=['POST'])

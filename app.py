@@ -638,11 +638,12 @@ def report():
     return render_template('report.html', my_bucket=bucket, studentID=studID, list_of_files=list_of_files)
 
 # The route for submitting to lecturer
-@app.route("/submitToLect/<studID>", methods=['GET'])
-def submitToLect(studID):
-    reportForm_files = request.args.get('reportForm_files')
-    fileName = request.args.get('fileName')
-    print(fileName, reportForm_files, studID)
+@app.route("/submitToLect", methods=['GET'])
+def submitToLect():
+    studID = request.form['studentID']
+    reportForm_files = request.files['reportForm']
+    # fileName = request.args.get('fileName')
+    print(reportForm_files, studID)
 
     # Fetch data from the lecturer database
     cursor = db_conn.cursor()
@@ -666,7 +667,7 @@ def submitToLect(studID):
     try:
         print("Data inserted in MySQL RDS... uploading image to S3...")
 
-        filename = fileName.split('.')
+        filename = reportForm_files.filename.split('.')
 
         # lecture
         lect_key = lect_folder_name + \
@@ -674,7 +675,7 @@ def submitToLect(studID):
 
         # to lecturer folder
         s3.Bucket(custombucket).put_object(
-            Key=lect_key, Body=reportForm_files, ContentType=mimetypes.guess_type(fileName)[0] or 'application/octet-stream')
+            Key=lect_key, Body=reportForm_files, ContentType=mimetypes.guess_type(reportForm_files.filename)[0] or 'application/octet-stream')
 
         # Get the list of files in the student's folder
         bucket = s3.Bucket(custombucket)

@@ -588,6 +588,7 @@ def report():
     if request.method == 'POST':
         studID = request.form['studentID']
         reportForm_files = request.files['reportForm']
+        reportForm_files_lect = reportForm_files
 
         # Uplaod image file in S3
         s3 = boto3.resource('s3')
@@ -623,22 +624,16 @@ def report():
                 filename[0] + "_progress_report." +  filename[1]
 
             # Upload the file into the specified folder
-            # to lecturer folder
-            s3.Bucket(custombucket).put_object(
-                Key=lect_key, Body=reportForm_files, ContentType=mimetypes.guess_type(reportForm_files.filename)[0] or 'application/octet-stream')
-
             # to student folder
             s3.Bucket(custombucket).put_object(
                 Key=stud_key, Body=reportForm_files, ContentType=mimetypes.guess_type(reportForm_files.filename)[0] or 'application/octet-stream')
 
-            # Generate the object URL
-            bucket_location = boto3.client('s3').get_bucket_location(Bucket=custombucket)
-            s3_location = (bucket_location['LocationConstraint'])
-
-            if s3_location is None:
-                s3_location = ''
-            else:
-                s3_location = '-' + s3_location
+            # Uplaod image file in S3
+            s3 = boto3.resource('s3')
+            
+            # to lecturer folder
+            s3.Bucket(custombucket).put_object(
+                Key=lect_key, Body=reportForm_files_lect, ContentType=mimetypes.guess_type(reportForm_files.filename)[0] or 'application/octet-stream')
 
         except Exception as e:
             return str('bucket', str(e))

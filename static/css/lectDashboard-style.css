@@ -342,7 +342,7 @@ header {
 .report-body {
     max-width: 1160px;
     overflow-x: auto;
-    padding: 20px;
+    padding: 20px 0px;
 }
 
 .report-topic-heading {

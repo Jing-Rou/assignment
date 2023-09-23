@@ -660,11 +660,6 @@ def report():
     list_of_files = list_files(bucket, folder_name)
 
     print(list_of_files)
-    # Convert 'last_modified' strings to datetime objects
-    for file_info in list_of_files:
-        file_info['last_modified'] = datetime.strptime(file_info['last_modified'], '%Y-%m-%dT%H:%M:%S.%fZ')
-
-
     # Sort the list by last modified timestamp in descending order
     list_of_files.sort(key=lambda x: x['last_modified'], reverse=True)
 

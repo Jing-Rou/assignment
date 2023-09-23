@@ -590,10 +590,6 @@ def report():
         reportForm_files = request.files['reportForm']
         reportForm_files_lect = reportForm_files
 
-        # Uplaod image file in S3
-        s3 = boto3.resource('s3')
-        bucket = s3.Bucket(custombucket)
-
         # Create a folder or prefix for the files in S3
         # to student s3 folder
         folder_name = 'Student/' + studID + "/" + "report/"
@@ -616,6 +612,8 @@ def report():
         content_type = mimetypes.guess_type(reportForm_files.filename)[0] or 'application/octet-stream'
 
         try:
+            s3 = boto3.client('s3')
+            bucket = s3.Bucket(custombucket)
             print("Data inserted in MySQL RDS... uploading image to S3...")
 
             filename = reportForm_files.filename.split('.')
@@ -649,6 +647,9 @@ def report():
         except Exception as e:
             return str('bucket', str(e))
 
+        # Uplaod image file in S3
+        s3 = boto3.resource('s3')
+        bucket = s3.Bucket(custombucket)
         
         list_of_files = list_files(bucket, folder_name)
 

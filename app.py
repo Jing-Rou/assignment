@@ -659,6 +659,12 @@ def report():
     bucket = s3.Bucket(custombucket)
     list_of_files = list_files(bucket, folder_name)
 
+    print(list_of_files)
+    # Convert 'last_modified' strings to datetime objects
+    for file_info in list_of_files:
+        file_info['last_modified'] = datetime.strptime(file_info['last_modified'], '%Y-%m-%dT%H:%M:%S.%fZ')
+
+
     # Sort the list by last modified timestamp in descending order
     list_of_files.sort(key=lambda x: x['last_modified'], reverse=True)
 
@@ -710,20 +716,18 @@ def delete_file():
 # -------------------------------------------------------------- Student End --------------------------------------------------------------#
 
 # -------------------------------------------------------------- Lecturer START (Kuah Jia Yu) --------------------------------------------------------------#
-def getStudFiles(lecturerID, studentID):
+def getStudFiles(lecturerID, studentID, type):
     contents = []
-    folder_prefix = 'Lecturer/' + lecturerID + "/" + studentID + "/"
+    folder_prefix = 'Lecturer/' + lecturerID + "/" + studentID + "/" + type + "/"
 
     s3 = boto3.resource('s3')
     bucket = s3.Bucket(custombucket)
-    expiration = 315360000  # 10 years in seconds
+
     for image in bucket.objects.filter(Prefix=folder_prefix):
         if (image.key.split('/')[1]):
-            # Extract file name without the folder prefix
-            # file_name = image.key[len(folder_prefix):]
-            # contents.append("https://" + bucket.name +
-            #                 ".s3.amazonaws.com/Company/" + file_name)
-            print(image.key)
+            contents.append("https://" + bucket.name + ".s3.amazonaws.com/" + image.key)
+    
+    return contents
 
 
 @app.route("/lectRegister", methods=['GET', 'POST'])
@@ -775,8 +779,9 @@ def lectViewReport():
         lecturer_id = session.get('lecturer_id', None)
         studentID = request.form.get('studID')
 
-        getStudFiles(lecturer_id, studentID)
-        return render_template('lectViewReport.html')
+        studFile = getStudFiles(lecturer_id, studentID, 'Form')
+        print(studFile)
+        return render_template('lectViewReport.html', studentID=studentID, studFile=studFile)
 
 @app.route("/lectViewForm", methods=['GET'])
 def lectViewForm():

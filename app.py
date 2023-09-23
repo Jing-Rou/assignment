@@ -28,24 +28,6 @@ db_conn = connections.Connection(
 output = {}
 table = 'students'
 
-
-def getCompFiles(path):
-    contents = []
-    folder_prefix = path
-
-    s3 = boto3.resource('s3')
-    bucket = s3.Bucket(custombucket)
-    expiration = 315360000  # 10 years in seconds
-    for image in bucket.objects.filter(Prefix=folder_prefix):
-        if (image.key.split('/')[1]):
-            # Extract file name without the folder prefix
-            file_name = image.key[len(folder_prefix):]
-            contents.append("https://" + bucket.name +
-                            ".s3.amazonaws.com/Company/" + file_name)
-
-    return contents
-
-
 @app.route("/", methods=['GET'], endpoint='index')
 def index():
     # retrive from database
@@ -319,6 +301,7 @@ def login():
                     # Passwords match, user is authenticated
 
                     session['lecturer_id'] = lecturer_id
+                    session['lecturer_email'] = data[0]
 
                     # Fetch student data for this lecturer
                     select_students_sql = "SELECT * \
@@ -727,6 +710,21 @@ def delete_file():
 # -------------------------------------------------------------- Student End --------------------------------------------------------------#
 
 # -------------------------------------------------------------- Lecturer START (Kuah Jia Yu) --------------------------------------------------------------#
+def getStudFiles(lecturerID, studentID):
+    contents = []
+    folder_prefix = 'Lecturer/' + lecturerID + "/" + studentID + "/"
+
+    s3 = boto3.resource('s3')
+    bucket = s3.Bucket(custombucket)
+    expiration = 315360000  # 10 years in seconds
+    for image in bucket.objects.filter(Prefix=folder_prefix):
+        if (image.key.split('/')[1]):
+            # Extract file name without the folder prefix
+            # file_name = image.key[len(folder_prefix):]
+            # contents.append("https://" + bucket.name +
+            #                 ".s3.amazonaws.com/Company/" + file_name)
+            print(image.key)
+
 
 @app.route("/lectRegister", methods=['GET', 'POST'])
 def lectRegister():
@@ -758,12 +756,27 @@ def lectRegister():
 
 @app.route("/lectDashboard", methods=['GET'])
 def lectDashboard():
-    return render_template('lectDashboard.html')
+    lecturer_email = session.get('lecturer_email', None)
+    cursor = db_conn.cursor()
 
-@app.route("/lectViewReport", methods=['GET'])
+    # Fetch student data for this lecturer
+    select_students_sql = "SELECT * \
+                            FROM students s\
+                            JOIN lecturer l on s.ucSuperEmail = l.lectEmail \
+                            WHERE l.lectEmail = %s"
+    cursor.execute(select_students_sql, (lecturer_email,))
+    student_data = cursor.fetchall()
+    
+    return render_template('lectDashboard.html', student_data=student_data)
+
+@app.route("/lectViewReport", methods=['GET', 'POST'])
 def lectViewReport():
+    if request.method == 'POST':
+        lecturer_id = session.get('lecturer_id', None)
+        studentID = request.form.get('studID')
 
-    return render_template('lectViewReport.html')
+        getStudFiles(lecturer_id, studentID)
+        return render_template('lectViewReport.html')
 
 @app.route("/lectViewForm", methods=['GET'])
 def lectViewForm():

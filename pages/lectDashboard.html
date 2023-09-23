@@ -77,65 +77,44 @@
 				</div>
 
 				<div class="report-body">
-					<div class="row">
-						<div class="col-2">
-							<h3 class="t-op">Student ID</h3>
+					<div class="table">
+						<div class="table-header">
+							<div class="table-cell">Student ID</div>
+							<div class="table-cell">Student Name</div>
+							<div class="table-cell">Email</div>
+							<div class="table-cell">Programme</div>
+							<div class="table-cell">Tutorial Group</div>
+							<div class="table-cell">Action</div>
 						</div>
-						<div class="col-2">
-							<h3 class="t-op">Student Name</h3>
-						</div>
-						<div class="col-2">
-							<h3 class="t-op">Email</h3>
-						</div>
 
-					</div>
-
-					<div class="items">
-						{% if student_data %}
-						<!-- Debugging statement to check if data is present -->
-						{% for students in student_data %}
-						<div>
-							<div class="row">
-								<div class="col-2">
-									<h3 class="t-op-nextlvl">{{ students[0] }}</h3>
-								</div>
-
-								<div class="col-2">
-									<h3 class="t-op-nextlvl">{{ students[1] ~ ' ' ~ students[2]}}</h3>
-								</div>
-
-								<div class="col-2">
-									<h3 class="t-op-nextlvl">{{ students[4] }}</h3>
-								</div>
-
-								<div class="col-2">
-									<h3 class="t-op-nextlvl">{{ students[7] }}</h3>
-								</div>
-
-								<div class="col-2">
-									<h3 class="t-op-nextlvl">{{ students[8] }}</h3>
-								</div>
-
-								<div class="col-2">
+						<div class="table-body">
+							{% if student_data %}
+							<!-- Debugging statement to check if data is present -->
+							{% for student in student_data %}
+							<div class="table-row">
+								<div class="table-cell">{{ student[0] }}</div>
+								<div class="table-cell">{{ student[1] ~ ' ' ~ student[2]}}</div>
+								<div class="table-cell">{{ student[4] }}</div>
+								<div class="table-cell">{{ student[7] }}</div>
+								<div class="table-cell">{{ student[8] }}</div>
+								<div class="table-cell">
 									<form method="post" action="/delete">
-										<input type="hidden" name="studID" value="{{ students[0] }}">
+										<input type="hidden" name="studID" value="{{ student[0] }}">
 										<button type="submit" class="btn btn-danger">view</button>
 									</form>
 								</div>
 							</div>
+							{% endfor %}
+							{% else %}
+							<!-- Debugging statement if data is not present -->
+							<p>No data available.</p>
+							{% endif %}
 						</div>
-						{% endfor %}
-						{% else %}
-						<!-- Debugging statement if data is not present -->
-						<p>No data available.</p>
-						{% endif %}
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
-	<script src="{{ url_for('static', filename='js/lectDashboard-index.js') }}"></script>
-	<!--<script src="./lectDashboard-index.js"></script>-->
+		<script src="{{ url_for('static', filename='js/lectDashboard-index.js') }}"></script>
 </body>
 
 </html>

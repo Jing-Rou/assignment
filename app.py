@@ -1158,7 +1158,7 @@ def adminRegister():
          # Check if the email is already in the database.
         cursor = db_conn.cursor()
         cursor.execute("SELECT * FROM admin WHERE adminEmail=%s", (adminEmail))
-        results = cursor.fetchone()
+        results = cursor.fetchall()
         cursor.close()
 
         # If the email is already in the database, return an error message to the user and display it on the register.html page.

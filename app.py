@@ -796,9 +796,39 @@ def lectViewForm():
     
 @app.route("/lecturerProfile", methods=['GET', 'POST'])
 def lecturerProfile():
-    # Retrieve the studentID from the query parameters
     lecturer_id = session.get('lecturer_id', None)
-    print(lecturer_id)
+
+    if request.method == 'POST':
+        # Get the form data from the request
+        gender = request.form.get('genderField')
+        lectEmail = request.form.get('emailField')
+
+        # Update database
+        update_sql = "UPDATE lecturer \ SET lectEmail = %s, gender = %s \
+                      WHERE lectID = %s"
+        cursor = db_conn.cursor()
+
+        try:
+            cursor.execute(update_sql, (gender, lectEmail, lecturer_id))
+            db_conn.commit()
+            cursor.close()
+
+            # retrive from database
+            cursor = db_conn.cursor()
+            select_sql = "SELECT * from lecturer where lectID = %s"
+
+            try:
+                cursor.execute(select_sql, (lecturer_id))
+                data = cursor.fetchone()  # Fetch a single row
+
+            except Exception as e:
+                return str(e)
+
+            # Pass the lecturerID to the lecturerDashboard.html template
+            return render_template('lecturerProfile.html', lecturer_id=lecturer_id, lecturer_infor=data)
+        except Exception as e:
+            cursor.close()
+            return str(e)  # Handle any database errors here
 
     # retrive from database
     cursor = db_conn.cursor()
@@ -807,12 +837,11 @@ def lecturerProfile():
     try:
         cursor.execute(select_sql, (lecturer_id,))
         data = cursor.fetchone()  # Fetch a single row
-        print(data)
 
     except Exception as e:
         return str(e)
 
-    # Pass the studentID to the studentDashboard.html template
+    # Pass the lecturerID to the lecturerDashboard.html template
     return render_template('lecturerProfile.html', lecturer_id=lecturer_id, lecturer_infor=data)
 
 # ------------------------------------------------------------------- Lecturer END -------------------------------------------------------------------#

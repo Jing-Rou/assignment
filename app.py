@@ -776,14 +776,14 @@ def lectViewForm():
 @app.route("/lecturerProfile", methods=['GET', 'POST'])
 def lecturerProfile():
     # Retrieve the studentID from the query parameters
-    lecturer_id = request.args.get('lecturer_id')
+    lecturer_id = session.get('lecturer_id', None)
 
     # retrive from database
     cursor = db_conn.cursor()
     select_sql = "SELECT * from lecturer where lectID = %s"
 
     try:
-        cursor.execute(select_sql, (lecturer_id))
+        cursor.execute(select_sql, (lecturer_id,))
         data = cursor.fetchone()  # Fetch a single row
         data = data[0]
 

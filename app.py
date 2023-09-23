@@ -610,7 +610,6 @@ def report():
         # submit form to lecturer
         lect_folder_name = 'Lecturer/' + lecturerID + "/" + studID + "/" + "report/"
 
-        
         try:
             print("Data inserted in MySQL RDS... uploading image to S3...")
 
@@ -621,7 +620,7 @@ def report():
                 filename[0] + "_progress_report." +  filename[1]
             # lecture
             lect_key = lect_folder_name + \
-                filename[0] + "_progress_report"
+                filename[0] + "_progress_report." +  filename[1]
 
             # Upload the file into the specified folder
             # to student folder

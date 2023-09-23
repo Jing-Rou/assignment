@@ -698,18 +698,17 @@ def getStudFiles(lecturerID, studentID, type):
 
     for object_summary in bucket.objects.filter(Prefix=folder_prefix):
         # Extract file name without the folder prefix
-        print(object_summary.key)
         file_name = object_summary.key[len(folder_prefix):]
         if file_name:
             last_modified = object_summary.last_modified
             size = object_summary.size
             last_modified = str(last_modified).split(' ')
-            time = str(last_modified[1]).split(' ')
+            time = str(last_modified[1]).split('+')
             contents.append({
                 'file_name': str(file_name).split('/')[-1],
                 'file_path': file_name,
                 'last_modified': last_modified[0],
-                'time': time,
+                'time': time[0],
                 'size': size
             })
     return contents

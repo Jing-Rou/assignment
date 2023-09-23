@@ -326,13 +326,13 @@ def login():
                                         WHERE l.lectEmail = %s"
                     cursor.execute(select_students_sql, (email,))
                     student_data = cursor.fetchall()
-
-                    return render_template('lectDashboard.html', lectID=lecturer_id, student_data=student_data)
+                    
+                    print(student_data)
+                    return render_template('lectDashboard.html', lectID=lecturer_id, student_data=student_data, user_authenticated=True)
                 else:
                     return render_template('login.html', pwd_error="Incorrect password. Please try again.")
             else:
                 return render_template('login.html', email_login_error="Email not found. Please register or try a different email.")
-
     return render_template('login.html')
 
 
@@ -728,7 +728,6 @@ def delete_file():
 
 # -------------------------------------------------------------- Student End --------------------------------------------------------------#
 
-
 # -------------------------------------------------------------- Lecturer START (Kuah Jia Yu) --------------------------------------------------------------#
 
 @app.route("/lectRegister", methods=['GET', 'POST'])
@@ -759,24 +758,19 @@ def lectRegister():
             return str(e)  # Handle any database errors here
     return render_template('lectRegister.html')
 
-
-@app.route("/lectLogin", methods=['GET', 'POST'])
-def lectLogin():
-    if request.method == 'POST':
-        return render_template('index.html', user_authenticated=True)
-
-    # Fetch data from the database here
-    cursor = db_conn.cursor()
-    select_sql = "SELECT lectEmail, password FROM lecturer"
-    cursor.execute(select_sql)
-    data = cursor.fetchall()
-    cursor.close()
-    return render_template('lectLogin.html', lecturer=data)
-
-
 @app.route("/lectDashboard", methods=['GET'])
 def lectDashboard():
-    return render_template('lectDashboard.html', student_data=student_data)
+    return render_template('lectDashboard.html')
+
+@app.route("/lectViewReport", methods=['GET'])
+def lectViewReport():
+
+    return render_template('lectViewReport.html')
+
+@app.route("/lectViewForm", methods=['GET'])
+def lectViewForm():
+
+    return render_template('lectViewForm.html')
 
 # ------------------------------------------------------------------- Lecturer END -------------------------------------------------------------------#
 

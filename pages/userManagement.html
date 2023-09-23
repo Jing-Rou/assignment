@@ -201,7 +201,8 @@
 								<select id="ucSupervisor" name="ucSupervisor"
 									class="custom-select form-control form-control-lg" required disabled>
 									<option value="" disabled selected>Select UC Supervisor</option>
-									<option value="{{ studData[10] ~ ', ' ~ lecturer[11] }}" disabled selected>{{ studData[10] }}</option>
+									<option value="{{ studData[10] ~ ', ' ~ lecturer[11] }}" disabled selected>{{
+										studData[10] }}</option>
 									{% for lecturer in lecturer_data %}
 									<option value="{{ lecturer[0] ~ ', ' ~ lecturer[1] }}">
 										{{ lecturer[0] }}
@@ -223,14 +224,14 @@
 								<p class="mb-0">Gender: </p>
 							</div>
 							<div class="col-4">
-								<input type="text" class="text-muted" style="width: 100%;" id="gender"
-									name="gender" value="{{ studData[3] }}" disabled>
+								<input type="text" class="text-muted" style="width: 100%;" id="gender" name="gender"
+									value="{{ studData[3] }}" disabled>
 							</div>
 						</div>
 					</form>
 					<hr>
 					<button id="editButton">Edit</button>
-					<button class="delete-button">Delete</button>
+					<button id="deleteButton" class="delete-button">Delete</button>
 					<button id="saveButton" class="float-end" disabled>Save Change</button>
 				</div>
 			</div>
@@ -324,6 +325,31 @@
 			// Enable the Save button
 			saveButton.disabled = true;
 		});
+	</script>
+
+	<script>
+		const deleteButton = document.getElementById("deleteButton");
+
+		deleteButton.addEventListener("click", function () {
+			// Send a POST request to the delete route with the user_id
+			const user_id = {{ studData[0] }
+		};  // Replace with how you get the user_id
+		fetch(`/delete_user/${user_id}`, {
+			method: 'POST',
+		})
+			.then(response => {
+				if (response.ok) {
+					// Redirect to the desired route after successful delete
+					window.location.href = "{{ url_for('user_management') }}";
+				} else {
+					// Handle errors here, if needed
+					console.error('Failed to delete user');
+				}
+			})
+			.catch(error => {
+				console.error('Error:', error);
+			});
+    });
 	</script>
 </body>
 

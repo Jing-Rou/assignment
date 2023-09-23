@@ -1291,6 +1291,13 @@ def user_management():
 
     return render_template('userManagement.html', student_data=student_data, lecturer_data=lecturer_data)
 
+@app.route('/delete_user/<int:user_id>', methods=['POST'])
+def delete_user(user_id):
+    # Add code here to delete the user with the specified user_id
+    # You can use user_id to identify and delete the user from your database
+    # After deleting, you can redirect to a desired route
+    return redirect(url_for('user_management'))  # Redirect to the user_management route
+
 @app.route('/approve_company', methods=['POST'])
 def approve_company():
     data = request.form  # Assuming you send form data with 'compName'

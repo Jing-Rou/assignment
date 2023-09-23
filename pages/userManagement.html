@@ -332,11 +332,11 @@
 
 		deleteButton.addEventListener("click", function () {
 			// Send a POST request to the delete route with the user_id
-			const user_id = {{ studData[0] }
-		};  // Replace with how you get the user_id
-		fetch(`/delete_user/${user_id}`, {
-			method: 'POST',
-		})
+			const user_id = {{ studData[0] }};
+			// Replace with how you get the user_id
+			fetch(`/delete_user/${user_id}`, {
+				method: 'POST',
+			})
 			.then(response => {
 				if (response.ok) {
 					// Redirect to the desired route after successful delete
@@ -349,7 +349,7 @@
 			.catch(error => {
 				console.error('Error:', error);
 			});
-    });
+		});
 	</script>
 </body>
 

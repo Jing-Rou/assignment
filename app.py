@@ -792,7 +792,7 @@ def lecturerProfile():
         return str(e)
 
     # Pass the studentID to the studentDashboard.html template
-    return render_template('studentProfile.html', lecturer_id=lecturer_id, lecturer_infor=data)
+    return render_template('lecturerProfile.html', lecturer_id=lecturer_id, lecturer_infor=data)
 
 # ------------------------------------------------------------------- Lecturer END -------------------------------------------------------------------#
 

@@ -1296,6 +1296,7 @@ def delete_user():
     # Add code here to delete the user with the specified user_id
     # You can use user_id to identify and delete the user from your database
     # After deleting, you can redirect to a desired route
+    print('a')
     return redirect(url_for('user_management'))  # Redirect to the user_management route
 
 @app.route('/approve_company', methods=['POST'])

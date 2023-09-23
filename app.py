@@ -1219,7 +1219,56 @@ def list_companies():
 @app.route('/user_management', methods=['GET', 'POST'])
 def user_management():
     if request.method == 'POST':
-        print('a')
+        # Get the form data from the request
+        studID = request.form.get('studID')
+        gender = request.form.get('gender')
+        email = request.form.get('email')
+        nric = request.form.get('nric')
+        programme = request.form.get('programme')
+        dob = request.form.get('dob')
+        tutGroup = request.form.get('tutGroup')
+        contact = request.form.get('contact')
+        cgpa = request.form.get('cgpa')
+        homeAdd = request.form.get('homeAdd')
+        ucSupervisor = request.form.get('ucSupervisor')
+        correspondenceAdd = request.form.get('correspondenceAdd')
+
+        # Update database
+        update_sql = "UPDATE students SET gender = %s, \
+                                        stud_email = %s, \
+                                        ic = %s, \
+                                        programme = %s, \
+                                        tutGroup = %s, \
+                                        cgpa = %s, \
+                                        ucSupervisor = %s, \
+                                        dob = %s, \
+                                        contact = %s, \
+                                        homeAddress = %s, \
+                                        correspondenceAddress = %s \
+                    WHERE studentID = %s"
+        cursor = db_conn.cursor()
+
+        try:
+            cursor.execute(update_sql, (gender, email, nric, programme, tutGroup, cgpa, ucSupervisor, dob, contact, homeAdd, correspondenceAdd, studID))
+            db_conn.commit()
+            cursor.close()
+
+            # retrive from database
+            cursor = db_conn.cursor()
+
+            try:
+                cursor.execute("SELECT * FROM students")
+                student_data = cursor.fetchall()
+                cursor.close()
+
+            except Exception as e:
+                return str(e)
+
+            # Pass the studentID to the studentDashboard.html template
+            return render_template('userManagement.html', student_data=student_data)
+        except Exception as e:
+            cursor.close()
+            return str(e)  # Handle any database errors here
 
     # Now, retrieve company data and pass it to the template
     cursor = db_conn.cursor()

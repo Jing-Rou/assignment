@@ -211,6 +211,13 @@
 								<input type="text" class="text-muted" style="width: 100%;" id="CorrespondenceAdd"
 									name="CorrespondenceAdd" value="{{ studData[15] }}" disabled>
 							</div>
+							<div class="col-2">
+								<p class="mb-0">Gender: </p>
+							</div>
+							<div class="col-4">
+								<input type="text" class="text-muted" style="width: 100%;" id="gender"
+									name="gender" value="{{ studData[3] }}" disabled>
+							</div>
 						</div>
 					</form>
 					<hr>
@@ -226,7 +233,7 @@
 
 	<script>
 		const editButton = document.getElementById("editButton");
-		const studIDField = document.getElementById("studID");
+		const genderField = document.getElementById("gender");
 		const emailField = document.getElementById("email");
 		const nricField = document.getElementById("nric");
 		const programmeField = document.getElementById("programme");
@@ -243,7 +250,7 @@
 		editButton.addEventListener("click", function () {
 			if (editButton.textContent === "Edit") {
 				// Enable all input fields
-				studIDField.disabled = false;
+				genderField.disabled = false;
 				emailField.disabled = false;
 				nricField.disabled = false;
 				programmeField.disabled = false;
@@ -262,7 +269,7 @@
 				saveButton.disabled = false;
 			} else {
 				// Reset fields and disable them
-				studIDField.disabled = true;
+				genderField.disabled = true;
 				emailField.disabled = true;
 				nricField.disabled = true;
 				programmeField.disabled = true;
@@ -287,7 +294,7 @@
 			profileForm.submit();
 
 			// Disable all input fields
-			studIDField.disabled = true;
+			genderField.disabled = true;
 			emailField.disabled = true;
 			nricField.disabled = true;
 			programmeField.disabled = true;

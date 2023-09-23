@@ -619,14 +619,22 @@ def report():
             # Construct the key with the folder prefix and file name
             stud_key = folder_name + \
                 filename[0] + "_progress_report." +  filename[1]
-            # lecture
-            lect_key = lect_folder_name + \
-                filename[0] + "_progress_report." +  filename[1]
 
             # Upload the file into the specified folder
             # to student folder
-            # s3.Bucket(custombucket).put_object(
-            #     Key=stud_key, Body=reportForm_files, ContentType=mimetypes.guess_type(reportForm_files.filename)[0] or 'application/octet-stream')
+            s3.Bucket(custombucket).put_object(
+                Key=stud_key, Body=reportForm_files, ContentType=mimetypes.guess_type(reportForm_files.filename)[0] or 'application/octet-stream')
+        except Exception as e:
+            return str('bucket', str(e))
+        
+        try:
+            print("Data inserted in MySQL RDS... uploading image to S3...")
+
+            filename = reportForm_files.filename.split('.')
+
+            # lecture
+            lect_key = lect_folder_name + \
+                filename[0] + "_progress_report." +  filename[1]
 
             # to lecturer folder
             s3.Bucket(custombucket).put_object(

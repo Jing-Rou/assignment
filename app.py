@@ -24,7 +24,6 @@ db_conn = connections.Connection(
     user=customuser,
     password=custompass,
     db=customdb
-
 )
 output = {}
 table = 'students'
@@ -952,7 +951,7 @@ def companyDashboard():
     return render_template('companyDashboard.html', user_login_name=name, job_data=job_data)
 
 
-def list_files(bucket, path_name):
+def list_comp_files(bucket, path_name):
 
     contents = []
 
@@ -1005,7 +1004,7 @@ def jobDetail(user_login_name, job_name):
     s3 = boto3.resource('s3')
 
     bucket = s3.Bucket(custombucket)
-    list_of_files = list_files(bucket, comp_image_file_name_in_s3)
+    list_of_files = list_comp_files(bucket, comp_image_file_name_in_s3)
 
     # Render the job details template and pass the job_data, job_name, and user_login_name
     return render_template('jobDetails.html', job_data=job_data_with_description, list_of_files=list_of_files)

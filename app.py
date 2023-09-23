@@ -787,8 +787,6 @@ def lecturerProfile():
         cursor.execute(select_sql, (lecturer_id,))
         data = cursor.fetchone()  # Fetch a single row
         print(data)
-        data = data[0]
-        print(data)
 
     except Exception as e:
         return str(e)

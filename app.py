@@ -29,6 +29,7 @@ db_conn = connections.Connection(
 output = {}
 table = 'students'
 
+
 @app.route("/", methods=['GET'], endpoint='index')
 def index():
     # retrive from database
@@ -65,6 +66,7 @@ def job_listing():
         return str(e)
 
     return render_template('job_listing.html', comp_data=data)
+
 
 @app.route("/about", methods=['GET'])
 def about():
@@ -281,7 +283,7 @@ def login():
 
                 if password == stored_password:
                     # Passwords match, user is authenticated
-                    return render_template('index.html', user_login_name=name, studentID=None, user_authenticated=True)
+                    return render_template('adminDashboard.html', user_login_name=name, studentID=None, user_authenticated=True)
                 else:
                     return render_template('login.html', pwd_error="Incorrect password. Please try again.")
             else:
@@ -311,7 +313,7 @@ def login():
                                           WHERE l.lectEmail = %s"
                     cursor.execute(select_students_sql, (email,))
                     student_data = cursor.fetchall()
-                    
+
                     return render_template('lectDashboard.html', user_login_name=lectName, student_data=student_data)
                 else:
                     return render_template('login.html', pwd_error="Incorrect password. Please try again.")
@@ -327,6 +329,7 @@ def studentDashboard():
 
     # Pass the studentID to the studentDashboard.html template
     return render_template('studentDashboard.html', studentID=student_id)
+
 
 @app.route("/studentProfile", methods=['GET', 'POST'])
 def studentProfile():
@@ -508,7 +511,8 @@ def form():
                     ctr1 += 1
                 else:
                     filename = file.filename.split('.')
-                    list_files.append(filename[0] + form_list[ctr1] + filename[1])
+                    list_files.append(
+                        filename[0] + form_list[ctr1] + filename[1])
                     ctr1 += 1
 
                 # if not empty
@@ -543,6 +547,7 @@ def form():
             list_files[3] = hire_evi
 
         bucket = s3.Bucket(custombucket)
+        print(list_files)
 
         return render_template('form.html', my_bucket=bucket, lecturerID=lecturerID, studentID=studID, list_of_files=list_files)
 
@@ -550,6 +555,7 @@ def form():
     student_id = request.args.get('studentID')
 
     return render_template('form.html', studentID=student_id)
+
 
 def list_files(bucket, path):
     contents = []
@@ -600,13 +606,13 @@ def report():
             filename = reportForm_files.filename.split('.')
             # lecture
             lect_key = lect_folder_name + \
-                filename[0] + "_progress_report." +  filename[1]
+                filename[0] + "_progress_report." + filename[1]
 
             # Upload the file into the specified folder
             # to lecturer folder
             s3.Bucket(custombucket).put_object(
                 Key=lect_key, Body=reportForm_files_lect, ContentType=mimetypes.guess_type(reportForm_files.filename)[0] or 'application/octet-stream')
-            
+
         except Exception as e:
             return str('bucket', str(e))
 
@@ -673,6 +679,8 @@ def delete_file():
 # -------------------------------------------------------------- Student End --------------------------------------------------------------#
 
 # -------------------------------------------------------------- Lecturer START (Kuah Jia Yu) --------------------------------------------------------------#
+
+
 def getStudFiles(lecturerID, studentID, type):
     contents = []
     folder_prefix = 'Lecturer/' + lecturerID + "/" + studentID + "/" + type + "/"
@@ -697,6 +705,7 @@ def getStudFiles(lecturerID, studentID, type):
             })
     return contents
 
+
 @app.route("/lectRegister", methods=['GET', 'POST'])
 def lectRegister():
     if request.method == 'POST':
@@ -719,7 +728,8 @@ def lectRegister():
 
         # Otherwise, check if the IC is already in the database.
         cursor = db_conn.cursor()
-        cursor.execute("SELECT * FROM lecturer WHERE lectEmail=%s", (lectEmail))
+        cursor.execute(
+            "SELECT * FROM lecturer WHERE lectEmail=%s", (lectEmail))
         results = cursor.fetchall()
         cursor.close()
 
@@ -746,6 +756,7 @@ def lectRegister():
             return str(e)  # Handle any database errors here
     return render_template('lectRegister.html')
 
+
 @app.route("/lectDashboard", methods=['GET'])
 def lectDashboard():
     lecturer_email = session.get('lecturer_email', None)
@@ -758,8 +769,9 @@ def lectDashboard():
                             WHERE l.lectEmail = %s"
     cursor.execute(select_students_sql, (lecturer_email,))
     student_data = cursor.fetchall()
-    
+
     return render_template('lectDashboard.html', student_data=student_data)
+
 
 @app.route("/lectViewReport", methods=['GET', 'POST'])
 def lectViewReport():
@@ -771,6 +783,7 @@ def lectViewReport():
 
         return render_template('lectViewReport.html', studentID=studentID, studFiles=studFiles)
 
+
 @app.route("/lectViewForm", methods=['GET', 'POST'])
 def lectViewForm():
     if request.method == 'POST':
@@ -780,7 +793,8 @@ def lectViewForm():
         studFiles = getStudFiles(lecturer_id, studentID, 'Form')
 
         return render_template('lectViewForm.html', studentID=studentID, studFiles=studFiles)
-    
+
+
 @app.route("/lecturerProfile", methods=['GET', 'POST'])
 def lecturerProfile():
     lecturer_id = session.get('lecturer_id', None)
@@ -947,9 +961,9 @@ def jobReg():
             cursor.execute(select_sql, (compID))
             data = cursor.fetchone()  # Fetch a single row
 
-            if (data[0]) != 'APPROVED': 
+            if (data[0]) != 'APPROVED':
                 return render_template('jobReg.html', jobRegError='sorry you\'re not allowed to post any job applicants')
-            
+
         except Exception as e:
             return str(e)
 
@@ -1133,9 +1147,6 @@ def delete_job(job_id):
     return redirect(url_for('companyDashboard'))
 # ------------------------------------------------------------------- Company END -------------------------------------------------------------------#
 
-# Define the route for admin registration
-
-
 @app.route("/adminRegister", methods=['GET', 'POST'])
 def adminRegister():
     if request.method == 'POST':
@@ -1144,6 +1155,16 @@ def adminRegister():
         adminContact = request.form['adminContact']
         password = request.form['password']
 
+         # Check if the email is already in the database.
+        cursor = db_conn.cursor()
+        cursor.execute("SELECT * FROM admin WHERE adminEmail=%s", (adminEmail))
+        results = cursor.fetchone()
+        cursor.close()
+
+        # If the email is already in the database, return an error message to the user and display it on the register.html page.
+        if len(results) > 0:
+            return render_template('adminRegister.html', adminEmail_error="This company email is already in use.")
+
         # Fetch data from the database here
         cursor = db_conn.cursor()
         select_sql = "SELECT max(adminID) FROM admin"
@@ -1151,6 +1172,7 @@ def adminRegister():
         data = cursor.fetchone()  # Fetch a single row
         data = data[0]
 
+        print(data)
         if data == None:
             adminID = 'A' + str(10001)
         else:
@@ -1173,50 +1195,70 @@ def adminRegister():
 
     return render_template('adminRegister.html')
 
+@app.route('/admin_dashboard')
+def admin_dashboard():
+    # Now, retrieve company data and pass it to the template
+    cursor = db_conn.cursor()
+    cursor.execute("SELECT compID, compName, compEmail, compStatus FROM company")
+    companies = cursor.fetchall()
+    cursor.close()
 
-@app.route('/approve-company', methods=['POST'])
+    print(companies)
+    return render_template('adminDashboard.html', companies=companies)
+
+@app.route('/approve_companies')
+def approve_companies():
+    return render_template('approve.html')
+
+@app.route('/list_companies')
+def list_companies():
+    return render_template('listCompanies.html')
+
+@app.route('/user_management')
+def user_management():
+    return render_template('userManagement.html')
+
+@app.route('/approve_company', methods=['POST'])
 def approve_company():
-    data = request.json  # Assuming you send JSON data with company_id
+    data = request.form  # Assuming you send form data with 'compName'
 
-    # Extract company_id from the request
-    company_id = data.get('company_id')
+    # Extract the company name from the form data
+    company_name = data.get('compName')
 
-    if not company_id:
-        return jsonify({"error": "Company ID is missing"}), 400
+    if not company_name:
+        return jsonify({"error": "Company name is missing"}), 400
 
     try:
         with db_conn.cursor() as cursor:
-            # Update the company's status to 'approved' in the database
-            update_query = "UPDATE companies SET status = 'approved' WHERE id = %s"
-            cursor.execute(update_query, (company_id,))
+            # Update the company's status to 'approved' in the database based on company name
+            update_query = "UPDATE company SET compStatus = 'Approved' WHERE compName = %s"
+            cursor.execute(update_query, (company_name,))
             db_conn.commit()
 
             return jsonify({"message": "Company approved successfully"})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-
-@app.route('/reject-company', methods=['POST'])
+@app.route('/reject_company', methods=['POST'])
 def reject_company():
-    data = request.json  # Assuming you send JSON data with company_id
+    data = request.form  # Assuming you send form data with 'compName'
 
-    # Extract company_id from the request
-    company_id = data.get('company_id')
+    # Extract the company name from the form data
+    company_name = data.get('compName')
 
-    if not company_id:
-        return jsonify({"error": "Company ID is missing"}), 400
+    if not company_name:
+        return jsonify({"error": "Company name is missing"}), 400
 
     try:
         with db_conn.cursor() as cursor:
-            # Update the company's status to 'rejected' in the database
-            update_query = "UPDATE companies SET status = 'rejected' WHERE id = %s"
-            cursor.execute(update_query, (company_id,))
+            # Update the company's status to 'rejected' in the database based on company name
+            update_query = "UPDATE company SET compStatus = 'Rejected' WHERE compName = %s"
+            cursor.execute(update_query, (company_name,))
             db_conn.commit()
 
             return jsonify({"message": "Company rejected successfully"})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80, debug=True)

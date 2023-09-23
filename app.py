@@ -563,7 +563,6 @@ def form():
 
     return render_template('form.html', studentID=student_id)
 
-
 def list_files(bucket, path):
     contents = []
     folder_prefix = path
@@ -774,19 +773,9 @@ def lectViewReport():
         lecturer_id = session.get('lecturer_id', None)
         studentID = request.form.get('studID')
 
-        studFile = getStudFiles(lecturer_id, studentID, 'report')
+        studFiles = getStudFiles(lecturer_id, studentID, 'report')
 
-        # Generate the object URL
-        bucket_location = boto3.client('s3').get_bucket_location(Bucket=custombucket)
-        s3_location = (bucket_location['LocationConstraint'])
-        print(s3_location)
-        object_url = "https://{0}s3.amazonaws.com/{1}".format(
-            custombucket,
-            studFile[0]
-        )
-        print(studFile)
-        print(object_url)
-        return render_template('lectViewReport.html', studentID=studentID, studFile=studFile)
+        return render_template('lectViewReport.html', studentID=studentID, studFiles=studFiles)
 
 @app.route("/lectViewForm", methods=['GET'])
 def lectViewForm():

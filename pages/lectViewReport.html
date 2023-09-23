@@ -93,6 +93,8 @@
 				<div class="report-body">
 					<div class="col-xl-10 col-lg-10">
 						<h4>Student ID: {{ studentID }}</h4>
+
+						{{ for studFile in studFiles }}
 						<div class="rpt-details1  mb-60">
 							<div class="report-info">
 								<h5>Article 73</h5>
@@ -106,32 +108,11 @@
 									<a href="#" class="btn" onclick="showReport('Article73.pdf')">View Report</a>
 								</div>
 								<div class="download-btn">
-									<a href="Article73.pdf" download class="btn">Download Report</a>
+									<a href="{{ studFile }}" download class="btn">Download Report</a>
 								</div>
 							</div>
 						</div>
-
-						<div class="rpt-details2  mb-50">
-							<div class="report-info">
-								<h5>Article 71</h5>
-								<ul>
-									<li><strong>Student Name:</strong> Kuah Jia YU</li>
-									<li><strong>Student ID:</strong> 22WMR05348</li>
-									<li><strong>Tutorial Group:</strong> 3</li>
-									<li><strong>Programme:</strong> Bachelor of Computer Science (Honours) in Data Science</li>
-									<li><strong>Submission Date:</strong> 12 May 2023</li>
-									<li><strong>Submission Time:</strong> 10:09am</li>
-								</ul>
-							</div>
-							<div class="button-container">
-								<div class="view-btn">
-									<a href="#" class="btn" onclick="showReport('Article71.pdf')">View Report</a>
-								</div>
-								<div class="download-btn">
-									<a href="Article71.pdf" download class="btn">Download Report</a>
-								</div>
-							</div>
-						</div>
+						{{ endfor }}
 					</div>
 				</div>
 				<div id="pdf-container" style="display: none;">

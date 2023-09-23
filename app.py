@@ -500,13 +500,14 @@ def form():
             print("Data inserted in MySQL RDS... uploading image to S3...")
 
             for file in uploaded_files:
-                print(file.filename)
-                if file is None or file.filename == "":
+                if file is None：
+                    list_files.append('')
+                    ctr1 += 1
+                elif file.filename == "":
                     list_files.append('')
                     ctr1 += 1
                 else:
                     filename = file.filename.split('.')
-                    print(filename)
                     list_files.append(filename[0] + form_list[ctr1] + filename[1])
                     ctr1 += 1
 

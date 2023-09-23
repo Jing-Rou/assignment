@@ -40,14 +40,6 @@
 		input[type="text"]:disabled {
 			background-color: white;
 		}
-
-		#saveButton {
-			display: none;
-		}
-
-		#saveStudentButton {
-			display: none;
-		}
 	</style>
 </head>
 
@@ -213,11 +205,13 @@
 						<hr>
 						<div class="row">
 							<div class="col-2">
-								<p class="mb-0">Correspondence Address: </p>
+								<button id="editButton">Edit</button>
 							</div>
-							<div class="col-4">
-								<input type="text" class="text-muted" style="width: 100%;" id="CorrespondenceAdd"
-									name="CorrespondenceAdd" value="{{ studData[15] }}" disabled>
+							<div class="col-2">
+								<button class="delete-button">Delete</button>
+							</div>
+							<div class="col-2">
+								<button id="saveButton" class="float-end" disabled>Save Change</button>
 							</div>
 						</div>
 					</form>
@@ -249,7 +243,7 @@
 		const profileForm = document.getElementById("profileForm");
 
 		editButton.addEventListener("click", function () {
-			if (editStudentButton.textContent === "Edit") {
+			if (editButton.textContent === "Edit") {
 				// Enable all input fields
 				studIDField.disabled = false;
 				emailField.disabled = false;

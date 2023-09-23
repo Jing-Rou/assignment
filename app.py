@@ -1240,7 +1240,7 @@ def user_management():
                                         programme = %s, \
                                         tutGroup = %s, \
                                         cgpa = %s, \
-                                        ucSupervisor = %s, \
+                                        ucSupevisor = %s, \
                                         dob = %s, \
                                         contact = %s, \
                                         homeAddress = %s, \

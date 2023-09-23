@@ -625,12 +625,12 @@ def report():
 
             # Upload the file into the specified folder
             # to student folder
-            s3.Bucket(custombucket).put_object(
-                Key=stud_key, Body=reportForm_files, ContentType=mimetypes.guess_type(reportForm_files.filename)[0] or 'application/octet-stream')
-
-            # # to lecturer folder
             # s3.Bucket(custombucket).put_object(
-            #     Key=lect_key, Body=reportForm_files_lect, ContentType=mimetypes.guess_type(reportForm_files.filename)[0] or 'application/octet-stream')
+            #     Key=stud_key, Body=reportForm_files, ContentType=mimetypes.guess_type(reportForm_files.filename)[0] or 'application/octet-stream')
+
+            # to lecturer folder
+            s3.Bucket(custombucket).put_object(
+                Key=lect_key, Body=reportForm_files_lect, ContentType=mimetypes.guess_type(reportForm_files.filename)[0] or 'application/octet-stream')
 
         except Exception as e:
             return str('bucket', str(e))

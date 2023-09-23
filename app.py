@@ -1276,14 +1276,11 @@ def user_management():
     cursor = db_conn.cursor()
     cursor.execute("SELECT * FROM students")
     student_data = cursor.fetchall()
-    cursor.close()
 
-    # Fetch data from the database here
-    cursor = db_conn.cursor()
     select_sql = "SELECT lectName, lectEmail FROM lecturer"
     cursor.execute(select_sql)
     lecturer_data = cursor.fetchall()  # Fetch a single row
-    print(lecturer_data)
+    print("aaa", lecturer_data)
 
     return render_template('userManagement.html', student_data=student_data, lecturer_data=lecturer_data)
 

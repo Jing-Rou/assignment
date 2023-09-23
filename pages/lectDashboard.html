@@ -92,10 +92,10 @@
 						<div class="col-3">
 							<h3 class="t-op">Email</h3>
 						</div>
-						<div class="col-2">
+						<div class="col-3">
 							<h3 class="t-op">Programme</h3>
 						</div>
-						<div class="col-2">
+						<div class="col-1">
 							<h3 class="t-op">Tutorial Group</h3>
 						</div>
 						<div class="col-1">
@@ -103,38 +103,36 @@
 						</div>
 					</div>
 
-					<div class="items">
+					<div class="report-body">
 						{% if student_data %}
 						<!-- Debugging statement to check if data is present -->
 						{% for students in student_data %}
-						<div>
-							<div class="row">
-								<div class="col-2">
-									<h3 class="t-op-nextlvl">{{ students[0] }}</h3>
-								</div>
+						<div class="row">
+							<div class="col-2">
+								<h3 class="t-op-nextlvl">{{ students[0] }}</h3>
+							</div>
 
-								<div class="col-2">
-									<h3 class="t-op-nextlvl">{{ students[1] ~ ' ' ~ students[2]}}</h3>
-								</div>
+							<div class="col-2">
+								<h3 class="t-op-nextlvl">{{ students[1] ~ ' ' ~ students[2]}}</h3>
+							</div>
 
-								<div class="col-3">
-									<h3 class="t-op-nextlvl">{{ students[4] }}</h3>
-								</div>
+							<div class="col-3">
+								<h3 class="t-op-nextlvl">{{ students[4] }}</h3>
+							</div>
 
-								<div class="col-2">
-									<h3 class="t-op-nextlvl">{{ students[7] }}</h3>
-								</div>
+							<div class="col-3">
+								<h3 class="t-op-nextlvl">{{ students[7] }}</h3>
+							</div>
 
-								<div class="col-2">
-									<h3 class="t-op-nextlvl">{{ students[8] }}</h3>
-								</div>
+							<div class="col-1">
+								<h3 class="t-op-nextlvl">{{ students[8] }}</h3>
+							</div>
 
-								<div class="col-1">
-									<form method="post" action="/delete">
-										<input type="hidden" name="studID" value="{{ students[0] }}">
-										<button type="submit" class="btn btn-danger">view</button>
-									</form>
-								</div>
+							<div class="col-1">
+								<form method="post" action="/delete">
+									<input type="hidden" name="studID" value="{{ students[0] }}">
+									<button type="submit" class="btn btn-danger">view</button>
+								</form>
 							</div>
 						</div>
 						{% endfor %}
@@ -142,12 +140,12 @@
 						<!-- Debugging statement if data is not present -->
 						<p>No data available.</p>
 						{% endif %}
+
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
-	<script src="{{ url_for('static', filename='js/lectDashboard-index.js') }}"></script>
+		<script src="{{ url_for('static', filename='js/lectDashboard-index.js') }}"></script>
 </body>
 
 </html>

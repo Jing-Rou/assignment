@@ -114,7 +114,7 @@
                                     <h5 class="my-3">{{ lecturer_infor[0] }}</h5>
                                     <div class="d-flex justify-content-center mb-2">
                                         <button type="button" class="btn btn-primary"><i
-                                                class="ace-icon fa fa-tags white  bigger-120"></i> {{ lecturer_infor[0]
+                                                class="ace-icon fa fa-tags white  bigger-120"></i> {{ lecturer_infor[1]
                                             }}</button>
                                     </div>
                                 </div>
@@ -141,58 +141,17 @@
                                             <div class="col-sm-9">
                                                 <input type="text" id="genderField" name="genderField"
                                                     class="text-muted" style="width: 100%;"
-                                                    value="{{ lecturer_infor[0] }}" disabled>
+                                                    value="{{ lecturer_infor[3] }}" disabled>
                                             </div>
                                         </div>
                                         <hr>
                                         <div class="row">
                                             <div class="col-sm-3">
-                                                <p class="mb-0">NRIC No.</p>
+                                                <p class="mb-0">College Email</p>
                                             </div>
                                             <div class="col-sm-9">
-                                                <input type="text" class="text-muted" style="width: 100%;" id="nric"
-                                                    name="nric" value="{{ lecturer_infor[0] }}" disabled>
-                                            </div>
-                                        </div>
-                                        <hr>
-                                        <div class="row">
-                                            <div class="col-sm-3">
-                                                <p class="mb-0">Date-of-Birth</p>
-                                            </div>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="text-muted" style="width: 100%;" id="dob"
-                                                    name="dob" value="{{ lecturer_infor[0] }}" disabled>
-                                            </div>
-                                        </div>
-                                        <hr>
-                                        <div class="row">
-                                            <div class="col-sm-3">
-                                                <p class="mb-0">Mobile No.</p>
-                                            </div>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="text-muted" style="width: 100%;" id="contact"
-                                                    name="contact" value="{{ lecturer_infor[0] }}" disabled>
-                                            </div>
-                                        </div>
-                                        <hr>
-                                        <div class="row">
-                                            <div class="col-sm-3">
-                                                <p class="mb-0">Home Address</p>
-                                            </div>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="text-muted" style="width: 100%;" id="homeAdd"
-                                                    name="homeAdd" value="{{ lecturer_infor[0] }}" disabled>
-                                            </div>
-                                        </div>
-                                        <hr>
-                                        <div class="row">
-                                            <div class="col-sm-3">
-                                                <p class="mb-0">Correspondence Address</p>
-                                            </div>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="text-muted" style="width: 100%;"
-                                                    id="correspondenceAdd" name="correspondenceAdd"
-                                                    value="{{ lecturer_infor[0] }}" disabled>
+                                                <input type="text" class="text-muted" style="width: 100%;" id="emailField"
+                                                    name="emailField" value="{{ lecturer_infor[2] }}" disabled>
                                             </div>
                                         </div>
                                     </form>
@@ -247,63 +206,17 @@
 
     <script src="{{ url_for('static', filename='js/dashboard-index.js') }}"></script>
 
-    <!-- JavaScript function to submit studentID -->
-    <script>
-        function submitStudentIDForm(studentID) {
-            // Set the value of the hidden input field
-            document.getElementById('studentIDField').value = studentID;
-            // Submit the form
-            document.getElementById('studentIDForm').submit();
-        }
-    </script>
-
-    <script>
-        function submitStudentIDDash(studentID) {
-            // Set the value of the hidden input field
-            document.getElementById('studentIDFieldDash').value = studentID;
-            // Submit the form
-            document.getElementById('studentIDDashForm').submit();
-        }
-    </script>
-
-    <script>
-        function submitStudentIDReport(studentID) {
-            // Set the value of the hidden input field
-            document.getElementById('studentIDFieldReport').value = studentID;
-            // Submit the form
-            document.getElementById('studentIDReportForm').submit();
-        }
-    </script>
-
-    <script>
-        function submitStudentIDdp(studentID) {
-            // Set the value of the hidden input field
-            document.getElementById('studentIDFielddp').value = studentID;
-            // Submit the form
-            document.getElementById('studentIDdp').submit();
-        }
-    </script>
 
     <script>
         const editButton = document.getElementById("editButton");
         const genderField = document.getElementById("genderField");
-        const nricField = document.getElementById("nric");
-        const dobField = document.getElementById("dob");
-        const contactField = document.getElementById("contact");
-        const homeAddField = document.getElementById("homeAdd");
-        const correspondenceAddField = document.getElementById("correspondenceAdd");
-        const saveButton = document.getElementById("saveButton");
-        const profileForm = document.getElementById("profileForm");
+        const emailField = document.getElementById("emailField");
 
         editButton.addEventListener("click", function () {
             if (editButton.textContent === "Edit") {
                 // Enable all input fields
                 genderField.disabled = false;
-                nricField.disabled = false;
-                dobField.disabled = false;
-                contactField.disabled = false;
-                homeAddField.disabled = false;
-                correspondenceAddField.disabled = false;
+                emailField.disabled = false;
 
                 // Change button text to "Cancel"
                 editButton.textContent = "Cancel";
@@ -313,11 +226,7 @@
             } else {
                 // Reset fields and disable them
                 genderField.disabled = true;
-                nricField.disabled = true;
-                dobField.disabled = true;
-                contactField.disabled = true;
-                homeAddField.disabled = true;
-                correspondenceAddField.disabled = true;
+                emailField.disabled = true;
 
                 // Change button text back to "Edit"
                 editButton.textContent = "Edit";
@@ -333,76 +242,13 @@
 
             // Disable all input fields
             genderField.disabled = true;
-            nricField.disabled = true;
-            dobField.disabled = true;
-            contactField.disabled = true;
-            homeAddField.disabled = true;
-            correspondenceAddField.disabled = true;
+            emailField.disabled = true;
 
             // Change button text back to "Edit"
             editButton.textContent = "Edit";
 
             // Hide the Save button
             saveButton.style.display = "none";
-        });
-    </script>
-
-    <script>
-        const editStudentButton = document.getElementById("editStudentButton");
-        const emailField = document.getElementById("email");
-        const programmeField = document.getElementById("programme");
-        const tutGroupField = document.getElementById("tutGroup");
-        const cgpaField = document.getElementById("cgpa");
-        // const ucSupervisorField = document.getElementById("ucSupervisor");
-        const saveStudentButton = document.getElementById("saveStudentButton");
-        const profileFormStudent = document.getElementById("profileFormStudent");
-
-        editStudentButton.addEventListener("click", function () {
-            if (editStudentButton.textContent === "Edit") {
-                // Enable all input fields
-                emailField.disabled = false;
-                programmeField.disabled = false;
-                tutGroupField.disabled = false;
-                cgpaField.disabled = false;
-                // ucSupervisorField.disabled = false;
-
-                // Change button text to "Cancel"
-                editStudentButton.textContent = "Cancel";
-
-                // Show the Save button
-                saveStudentButton.style.display = "block";
-            } else {
-                // Reset fields and disable them
-                emailField.disabled = true;
-                programmeField.disabled = true;
-                tutGroupField.disabled = true;
-                cgpaField.disabled = true;
-                // ucSupervisorField.disabled = true;
-
-                // Change button text back to "Edit"
-                editStudentButton.textContent = "Edit";
-
-                // Hide the Save button
-                saveStudentButton.style.display = "none";
-            }
-        });
-
-        saveStudentButton.addEventListener("click", function () {
-            // Submit the form when the Save button is clicked
-            profileFormStudent.submit();
-
-            // Disable all input fields
-            emailField.disabled = true;
-            programmeField.disabled = true;
-            tutGroupField.disabled = true;
-            contactField.disabled = true;
-            // ucSupervisorField.disabled = true;
-
-            // Change button text back to "Edit"
-            editStudentButton.textContent = "Edit";
-
-            // Hide the Save button
-            saveStudentButton.style.display = "none";
         });
     </script>
 

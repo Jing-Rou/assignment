@@ -328,29 +328,38 @@
 	</script>
 
 	<script>
-		const deleteButton = document.getElementById("deleteButton");
+		// Get all "Delete" buttons by class name
+		const deleteButtons = document.querySelectorAll(".delete-button");
 
-		deleteButton.addEventListener("click", function () {
-			// Send a POST request to the delete route with the user_id
-			const user_id = {{ studData[0] }};
-			// Replace with how you get the user_id
-			fetch(`/delete_user/${user_id}`, {
-				method: 'POST',
-			})
-			.then(response => {
-				if (response.ok) {
-					// Redirect to the desired route after successful delete
-					window.location.href = "{{ url_for('user_management') }}";
-				} else {
-					// Handle errors here, if needed
-					console.error('Failed to delete user');
-				}
-			})
-			.catch(error => {
-				console.error('Error:', error);
+		// Loop through each "Delete" button and add a click event listener
+		deleteButtons.forEach(deleteButton => {
+			deleteButton.addEventListener("click", function () {
+				// Find the parent form element for this button
+				const parentForm = this.closest("form");
+
+				// Find the specific student ID in the form
+				const studentID = parentForm.querySelector(".student-id-input").value;
+
+				// Send a POST request to delete the student with the studentID
+				fetch(`/delete_user/${studentID}`, {
+					method: 'POST',
+				})
+					.then(response => {
+						if (response.ok) {
+							// Redirect to the desired route after successful delete
+							window.location.href = "{{ url_for('user_management') }}";
+						} else {
+							// Handle errors here, if needed
+							console.error('Failed to delete user');
+						}
+					})
+					.catch(error => {
+						console.error('Error:', error);
+					});
 			});
 		});
 	</script>
+
 </body>
 
 </html>

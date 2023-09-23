@@ -775,6 +775,7 @@ def lectViewReport():
 
         studFiles = getStudFiles(lecturer_id, studentID, 'report')
 
+        print(studFiles)
         return render_template('lectViewReport.html', studentID=studentID, studFiles=studFiles)
 
 @app.route("/lectViewForm", methods=['GET'])

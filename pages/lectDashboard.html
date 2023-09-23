@@ -84,8 +84,7 @@
 				<div class="report-body">
 					<div class="report-topic-heading">
 					  <h3 class="t-op">Student ID</h3>
-					  <h3 class="t-op">First Name</h3>
-					  <h3 class="t-op">Last Name</h3>
+					  <h3 class="t-op">Student Name</h3>
 					  <h3 class="t-op">Email</h3>
 					  <h3 class="t-op">Programme</h3>
 					  <h3 class="t-op">Tutorial Group</h3>
@@ -93,17 +92,14 @@
 				  
 					<div class="report-items">
                         {% if student_data %}
-                           <!-- Debugging statement to check if data is present -->
-                           <p>Data is present:</p>
-                     
+                           <!-- Debugging statement to check if data is present -->                  
                            {% for students in student_data %}
                               <div class="report-item">
                                 <p class="t-op">{{ students[0] }}</p>
-                                <p class="t-op">{{ students[1] }}</p>
-                                <p class="t-op">{{ students.lastName }}</p>
-                                <p class="t-op">{{ students.stud_email }}</p>
-                                <p class="t-op">{{ students.programme }}</p>
-                                <p class="t-op">{{ students.tutGroup }}</p>
+                                <p class="t-op">{{ students[1] ~ ' ' ~  students[2]}}</p>
+                                <p class="t-op">{{ students[4] }}</p>
+                                <p class="t-op">{{ students[7] }}</p>
+                                <p class="t-op">{{ students[8] }}</p>
                               </div>
                            {% endfor %}
                         {% else %}

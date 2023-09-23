@@ -99,16 +99,16 @@
 							<div class="report-info">
 								<h5>Article 73</h5>
 								<ul>
-									<li><strong>Submission Date:</strong> 8 September 2023</li>
-									<li><strong>Submission Time:</strong> 11:23pm</li>
+									<li><strong>{{ studFile['last_modified'] }}</strong> 8 September 2023</li>
+									<li><strong>{{ studFile['size'] }}</strong> 11:23pm</li>
 								</ul>
 							</div>
 							<div class="button-container">
 								<div class="view-btn">
-									<a href="{{ studFile }}" class="btn" onclick="showReport('{{ studFile }}')">View Report</a>
+									<a href="{{ studFile['file_name'] }}" class="btn" onclick="showReport('{{ studFile['file_name'] }}')">View Report</a>
 								</div>
 								<div class="download-btn">
-									<a href="{{ studFile }}" download class="btn">Download Report</a>
+									<a href="{{ studFile['file_name'] }}" download class="btn">Download Report</a>
 								</div>
 							</div>
 						</div>

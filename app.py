@@ -1233,6 +1233,8 @@ def user_management():
         ucSupervisor = request.form.get('ucSupervisor')
         correspondenceAdd = request.form.get('correspondenceAdd')
 
+        print(studID, gender)
+
         # Update database
         update_sql = "UPDATE students SET gender = %s, \
                                         stud_email = %s, \

@@ -825,7 +825,7 @@ def companyRegister():
 
         # If the email is already in the database, return an error message to the user and display it on the register.html page.
         if len(results) > 0:
-            return render_template('compRegister.html', email_error="This company email is already in use.")
+            return render_template('companyRegister.html', email_error="This company email is already in use.")
 
         if companyImage.filename == "":
             return "Please select a file"

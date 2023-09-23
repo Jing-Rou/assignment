@@ -702,33 +702,14 @@ def getStudFiles(lecturerID, studentID, type):
         if file_name:
             last_modified = object_summary.last_modified
             size = object_summary.size
-            contents.append({
-                'file_name': "https://" + bucket.name + ".s3.amazonaws.com/" + object_summary.key,
-                'last_modified': last_modified,
-                'size': size
-            })
-
-    return contents
-
-def list_files(bucket, path):
-    contents = []
-    folder_prefix = path
-
-    for object_summary in bucket.objects.filter(Prefix=folder_prefix):
-        # Extract file name without the folder prefix
-        file_name = object_summary.key[len(folder_prefix):]
-        if file_name:
-            last_modified = object_summary.last_modified
-            size = object_summary.size
             last_modified = str(last_modified.split(' '))
-            print(last_modified)
+            print("aaaaaaaaaa", last_modified)
             contents.append({
                 'file_name': file_name,
                 'last_modified': last_modified[0],
                 'time': last_modified[1],
                 'size': size
             })
-
     return contents
 
 @app.route("/lectRegister", methods=['GET', 'POST'])

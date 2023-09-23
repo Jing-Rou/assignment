@@ -308,27 +308,31 @@ def login():
         elif role == 'Lecturer':
             # Fetch data from the database here
             cursor = db_conn.cursor()
-            select_sql = "SELECT lectEmail, password, lectID FROM lecturer WHERE lectEmail = %s"
+            select_sql = "SELECT lectEmail, password, lectName, lectID FROM lecturer WHERE lectEmail = %s"
             cursor.execute(select_sql, (email,))
             data = cursor.fetchone()  # Fetch a single row
 
             if data:
                 # Data is found in the database
                 stored_password = data[1]
-                lecturer_id = data[2]
+                lecturer_id = data[3]
+                lectName = data[2]
 
                 if password == stored_password:
                     # Passwords match, user is authenticated
+
+                    session['lecturer_id'] = lecturer_id
+
                     # Fetch student data for this lecturer
                     select_students_sql = "SELECT * \
-                                        FROM students s\
-                                        JOIN lecturer l on s.ucSuperEmail = l.lectEmail \
-                                        WHERE l.lectEmail = %s"
+                                          FROM students s\
+                                          JOIN lecturer l on s.ucSuperEmail = l.lectEmail \
+                                          WHERE l.lectEmail = %s"
                     cursor.execute(select_students_sql, (email,))
                     student_data = cursor.fetchall()
                     
                     print(student_data)
-                    return render_template('lectDashboard.html', lectID=lecturer_id, student_data=student_data, user_authenticated=True)
+                    return render_template('lectDashboard.html', user_login_name=lectName, student_data=student_data)
                 else:
                     return render_template('login.html', pwd_error="Incorrect password. Please try again.")
             else:

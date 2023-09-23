@@ -613,7 +613,7 @@ def report():
         lect_folder_name = 'Lecturer/' + lecturerID + "/" + studID + "/" + "report/"
 
         # Determine the content type of the file
-        content_type = mimetypes.guess_type(file_path)[0] or 'application/octet-stream'
+        content_type = mimetypes.guess_type(reportForm_files.filename)[0] or 'application/octet-stream'
 
         try:
             print("Data inserted in MySQL RDS... uploading image to S3...")

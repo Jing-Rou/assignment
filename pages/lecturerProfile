@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,
+				initial-scale=1.0">
+    <title>GeeksForGeeks</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard-style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard-responsive.css') }}">
+
+    <!-- MDB -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.1/mdb.min.css" rel="stylesheet" />
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+
+    <style>
+        h3 {
+            display: flex;
+            font-size: 15px;
+            margin-block-start: 1em;
+            margin-block-end: 1em;
+            margin-inline-start: 0px;
+            margin-inline-end: 0px;
+            font-weight: bold;
+        }
+
+        /* Remove border from input type="text" */
+        input[type="text"] {
+            border: none;
+        }
+
+        /* Change background color to white when input is disabled */
+        input[type="text"]:disabled {
+            background-color: white;
+        }
+
+        #saveButton {
+            display: none;
+        }
+
+        #saveStudentButton{
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- for header part -->
+    <header>
+
+        <div class="logo" style="margin-top:2px;">
+            <a href="{{ url_for('index') }}"><img src="{{ url_for('static', filename='img/logo/logo.png') }}"
+                    alt=""></a>
+        </div>
+
+        <div class="searchbar">
+            <input type="text" placeholder="Search">
+            <div class="searchbtn">
+                <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210180758/Untitled-design-(28).png"
+                    class="icn srchicn" alt="search-icon">
+            </div>
+        </div>
+
+        <div class="message">
+            <div class="circle"></div>
+            <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210183322/8.png" class="icn" alt="">
+            <div class="dp">
+                <a href="javascript:void(0);" class="user-link" onclick="submitStudentIDdp('{{ studentID }}')">
+                    <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210180014/profile-removebg-preview.png"
+                        class="dpicn" alt="dp">
+                </a>
+            </div>
+        </div>
+
+    </header>
+
+    <div class="main-container">
+        <div class="navcontainer">
+            <nav class="nav">
+                <div class="nav-upper-options">
+                    <div class="nav-option option1">
+                        <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210182148/Untitled-design-(29).png"
+                            class="nav-img" alt="dashboard">
+                        <h3><a style="color: white;" href="javascript:void(0);" class="user-link"
+                                onclick="submitStudentIDDash('{{ studentID }}')">Dashboard</a></h3>
+                    </div>
+
+                    <div class="option2 nav-option">
+                        <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210183322/9.png"
+                            class="nav-img" alt="articles">
+                        <h3><a href="javascript:void(0);" class="user-link"
+                                onclick="submitStudentIDForm('{{ studentID }}')">Form Submission</a></h3>
+                    </div>
+
+                    <div class="nav-option option3">
+                        <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210183320/5.png"
+                            class="nav-img" alt="report">
+                        <h3><a href="javascript:void(0);" class="user-link"
+                                onclick="submitStudentIDReport('{{ studentID }}')">Report</a></h3>
+                    </div>
+
+                    <div class="nav-option logout">
+                        <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210183321/7.png"
+                            class="nav-img" alt="logout">
+                        <h3>Logout</h3>
+                    </div>
+                </div>
+
+                <!-- Add a hidden form for submitting studentID -->
+                <form id="studentIDDashForm" method="GET" action="{{ url_for('studentDashboard')}}">
+                    <input type="hidden" name="studentIDDash" id="studentIDFieldDash" value="">
+                </form>
+
+
+                <!-- Add a hidden form for submitting studentID -->
+                <form id="studentIDForm" method="GET" action="{{ url_for('form')}}">
+                    <input type="hidden" name="studentID" id="studentIDField" value="">
+                </form>
+
+                <!-- Add a hidden form for submitting studentID -->
+                <form id="studentIDReportForm" method="GET" action="{{ url_for('report')}}">
+                    <input type="hidden" name="studentID" id="studentIDFieldReport" value="">
+                </form>
+
+                <!-- Add a hidden form for submitting studentID -->
+                <form id="studentIDdp" method="GET" action="{{ url_for('studentProfile')}}">
+                    <input type="hidden" name="studentID" id="studentIDFielddp" value="">
+                </form>
+            </nav>
+        </div>
+
+        <div class="main" style="background-color: #cad7fda4;">
+
+            <div class="searchbar2">
+                <input type="text" name="" id="" placeholder="Search">
+                <div class="searchbtn">
+                    <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210180758/Untitled-design-(28).png"
+                        class="icn srchicn" alt="search-button">
+                </div>
+            </div>
+
+            <!-- main content -->
+            <section>
+                <div class="container">
+                    <div class="row">
+                        {% if lecturer_infor %}
+                        <div class="col-lg-4">
+                            <div class="card mb-4">
+                                <div class="card-body text-center">
+                                    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
+                                        alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
+                                    <h5 class="my-3">{{ lecturer_infor[0] }}</h5>
+                                    <div class="d-flex justify-content-center mb-2">
+                                        <button type="button" class="btn btn-primary"><i
+                                                class="ace-icon fa fa-tags white  bigger-120"></i> {{ lecturer_infor[0] }}</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-8">
+                            <!-- Header with light grey background -->
+                            <div
+                                style="background-color: #f5f5f5; padding: 2px 10px; border-top-left-radius: 5px; border-top-right-radius: 5px;">
+                                <h5 class="d-flex align-items-center justify-content-between my-3">
+                                    Personal Particulars
+                                    <button class="btn btn-link" style="color: #00A65A; cursor: pointer;"
+                                        id="editButton">Edit</button>
+                                </h5>
+                            </div>
+                            <div class="card mb-4">
+                                <div class="card-body">
+                                    <form id="profileForm" method="POST" action="/lecturerProfile">
+                                        <input type="hidden" name="studentID" id="studentID" value="{{ lecturer_id }}">
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <p class="mb-0">Gender</p>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <input type="text" id="genderField" name="genderField"
+                                                    class="text-muted" style="width: 100%;"
+                                                    value="{{ lecturer_infor[0] }}" disabled>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <p class="mb-0">NRIC No.</p>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="text-muted" style="width: 100%;" id="nric"
+                                                    name="nric" value="{{ lecturer_infor[0] }}" disabled>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <p class="mb-0">Date-of-Birth</p>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="text-muted" style="width: 100%;" id="dob"
+                                                    name="dob" value="{{ lecturer_infor[0] }}" disabled>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <p class="mb-0">Mobile No.</p>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="text-muted" style="width: 100%;" id="contact"
+                                                    name="contact" value="{{ lecturer_infor[0] }}" disabled>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <p class="mb-0">Home Address</p>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="text-muted" style="width: 100%;" id="homeAdd"
+                                                    name="homeAdd" value="{{ lecturer_infor[0] }}" disabled>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <p class="mb-0">Correspondence Address</p>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="text-muted" style="width: 100%;"
+                                                    id="correspondenceAdd" name="correspondenceAdd"
+                                                    value="{{ lecturer_infor[0] }}" disabled>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <hr>
+                                    <button id="saveButton" type="button" class="btn btn-primary">Save</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- JS here -->
+    <!-- All JS Custom Plugins Link Here here -->
+    <script src="{{ url_for('static', filename='js/vendor/modernizr-3.5.0.min.js') }}"></script>
+    <!-- Jquery, Popper, Bootstrap -->
+    <script src="{{ url_for('static', filename='js/vendor/jquery-1.12.4.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/popper.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <!-- Jquery Mobile Menu -->
+    <script src="{{ url_for('static', filename='js/jquery.slicknav.min.js') }}"></script>
+
+    <!-- Jquery Slick , Owl-Carousel Plugins -->
+    <script src="{{ url_for('static', filename='js/owl.carousel.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/slick.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/price_rangs.js') }}"></script>
+
+    <!-- One Page, Animated-HeadLin -->
+    <script src="{{ url_for('static', filename='js/wow.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/animated.headline.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.magnific-popup.js') }}"></script>
+
+    <!-- Scrollup, nice-select, sticky -->
+    <script src="{{ url_for('static', filename='js/jquery.scrollUp.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.nice-select.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.sticky.js') }}"></script>
+
+    <!-- contact js -->
+    <script src="{{ url_for('static', filename='js/contact.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.form.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.validate.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/mail-script.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.ajaxchimp.min.js') }}"></script>
+
+
+    <!-- Jquery Plugins, main Jquery -->
+    <script src="{{ url_for('static', filename='js/plugins.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+    <script src="{{ url_for('static', filename='js/dashboard-index.js') }}"></script>
+
+    <!-- JavaScript function to submit studentID -->
+    <script>
+        function submitStudentIDForm(studentID) {
+            // Set the value of the hidden input field
+            document.getElementById('studentIDField').value = studentID;
+            // Submit the form
+            document.getElementById('studentIDForm').submit();
+        }
+    </script>
+
+    <script>
+        function submitStudentIDDash(studentID) {
+            // Set the value of the hidden input field
+            document.getElementById('studentIDFieldDash').value = studentID;
+            // Submit the form
+            document.getElementById('studentIDDashForm').submit();
+        }
+    </script>
+
+    <script>
+        function submitStudentIDReport(studentID) {
+            // Set the value of the hidden input field
+            document.getElementById('studentIDFieldReport').value = studentID;
+            // Submit the form
+            document.getElementById('studentIDReportForm').submit();
+        }
+    </script>
+
+    <script>
+        function submitStudentIDdp(studentID) {
+            // Set the value of the hidden input field
+            document.getElementById('studentIDFielddp').value = studentID;
+            // Submit the form
+            document.getElementById('studentIDdp').submit();
+        }
+    </script>
+
+    <script>
+        const editButton = document.getElementById("editButton");
+        const genderField = document.getElementById("genderField");
+        const nricField = document.getElementById("nric");
+        const dobField = document.getElementById("dob");
+        const contactField = document.getElementById("contact");
+        const homeAddField = document.getElementById("homeAdd");
+        const correspondenceAddField = document.getElementById("correspondenceAdd");
+        const saveButton = document.getElementById("saveButton");
+        const profileForm = document.getElementById("profileForm");
+
+        editButton.addEventListener("click", function () {
+            if (editButton.textContent === "Edit") {
+                // Enable all input fields
+                genderField.disabled = false;
+                nricField.disabled = false;
+                dobField.disabled = false;
+                contactField.disabled = false;
+                homeAddField.disabled = false;
+                correspondenceAddField.disabled = false;
+
+                // Change button text to "Cancel"
+                editButton.textContent = "Cancel";
+
+                // Show the Save button
+                saveButton.style.display = "block";
+            } else {
+                // Reset fields and disable them
+                genderField.disabled = true;
+                nricField.disabled = true;
+                dobField.disabled = true;
+                contactField.disabled = true;
+                homeAddField.disabled = true;
+                correspondenceAddField.disabled = true;
+
+                // Change button text back to "Edit"
+                editButton.textContent = "Edit";
+
+                // Hide the Save button
+                saveButton.style.display = "none";
+            }
+        });
+
+        saveButton.addEventListener("click", function () {
+            // Submit the form when the Save button is clicked
+            profileForm.submit();
+
+            // Disable all input fields
+            genderField.disabled = true;
+            nricField.disabled = true;
+            dobField.disabled = true;
+            contactField.disabled = true;
+            homeAddField.disabled = true;
+            correspondenceAddField.disabled = true;
+
+            // Change button text back to "Edit"
+            editButton.textContent = "Edit";
+
+            // Hide the Save button
+            saveButton.style.display = "none";
+        });
+    </script>
+
+    <script>
+        const editStudentButton = document.getElementById("editStudentButton");
+        const emailField = document.getElementById("email");
+        const programmeField = document.getElementById("programme");
+        const tutGroupField = document.getElementById("tutGroup");
+        const cgpaField = document.getElementById("cgpa");
+        // const ucSupervisorField = document.getElementById("ucSupervisor");
+        const saveStudentButton = document.getElementById("saveStudentButton");
+        const profileFormStudent = document.getElementById("profileFormStudent");
+
+        editStudentButton.addEventListener("click", function () {
+            if (editStudentButton.textContent === "Edit") {
+                // Enable all input fields
+                emailField.disabled = false;
+                programmeField.disabled = false;
+                tutGroupField.disabled = false;
+                cgpaField.disabled = false;
+                // ucSupervisorField.disabled = false;
+
+                // Change button text to "Cancel"
+                editStudentButton.textContent = "Cancel";
+
+                // Show the Save button
+                saveStudentButton.style.display = "block";
+            } else {
+                // Reset fields and disable them
+                emailField.disabled = true;
+                programmeField.disabled = true;
+                tutGroupField.disabled = true;
+                cgpaField.disabled = true;
+                // ucSupervisorField.disabled = true;
+
+                // Change button text back to "Edit"
+                editStudentButton.textContent = "Edit";
+
+                // Hide the Save button
+                saveStudentButton.style.display = "none";
+            }
+        });
+
+        saveStudentButton.addEventListener("click", function () {
+            // Submit the form when the Save button is clicked
+            profileFormStudent.submit();
+
+            // Disable all input fields
+            emailField.disabled = true;
+            programmeField.disabled = true;
+            tutGroupField.disabled = true;
+            contactField.disabled = true;
+            // ucSupervisorField.disabled = true;
+
+            // Change button text back to "Edit"
+            editStudentButton.textContent = "Edit";
+
+            // Hide the Save button
+            saveStudentButton.style.display = "none";
+        });
+    </script>
+
+</body>
+
+</html>

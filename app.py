@@ -301,7 +301,6 @@ def login():
 
                 if password == stored_password:
                     # Passwords match, user is authenticated
-
                     session['lecturer_id'] = lecturer_id
                     session['lecturer_email'] = data[0]
 
@@ -328,7 +327,6 @@ def studentDashboard():
 
     # Pass the studentID to the studentDashboard.html template
     return render_template('studentDashboard.html', studentID=student_id)
-
 
 @app.route("/studentProfile", methods=['GET', 'POST'])
 def studentProfile():
@@ -600,7 +598,6 @@ def report():
     lecturerID = data[0]
 
     if request.method == 'POST':
-        # studID = request.form['studentID']
         reportForm_files = request.files['reportForm']
         reportForm_files_lect = reportForm_files
 
@@ -631,8 +628,6 @@ def report():
         return render_template('report.html', my_bucket=bucket, studentID=studID, list_of_files=list_of_files)
 
     # Retrieve the studentID from the query parameters
-    # studID = request.args.get('studentID')
-
     lect_folder_name = 'Lecturer/' + lecturerID + "/" + studID + "/" + "report/"
 
     # Uplaod image file in S3
@@ -777,6 +772,26 @@ def lectViewForm():
         studFiles = getStudFiles(lecturer_id, studentID, 'Form')
 
         return render_template('lectViewForm.html', studentID=studentID, studFiles=studFiles)
+    
+@app.route("/lecturerProfile", methods=['GET', 'POST'])
+def lecturerProfile():
+    # Retrieve the studentID from the query parameters
+    lecturer_id = request.args.get('lecturer_id')
+
+    # retrive from database
+    cursor = db_conn.cursor()
+    select_sql = "SELECT * from lecturer where lectID = %s"
+
+    try:
+        cursor.execute(select_sql, (lecturer_id))
+        data = cursor.fetchone()  # Fetch a single row
+        data = data[0]
+
+    except Exception as e:
+        return str(e)
+
+    # Pass the studentID to the studentDashboard.html template
+    return render_template('studentProfile.html', lecturer_id=lecturer_id, lecturer_infor=data)
 
 # ------------------------------------------------------------------- Lecturer END -------------------------------------------------------------------#
 

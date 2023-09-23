@@ -702,7 +702,7 @@ def getStudFiles(lecturerID, studentID, type):
         if file_name:
             last_modified = object_summary.last_modified
             size = object_summary.size
-            last_modified = str(last_modified.split(' '))
+            last_modified = str(last_modified).split(' ')
             print("aaaaaaaaaa", last_modified)
             contents.append({
                 'file_name': file_name,

@@ -65,10 +65,7 @@
 					</div>
 
 					<div class="nav-option option4">
-						<img src="../static/img/user-management-icon.png" class="nav-img" alt="user-management">
-						<h3>
-							<a href="javascript:void(0);" onclick="toggleUserManagementDropdown()">User Management</a>
-						</h3>
+						<button class="dropdown-btn" onclick="toggleUserManagementDropdown()">User Management</button>
 						<div id="userManagementDropdown" class="dropdown-content">
 							<a href="{{ url_for('user_management', user_type='lecturer') }}">Lecturer</a>
 							<a href="{{ url_for('user_management', user_type='student') }}">Student</a>
@@ -158,54 +155,31 @@
 		</div>
 	</div>
 
-	<script>
-		function toggleUserManagementDropdown() {
-			var dropdown = document.getElementById("userManagementDropdown");
-			if (dropdown.style.display === "block") {
-				dropdown.style.display = "none";
-			} else {
-				dropdown.style.display = "block";
-			}
-		}
-
-		// Close the dropdown if the user clicks outside of it
-		window.onclick = function (event) {
-			if (!event.target.matches('.nav-option.option4')) {
-				var dropdowns = document.getElementsByClassName("dropdown-content");
-				for (var i = 0; i < dropdowns.length; i++) {
-					var openDropdown = dropdowns[i];
-					if (openDropdown.style.display === "block") {
-						openDropdown.style.display = "none";
-					}
-				}
-			}
-		}
-	</script>
-	<script>
-		function toggleUserManagementDropdown() {
-			var dropdown = document.getElementById("userManagementDropdown");
-			if (dropdown.style.display === "block") {
-				dropdown.style.display = "none";
-			} else {
-				dropdown.style.display = "block";
-			}
-		}
-
-		// Close the dropdown if the user clicks outside of it
-		window.onclick = function (event) {
-			if (!event.target.matches('.nav-option.option4')) {
-				var dropdowns = document.getElementsByClassName("dropdown-content");
-				for (var i = 0; i < dropdowns.length; i++) {
-					var openDropdown = dropdowns[i];
-					if (openDropdown.style.display === "block") {
-						openDropdown.style.display = "none";
-					}
-				}
-			}
-		}
-	</script>
-
 	<script src="../static/js/dashboard-index.js"></script>
+
+	<script>
+		function toggleUserManagementDropdown() {
+			var dropdown = document.getElementById("userManagementDropdown");
+			if (dropdown.style.display === "block") {
+				dropdown.style.display = "none";
+			} else {
+				dropdown.style.display = "block";
+			}
+		}
+
+		// Close the dropdown if the user clicks outside of it
+		window.onclick = function (event) {
+			if (!event.target.matches('.dropdown-btn')) {
+				var dropdowns = document.getElementsByClassName("dropdown-content");
+				for (var i = 0; i < dropdowns.length; i++) {
+					var openDropdown = dropdowns[i];
+					if (openDropdown.style.display === "block") {
+						openDropdown.style.display = "none";
+					}
+				}
+			}
+		}
+	</script>
 </body>
 
 </html>

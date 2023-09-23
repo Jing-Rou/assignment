@@ -608,11 +608,17 @@ def report():
             # to student folder
             s3.Bucket(custombucket).put_object(
                 Key=stud_key, Body=reportForm_files, ContentType=mimetypes.guess_type(reportForm_files.filename)[0] or 'application/octet-stream')
+            
+            # Get the list of files in the student's folder
+            bucket = s3.Bucket(custombucket)
+            list_of_files = list_files(bucket, folder_name)
+
+            return render_template('report.html', my_bucket=bucket, studentID=studID, list_of_files=list_of_files)
         except Exception as e:
             return str('bucket', str(e))
 
         # Redirect to another route without rendering a template
-        return redirect(url_for('submitToLect', studID=studID, reportForm_files=reportForm_files, fileName=reportForm_files.filename))
+        # return redirect(url_for('submitToLect', studID=studID, reportForm_files=reportForm_files, fileName=reportForm_files.filename))
         
     # Retrieve the studentID from the query parameters
     studID = request.args.get('studentID')

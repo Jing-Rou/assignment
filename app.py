@@ -593,10 +593,6 @@ def report():
         # Uplaod image file in S3
         s3 = boto3.resource('s3')
 
-        # Create a folder or prefix for the files in S3
-        # to student s3 folder
-        folder_name = 'Student/' + studID + "/" + "report/"
-
         # Fetch data from the lecturer database
         cursor = db_conn.cursor()
         select_sql = "SELECT l.lectID \
@@ -615,10 +611,6 @@ def report():
             print("Data inserted in MySQL RDS... uploading image to S3...")
 
             filename = reportForm_files.filename.split('.')
-
-            # Construct the key with the folder prefix and file name
-            stud_key = folder_name + \
-                filename[0] + "_progress_report." +  filename[1]
             # lecture
             lect_key = lect_folder_name + \
                 filename[0] + "_progress_report." +  filename[1]
@@ -627,16 +619,12 @@ def report():
             # to lecturer folder
             s3.Bucket(custombucket).put_object(
                 Key=lect_key, Body=reportForm_files_lect, ContentType=mimetypes.guess_type(reportForm_files.filename)[0] or 'application/octet-stream')
-
-            # to student folder
-            s3.Bucket(custombucket).put_object(
-                Key=stud_key, Body=reportForm_files, ContentType=mimetypes.guess_type(reportForm_files.filename)[0] or 'application/octet-stream')
-
+            
         except Exception as e:
             return str('bucket', str(e))
 
         bucket = s3.Bucket(custombucket)
-        list_of_files = list_files(bucket, folder_name)
+        list_of_files = list_files(bucket, lect_folder_name)
 
         return render_template('report.html', my_bucket=bucket, studentID=studID, list_of_files=list_of_files)
 

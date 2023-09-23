@@ -1233,8 +1233,7 @@ def user_management():
         ucSupervisor = request.form.get('ucSupervisor')
         correspondenceAdd = request.form.get('correspondenceAdd')
 
-        print(studID, gender)
-
+        print(ucSupervisor)
         # Update database
         update_sql = "UPDATE students SET gender = %s, \
                                         stud_email = %s, \
@@ -1279,9 +1278,13 @@ def user_management():
     student_data = cursor.fetchall()
     cursor.close()
 
-    print(student_data)
+    # Fetch data from the database here
+    cursor = db_conn.cursor()
+    select_sql = "SELECT lectName, lectEmail FROM lecturer"
+    cursor.execute(select_sql)
+    lecturer_data = cursor.fetchall()  # Fetch a single row
 
-    return render_template('userManagement.html', student_data=student_data)
+    return render_template('userManagement.html', student_data=student_data, lecturer_data=lecturer_data)
 
 @app.route('/approve_company', methods=['POST'])
 def approve_company():

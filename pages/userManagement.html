@@ -198,8 +198,16 @@
 								<p class="mb-0">UC Supervisor: </p>
 							</div>
 							<div class="col-4">
-								<input type="text" class="text-muted" style="width: 100%;" id="ucSupervisor"
-									name="ucSupervisor" value="{{ studData[10] }}" disabled>
+								<select id="ucSupervisor" name="ucSupervisor"
+									class="custom-select form-control form-control-lg" required disabled>
+									<option value="" disabled selected>Select UC Supervisor</option>
+									<option value="{{ studData[10] }}" disabled selected>{{ studData[10] }}</option>
+									{% for lecturer in lecturer_data %}
+									<option value="{{ lecturer[0] ~ ', ' ~ lecturer[1] }}">
+										{{ lecturer[0] }}
+									</option>
+									{% endfor %}
+								</select>
 							</div>
 						</div>
 						<hr>

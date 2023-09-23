@@ -631,13 +631,13 @@ def report():
     # Retrieve the studentID from the query parameters
     studID = request.args.get('studentID')
 
-    folder_name = 'Student/' + studID + "/" + "report/"
+    lect_folder_name = 'Lecturer/' + lecturerID + "/" + studID + "/" + "report/"
 
     # Uplaod image file in S3
     s3 = boto3.resource('s3')
 
     bucket = s3.Bucket(custombucket)
-    list_of_files = list_files(bucket, folder_name)
+    list_of_files = list_files(bucket, lect_folder_name)
 
     print(list_of_files)
     # Sort the list by last modified timestamp in descending order
@@ -664,19 +664,17 @@ def delete_file():
 
         lecturerID = data[0]
 
-        stud_file_key = 'Student/' + studID + "/" + "report/" + file_key
         lect_file_key = 'Lecturer/' + lecturerID + "/" + studID + "/" + file_key
 
         # Delete the file from S3
         try:
             s3 = boto3.client('s3')
-            s3.delete_object(Bucket=custombucket, Key=stud_file_key)
             s3.delete_object(Bucket=custombucket, Key=lect_file_key)
 
             # Uplaod image file in S3
             s3 = boto3.resource('s3')
 
-            folder_name = 'Student/' + studID + "/" + "report/"
+            folder_name = 'Lecturer/' + lecturerID + "/" + studID + "/" + "report/"
 
             bucket = s3.Bucket(custombucket)
             list_of_files = list_files(bucket, folder_name)

@@ -505,6 +505,7 @@ def form():
                     ctr1 += 1
                 else:
                     filename = file.filename.split('.')
+                    print(filename)
                     list_files.append(filename[0] + form_list[ctr1] + filename[1])
                     ctr1 += 1
 

@@ -1267,11 +1267,15 @@ def user_management():
                 student_data = cursor.fetchall()
                 cursor.close()
 
+                select_sql = "SELECT lectName, lectEmail FROM lecturer"
+                cursor.execute(select_sql)
+                lecturer_data = cursor.fetchall()  # Fetch a single row
+
             except Exception as e:
                 return str(e)
 
             # Pass the studentID to the studentDashboard.html template
-            return render_template('userManagement.html', student_data=student_data)
+            return render_template('userManagement.html', student_data=student_data, lecturer_data=lecturer_data)
         except Exception as e:
             cursor.close()
             return str(e)  # Handle any database errors here

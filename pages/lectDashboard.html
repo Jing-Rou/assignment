@@ -98,8 +98,8 @@
                      
                            {% for students in student_data %}
                               <div class="report-item">
-                                <p class="t-op">{{ students.studentID }}</p>
-                                <p class="t-op">{{ students.firstName }}</p>
+                                <p class="t-op">{{ students[0] }}</p>
+                                <p class="t-op">{{ students[1] }}</p>
                                 <p class="t-op">{{ students.lastName }}</p>
                                 <p class="t-op">{{ students.stud_email }}</p>
                                 <p class="t-op">{{ students.programme }}</p>

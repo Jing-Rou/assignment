@@ -58,8 +58,7 @@ def index():
     try:
         cursor.execute(select_sql)
         data = cursor.fetchall()  # Fetch a single row
-        print(data)
-
+        
     except Exception as e:
         return str(e)
 

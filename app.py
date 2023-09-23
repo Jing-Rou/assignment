@@ -613,7 +613,6 @@ def report():
 
         try:
             s3 = boto3.client('s3')
-            bucket = s3.Bucket(custombucket)
             print("Data inserted in MySQL RDS... uploading image to S3...")
 
             filename = reportForm_files.filename.split('.')
@@ -626,10 +625,10 @@ def report():
                 filename[0] + "_progress_report." +  filename[1]
             
             # Upload the file to the first folder
-            s3.upload_file(reportForm_files, bucket.name, lect_key, ExtraArgs={'ContentType': content_type})
+            s3.upload_file(reportForm_files, custombucket, lect_key, ExtraArgs={'ContentType': content_type})
 
             # Upload the same file to the second folder
-            s3.upload_file(reportForm_files, bucket.name, stud_key, ExtraArgs={'ContentType': content_type})
+            s3.upload_file(reportForm_files, custombucket, stud_key, ExtraArgs={'ContentType': content_type})
 
 
             # # Upload the file into the specified folder
@@ -650,7 +649,7 @@ def report():
         # Uplaod image file in S3
         s3 = boto3.resource('s3')
         bucket = s3.Bucket(custombucket)
-        
+
         list_of_files = list_files(bucket, folder_name)
 
         return render_template('report.html', my_bucket=bucket, studentID=studID, list_of_files=list_of_files)

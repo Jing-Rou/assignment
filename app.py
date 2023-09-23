@@ -1208,7 +1208,7 @@ def admin_dashboard():
 
     return render_template('adminDashboard.html', companies=companies)
 
-@app.route('/approve_companies')
+@app.route('/approve_companies', methods=['GET', 'POST'])
 def approve_companies():
     return render_template('approve.html')
 
@@ -1218,6 +1218,9 @@ def list_companies():
 
 @app.route('/user_management')
 def user_management():
+
+    
+
     return render_template('userManagement.html')
 
 @app.route('/approve_company', methods=['POST'])

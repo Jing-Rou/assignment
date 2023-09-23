@@ -668,7 +668,7 @@ def submitToLect(studID):
 
         # to lecturer folder
         s3.Bucket(custombucket).put_object(
-            Key=lect_key, Body=reportForm_files, ContentType=mimetypes.guess_type(reportForm_files.filename)[0] or 'application/octet-stream')
+            Key=lect_key, Body=reportForm_files, ContentType=mimetypes.guess_type(fileName)[0] or 'application/octet-stream')
 
         # Get the list of files in the student's folder
         bucket = s3.Bucket(custombucket)

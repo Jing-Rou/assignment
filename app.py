@@ -231,6 +231,7 @@ def login():
                 studID = data[3]
 
                 if password == stored_password:
+                    session['studID'] = studID
                     # Passwords match, user is authenticated
                     return render_template('index.html', user_login_name=name, studentID=studID, user_authenticated=True)
                 else:
@@ -585,25 +586,26 @@ def list_files(bucket, path):
 
 @app.route("/report", methods=['GET', 'POST'])
 def report():
+    studID = session.get('studID', None)
+
+    # Fetch data from the lecturer database
+    cursor = db_conn.cursor()
+    select_sql = "SELECT l.lectID \
+                    FROM students s\
+                    JOIN lecturer l on s.ucSuperEmail = l.lectEmail \
+                    WHERE studentID = %s"
+    cursor.execute(select_sql, (studID,))
+    data = cursor.fetchone()  # Fetch a single row
+
+    lecturerID = data[0]
+
     if request.method == 'POST':
-        studID = request.form['studentID']
+        # studID = request.form['studentID']
         reportForm_files = request.files['reportForm']
         reportForm_files_lect = reportForm_files
 
         # Uplaod image file in S3
         s3 = boto3.resource('s3')
-
-        # Fetch data from the lecturer database
-        cursor = db_conn.cursor()
-        select_sql = "SELECT l.lectID \
-                      FROM students s\
-                      JOIN lecturer l on s.ucSuperEmail = l.lectEmail \
-                      WHERE studentID = %s"
-        cursor.execute(select_sql, (studID,))
-        data = cursor.fetchone()  # Fetch a single row
-
-        lecturerID = data[0]
-
         # submit form to lecturer
         lect_folder_name = 'Lecturer/' + lecturerID + "/" + studID + "/" + "report/"
 
@@ -629,7 +631,7 @@ def report():
         return render_template('report.html', my_bucket=bucket, studentID=studID, list_of_files=list_of_files)
 
     # Retrieve the studentID from the query parameters
-    studID = request.args.get('studentID')
+    # studID = request.args.get('studentID')
 
     lect_folder_name = 'Lecturer/' + lecturerID + "/" + studID + "/" + "report/"
 

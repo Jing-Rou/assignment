@@ -590,6 +590,9 @@ def report():
         reportForm_files = request.files['reportForm']
         reportForm_files_lect = reportForm_files
 
+        # Uplaod image file in S3
+        s3 = boto3.resource('s3')
+
         # Create a folder or prefix for the files in S3
         # to student s3 folder
         folder_name = 'Student/' + studID + "/" + "report/"
@@ -608,11 +611,7 @@ def report():
         # submit form to lecturer
         lect_folder_name = 'Lecturer/' + lecturerID + "/" + studID + "/" + "report/"
 
-        # Determine the content type of the file
-        content_type = mimetypes.guess_type(reportForm_files.filename)[0] or 'application/octet-stream'
-
         try:
-            s3 = boto3.client('s3')
             print("Data inserted in MySQL RDS... uploading image to S3...")
 
             filename = reportForm_files.filename.split('.')
@@ -623,22 +622,12 @@ def report():
             # lecture
             lect_key = lect_folder_name + \
                 filename[0] + "_progress_report." +  filename[1]
-            
-            # Upload the file to the first folder
-            s3.upload_fileobj(reportForm_files.stream, custombucket, lect_key, ExtraArgs={'ContentType': content_type})
 
-            # Upload the same file to the second folder
-            s3.upload_fileobj(reportForm_files.stream, custombucket, stud_key, ExtraArgs={'ContentType': content_type})
+            # Upload the file into the specified folder
+            # to student folder
+            s3.Bucket(custombucket).put_object(
+                Key=stud_key, Body=reportForm_files, ContentType=mimetypes.guess_type(reportForm_files.filename)[0] or 'application/octet-stream')
 
-
-            # # Upload the file into the specified folder
-            # # to student folder
-            # s3.Bucket(custombucket).put_object(
-            #     Key=stud_key, Body=reportForm_files, ContentType=mimetypes.guess_type(reportForm_files.filename)[0] or 'application/octet-stream')
-
-            # # Uplaod image file in S3
-            # s3 = boto3.resource('s3')
-            
             # # to lecturer folder
             # s3.Bucket(custombucket).put_object(
             #     Key=lect_key, Body=reportForm_files_lect, ContentType=mimetypes.guess_type(reportForm_files.filename)[0] or 'application/octet-stream')
@@ -646,10 +635,7 @@ def report():
         except Exception as e:
             return str('bucket', str(e))
 
-        # Uplaod image file in S3
-        s3 = boto3.resource('s3')
         bucket = s3.Bucket(custombucket)
-
         list_of_files = list_files(bucket, folder_name)
 
         return render_template('report.html', my_bucket=bucket, studentID=studID, list_of_files=list_of_files)

@@ -893,9 +893,9 @@ def jobReg():
         compID = session.get('compID', None)
 
         cursor = db_conn.cursor()
-        select_sql = "SELECT c.compStatus \
+        select_sql = "SELECT compStatus \
                     from company \
-                    where upper(c.compID) = %s"
+                    where upper(compID) = %s"
 
         try:
             cursor.execute(select_sql, (compID))

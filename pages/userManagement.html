@@ -201,7 +201,7 @@
 								<select id="ucSupervisor" name="ucSupervisor"
 									class="custom-select form-control form-control-lg" required disabled>
 									<option value="" disabled selected>Select UC Supervisor</option>
-									<option value="{{ studData[10] ~ ', ' ~ lecturer[11] }}" disabled selected>{{
+									<option value="{{ studData[10] ~ ', ' ~ studData[11] }}" disabled selected>{{
 										studData[10] }}</option>
 									{% for lecturer in lecturer_data %}
 									<option value="{{ lecturer[0] ~ ', ' ~ lecturer[1] }}">

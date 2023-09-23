@@ -65,10 +65,12 @@
 					</div>
 
 					<div class="nav-option option4">
-						<button class="dropdown-btn" onclick="toggleUserManagementDropdown()">User Management</button>
-						<div id="userManagementDropdown" class="dropdown-content">
-							<a href="{{ url_for('user_management', user_type='lecturer') }}">Lecturer</a>
-							<a href="{{ url_for('user_management', user_type='student') }}">Student</a>
+						<div class="dropdown">
+							<button class="dropdown-btn">User Management</button>
+							<div class="dropdown-content">
+								<a href="{{ url_for('user_management', user_type='lecturer') }}">Lecturer</a>
+								<a href="{{ url_for('user_management', user_type='student') }}">Student</a>
+							</div>
 						</div>
 					</div>
 
@@ -156,30 +158,6 @@
 	</div>
 
 	<script src="../static/js/dashboard-index.js"></script>
-
-	<script>
-		function toggleUserManagementDropdown() {
-			var dropdown = document.getElementById("userManagementDropdown");
-			if (dropdown.style.display === "block") {
-				dropdown.style.display = "none";
-			} else {
-				dropdown.style.display = "block";
-			}
-		}
-
-		// Close the dropdown if the user clicks outside of it
-		window.onclick = function (event) {
-			if (!event.target.matches('.dropdown-btn')) {
-				var dropdowns = document.getElementsByClassName("dropdown-content");
-				for (var i = 0; i < dropdowns.length; i++) {
-					var openDropdown = dropdowns[i];
-					if (openDropdown.style.display === "block") {
-						openDropdown.style.display = "none";
-					}
-				}
-			}
-		}
-	</script>
 </body>
 
 </html>

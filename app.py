@@ -804,7 +804,7 @@ def lecturerProfile():
         lectEmail = request.form.get('emailField')
 
         # Update database
-        update_sql = "UPDATE lecturer \ SET lectEmail = %s, gender = %s \
+        update_sql = "UPDATE lecturer SET lectEmail = %s, gender = %s \
                       WHERE lectID = %s"
         cursor = db_conn.cursor()
 

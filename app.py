@@ -779,10 +779,11 @@ def lectViewReport():
         # Generate the object URL
         bucket_location = boto3.client('s3').get_bucket_location(Bucket=custombucket)
         s3_location = (bucket_location['LocationConstraint'])
-        object_url = "https://s3%7B0%7D.amazonaws.com/%7B1%7D/%7B2%7D".format(
-                    s3_location,
-                    custombucket,
-                    studFile[0])
+        print(s3_location)
+        object_url = "https://{0}s3.amazonaws.com/{1}".format(
+            custombucket,
+            studFile[0]
+        )
         print(studFile)
         print(object_url)
         return render_template('lectViewReport.html', studentID=studentID, studFile=studFile)

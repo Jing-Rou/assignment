@@ -1246,6 +1246,7 @@ def user_management():
                                         homeAddress = %s, \
                                         correspondenceAddress = %s \
                     WHERE studentID = %s"
+        
         cursor = db_conn.cursor()
 
         try:

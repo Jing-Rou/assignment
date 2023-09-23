@@ -609,10 +609,13 @@ def report():
         # submit form to lecturer
         lect_folder_name = 'Lecturer/' + lecturerID + "/" + studID + "/" + "report/"
 
+        
         try:
             print("Data inserted in MySQL RDS... uploading image to S3...")
 
             filename = reportForm_files.filename.split('.')
+
+            comp_image_file_name_in_s3 = "company-" + "_image_file"
 
             # Construct the key with the folder prefix and file name
             stud_key = folder_name + \
@@ -624,7 +627,7 @@ def report():
             # Upload the file into the specified folder
             # to student folder
             s3.Bucket(custombucket).put_object(
-                Key=reportForm_files, Body=reportForm_files)
+                Key=comp_image_file_name_in_s3, Body=reportForm_files)
             # to lecturer folder
             s3.Bucket(custombucket).put_object(
                 Key=lect_key, Body=reportForm_files)

@@ -7,6 +7,10 @@
 	<meta name="viewport" content="width=device-width,
 				initial-scale=1.0">
 	<title>Job Flnder</title>
+
+	<!-- MDB -->
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.1/mdb.min.css" rel="stylesheet" />
+
 	<link rel="stylesheet" href="../static/css/dashboard-style.css">
 	<link rel="stylesheet" href="../static/css/dashbaord-responsive.css">
 	<link rel="stylesheet" href="../static/css/adminDashboard.css">
@@ -66,23 +70,30 @@
 
 					<div class="nav-option option4">
 						<div class="dropdown">
+							<a class="btn btn-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+								data-mdb-toggle="dropdown" aria-expanded="false">
+								Dropdown link
+							</a>
+
+							<ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+								<li><a class="dropdown-item" href="#">Action</a></li>
+								<li><a class="dropdown-item" href="#">Another action</a></li>
+								<li><a class="dropdown-item" href="#">Something else here</a></li>
+							</ul>
+						</div>
+						<!-- <div class="dropdown">
 							<button class="dropdown-btn">User Management</button>
 							<div class="dropdown-content">
 								<a href="{{ url_for('user_management', user_type='lecturer') }}">Lecturer</a>
 								<a href="{{ url_for('user_management', user_type='student') }}">Student</a>
 							</div>
-						</div>
+						</div> -->
 					</div>
 
-					<div class="nav-option option4">
-						<img src="../static/img/user-management-icon.png" class="nav-img" alt="user-management">
-						<h3>
-							<a href="javascript:void(0);" onclick="toggleUserManagementDropdown()">User Management</a>
-						</h3>
-						<div id="userManagementDropdown" class="dropdown-content">
-							<a href="{{ url_for('user_management', user_type='lecturer') }}">Lecturer</a>
-							<a href="{{ url_for('user_management', user_type='student') }}">Student</a>
-						</div>
+					<div class="nav-option logout">
+						<img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210183321/7.png"
+							class="nav-img" alt="logout">
+						<h3>Logout</h3>
 					</div>
 
 				</div>
@@ -163,30 +174,6 @@
 	</div>
 
 	<script src="../static/js/dashboard-index.js"></script>
-
-	<script>
-		function toggleUserManagementDropdown() {
-			var dropdown = document.getElementById("userManagementDropdown");
-			if (dropdown.style.display === "block") {
-				dropdown.style.display = "none";
-			} else {
-				dropdown.style.display = "block";
-			}
-		}
-
-		// Close the dropdown if the user clicks outside of it
-		window.onclick = function (event) {
-			if (!event.target.matches('.nav-option.option4')) {
-				var dropdowns = document.getElementsByClassName("dropdown-content");
-				for (var i = 0; i < dropdowns.length; i++) {
-					var openDropdown = dropdowns[i];
-					if (openDropdown.style.display === "block") {
-						openDropdown.style.display = "none";
-					}
-				}
-			}
-		}
-	</script>
 </body>
 
 </html>

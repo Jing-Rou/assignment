@@ -777,6 +777,7 @@ def lectViewForm():
 def lecturerProfile():
     # Retrieve the studentID from the query parameters
     lecturer_id = session.get('lecturer_id', None)
+    print(lecturer_id)
 
     # retrive from database
     cursor = db_conn.cursor()
@@ -785,7 +786,9 @@ def lecturerProfile():
     try:
         cursor.execute(select_sql, (lecturer_id,))
         data = cursor.fetchone()  # Fetch a single row
+        print(data)
         data = data[0]
+        print(data)
 
     except Exception as e:
         return str(e)

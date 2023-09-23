@@ -233,6 +233,7 @@
 
 	<script>
 		const editButton = document.getElementById("editButton");
+		const studIDField = document.getElementById("studID");
 		const genderField = document.getElementById("gender");
 		const emailField = document.getElementById("email");
 		const nricField = document.getElementById("nric");
@@ -250,6 +251,7 @@
 		editButton.addEventListener("click", function () {
 			if (editButton.textContent === "Edit") {
 				// Enable all input fields
+				studIDField.disabled = true;
 				genderField.disabled = false;
 				emailField.disabled = false;
 				nricField.disabled = false;
@@ -269,6 +271,7 @@
 				saveButton.disabled = false;
 			} else {
 				// Reset fields and disable them
+				studIDField.disabled = true;
 				genderField.disabled = true;
 				emailField.disabled = true;
 				nricField.disabled = true;
@@ -294,6 +297,7 @@
 			profileForm.submit();
 
 			// Disable all input fields
+			studIDField.disabled = true;
 			genderField.disabled = true;
 			emailField.disabled = true;
 			nricField.disabled = true;

@@ -215,7 +215,7 @@
 						{% if list_of_files %}
 						{% if list_of_files[0]%}
 						<i class="fas fa-file-pdf file-icon"></i>
-						<a href="{{ my_bucket.meta.client.generate_presigned_url('get_object', Params={'Bucket': my_bucket.name, 'Key': 'Student/' + studentID + '/Form/' + list_of_files[0]}) }}"
+						<a href="{{ my_bucket.meta.client.generate_presigned_url('get_object', Params={'Bucket': my_bucket.name, 'Key': 'Lecturer/' + lecturerID + "/" + studentID + '/Form/' + list_of_files[0]}) }}"
 							download="{{ list_of_files[0] }}">
 							{{ list_of_files[0] }}
 						</a>

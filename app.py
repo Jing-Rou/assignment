@@ -537,7 +537,7 @@ def form():
 
         bucket = s3.Bucket(custombucket)
 
-        return render_template('form.html', my_bucket=bucket, studentID=studID, list_of_files=list_files)
+        return render_template('form.html', my_bucket=bucket, lecturerID=lecturerID, studentID=studID, list_of_files=list_files)
 
     # Retrieve the studentID from the query parameters
     student_id = request.args.get('studentID')

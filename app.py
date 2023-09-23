@@ -58,11 +58,10 @@ def index():
     try:
         cursor.execute(select_sql)
         data = cursor.fetchall()  # Fetch a single row
-        
+
     except Exception as e:
         return str(e)
 
-    print(data)
     return render_template('index.html', comp_data=data)
 
 
@@ -78,7 +77,6 @@ def job_listing():
     try:
         cursor.execute(select_sql)
         data = cursor.fetchall()  # Fetch a single row
-        print(data)
 
     except Exception as e:
         return str(e)
@@ -330,7 +328,6 @@ def login():
                     cursor.execute(select_students_sql, (email,))
                     student_data = cursor.fetchall()
                     
-                    print(student_data)
                     return render_template('lectDashboard.html', user_login_name=lectName, student_data=student_data)
                 else:
                     return render_template('login.html', pwd_error="Incorrect password. Please try again.")
@@ -386,7 +383,6 @@ def studentProfilePersonal():
 
     # Retrieve the studentID from the query parameters
     student_id = request.form.get('studentID')
-    print(gender, nric, dob, contact, homeAdd, correspondenceAdd)
 
     # Update database
     update_sql = "UPDATE students SET gender = %s, \
@@ -690,7 +686,6 @@ def report():
 def delete_file():
     if request.method == 'POST':
         studID = request.form['studentID']
-        print(studID)
         # Get the file key to delete from the form data
         file_key = request.form['file_name']
 
@@ -891,7 +886,6 @@ def jobReg():
         try:
             cursor.execute(select_sql, (compID))
             data = cursor.fetchone()  # Fetch a single row
-            print(data)
 
             if (data[0]) != 'APPROVED': 
                 return render_template('jobReg.html', jobRegError='sorry you\'re not allowed to post any job applicants')
@@ -1097,7 +1091,6 @@ def adminRegister():
         data = cursor.fetchone()  # Fetch a single row
         data = data[0]
 
-        print(data)
         if data == None:
             adminID = 'A' + str(10001)
         else:

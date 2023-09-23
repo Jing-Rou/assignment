@@ -477,10 +477,6 @@ def form():
         # Uplaod image file in S3
         s3 = boto3.resource('s3')
 
-        # Create a folder or prefix for the files in S3
-        # submit form and store into student s3
-        folder_name = 'Student/' + studID + "/" + "Form/"
-
         # Fetch data from the lecturer database
         cursor = db_conn.cursor()
         select_sql = "SELECT l.lectID \
@@ -513,28 +509,13 @@ def form():
                     filename = file.filename.split('.')
 
                     # Construct the key with the folder prefix and file name
-                    # student
-                    stud_key = folder_name + \
-                        filename[0] + form_list[ctr] + filename[1]
                     # lecture
                     lect_key = lect_folder_name + \
                         filename[0] + form_list[ctr] + filename[1]
 
                     # Upload the file into the specified folder
-                    # to student folder
-                    s3.Bucket(custombucket).put_object(Key=stud_key, Body=file)
                     # to lecturer folder
                     s3.Bucket(custombucket).put_object(Key=lect_key, Body=file)
-
-                    # Generate the object URL
-                    bucket_location = boto3.client(
-                        's3').get_bucket_location(Bucket=custombucket)
-                    s3_location = (bucket_location['LocationConstraint'])
-
-                    if s3_location is None:
-                        s3_location = ''
-                    else:
-                        s3_location = '-' + s3_location
 
                 ctr += 1
 
@@ -636,7 +617,6 @@ def report():
     bucket = s3.Bucket(custombucket)
     list_of_files = list_files(bucket, lect_folder_name)
 
-    print(list_of_files)
     # Sort the list by last modified timestamp in descending order
     list_of_files.sort(key=lambda x: x['last_modified'], reverse=True)
 

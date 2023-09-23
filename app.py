@@ -1223,7 +1223,7 @@ def user_management():
 
     # Now, retrieve company data and pass it to the template
     cursor = db_conn.cursor()
-    cursor.execute("SELECT * FROM student")
+    cursor.execute("SELECT * FROM students")
     student_data = cursor.fetchall()
     cursor.close()
 

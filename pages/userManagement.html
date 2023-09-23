@@ -93,33 +93,19 @@
 				</div>
 			</div>
 
-            <h1>User Management</h1>
+            <h1>Student Management</h1>
             <div class="user-list">
+				{{ % for studData in student_data % }}
                 <!-- User List -->
                 <div class="user">
-                    <h2>User 1</h2>
-                    <p>Email: user1@example.com</p>
-                    <p>Role: Company</p>
+                    <h2>{{ studData[1] ~ ' ' ~ studData[2] }}</h2>
+                    <p>Email: {{ studData[4] }}</p>
+                    <p>IC: {{ studData[4] }}</p>
                     <button>Edit</button>
                     <button class="delete-button">Delete</button>
 
                 </div>
-                <div class="user">
-                    <h2>User 2</h2>
-                    <p>Email: user3@example.com</p>
-                    <p>Role: Student</p>
-                    <button>Edit</button>
-                    <button class="delete-button">Delete</button>
-
-                </div>
-                <div class="user">
-                    <h2>User 3</h2>
-                    <p>Email: user2@example.com</p>
-                    <p>Role: Lecturer</p>
-                    <button>Edit</button>
-                    <button class="delete-button">Delete</button>
-                </div>
-                <!-- Add more user entries here -->
+				{{ % endfor % }}
             </div>
         </div>
 

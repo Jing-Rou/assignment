@@ -1216,12 +1216,18 @@ def approve_companies():
 def list_companies():
     return render_template('listCompanies.html')
 
-@app.route('/user_management')
+@app.route('/user_management', methods=['GET', 'POST'])
 def user_management():
+    if request.method == 'POST':
+        print('a')
 
-    
+    # Now, retrieve company data and pass it to the template
+    cursor = db_conn.cursor()
+    cursor.execute("SELECT * FROM student")
+    student_data = cursor.fetchall()
+    cursor.close()
 
-    return render_template('userManagement.html')
+    return render_template('userManagement.html', student_data=student_data)
 
 @app.route('/approve_company', methods=['POST'])
 def approve_company():

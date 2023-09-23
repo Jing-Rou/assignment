@@ -7,10 +7,6 @@
 	<meta name="viewport" content="width=device-width,
 				initial-scale=1.0">
 	<title>Job Flnder</title>
-
-	<!-- MDB -->
-	<link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.1/mdb.min.css" rel="stylesheet" />
-
 	<link rel="stylesheet" href="../static/css/dashboard-style.css">
 	<link rel="stylesheet" href="../static/css/dashbaord-responsive.css">
 	<link rel="stylesheet" href="../static/css/adminDashboard.css">
@@ -69,26 +65,16 @@
 					</div>
 
 					<div class="nav-option option4">
-						<div class="dropdown">
-							<a class="btn btn-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-								data-mdb-toggle="dropdown" aria-expanded="false">
-								Dropdown link
-							</a>
-
-							<ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-								<li><a class="dropdown-item" href="#">Action</a></li>
-								<li><a class="dropdown-item" href="#">Another action</a></li>
-								<li><a class="dropdown-item" href="#">Something else here</a></li>
-							</ul>
-						</div>
-						<!-- <div class="dropdown">
-							<button class="dropdown-btn">User Management</button>
-							<div class="dropdown-content">
-								<a href="{{ url_for('user_management', user_type='lecturer') }}">Lecturer</a>
-								<a href="{{ url_for('user_management', user_type='student') }}">Student</a>
-							</div>
-						</div> -->
-					</div>
+                        <img src="../static/img/user-management-icon.png"
+                            class="nav-img" alt="user-management">
+                        <h3><a href="{{ url_for('user_management') }}">Student Management</a></h3>
+                    </div>
+					
+					<div class="nav-option option4">
+                        <img src="../static/img/user-management-icon.png"
+                            class="nav-img" alt="user-management">
+                        <h3><a href="{{ url_for('user_management') }}">Lecturer Management</a></h3>
+                    </div>
 
 					<div class="nav-option logout">
 						<img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210183321/7.png"
@@ -99,7 +85,7 @@
 				</div>
 			</nav>
 		</div>
-
+		
 		<div class="main">
 
 			<div class="searchbar2">
@@ -154,18 +140,18 @@
 						<h3 class="t-op">Company Name</h3>
 						<h3 class="t-op">Status</h3>
 					</div>
-
+				
 					<div class="report-items">
 						{% if companies %}
-						{% for company in companies %}
-						<div class="report-item">
-							<p class="t-op">{{ company[0] }}</p>
-							<p class="t-op">{{ company[1] }}</p>
-							<p class="t-op">{{ company[3] }}</p>
-						</div>
-						{% endfor %}
+							{% for company in companies %}
+								<div class="report-item">
+									<p class="t-op">{{ company[0] }}</p>
+									<p class="t-op">{{ company[1] }}</p>
+									<p class="t-op">{{ company[3] }}</p>
+								</div>
+							{% endfor %}
 						{% else %}
-						<p>No data available.</p>
+							<p>No data available.</p>
 						{% endif %}
 					</div>
 				</div>

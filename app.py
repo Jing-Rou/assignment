@@ -6,7 +6,8 @@ from config import *
 from flask import send_from_directory
 import urllib.parse
 from urllib.parse import unquote_plus
-from datetime import datetime
+# Import necessary modules
+import mimetypes
 
 app = Flask(__name__)
 app.secret_key = 'my_super_secret_key_12345'
@@ -615,26 +616,24 @@ def report():
 
             filename = reportForm_files.filename.split('.')
 
-            comp_image_file_name_in_s3 = 'Lecturer/' + lecturerID + "/" + studID + "/" + "report/" + "company" + "_image_file.pdf"
-
             # Construct the key with the folder prefix and file name
             stud_key = folder_name + \
-                filename[0] + "_progress_report." + filename[1]
+                filename[0] + "_progress_report." +  filename[1]
             # lecture
             lect_key = lect_folder_name + \
-                filename[0] + "_progress_report." + filename[1]
+                filename[0] + "_progress_report"
 
             # Upload the file into the specified folder
             # to student folder
             s3.Bucket(custombucket).put_object(
-                Key=comp_image_file_name_in_s3, Body=reportForm_files)
+                Key=stud_key, Body=reportForm_files)
             # to lecturer folder
             s3.Bucket(custombucket).put_object(
-                Key=lect_key, Body=reportForm_files)
+                Key=lect_key, Body=reportForm_files, ContentType=mimetypes.guess_type(reportForm_files.filename)[0] or 'application/octet-stream')
 
             # Generate the object URL
             bucket_location = boto3.client('s3').get_bucket_location(Bucket=custombucket)
-            s3_location = (bucket_location['LocationConstraint'])
+            s3_location = (bucket_location['LocationConstraint'], ContentType=mimetypes.guess_type(reportForm_files.filename)[0] or 'application/octet-stream')
 
             if s3_location is None:
                 s3_location = ''

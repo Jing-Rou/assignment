@@ -13,7 +13,7 @@
 	<!--<link rel="stylesheet" href="lectDashboard-style.css">
     <link rel="stylesheet" href="lectDashboard-responsive.css">-->
 
-	
+
 </head>
 
 <body>
@@ -73,7 +73,7 @@
 				</div>
 			</nav>
 		</div>
-		
+
 		<div class="main">
 
 			<div class="report-container">
@@ -82,37 +82,70 @@
 				</div>
 
 				<div class="report-body">
-					<div class="report-topic-heading">
-					  <h3 class="t-op">Student ID</h3>
-					  <h3 class="t-op">Student Name</h3>
-					  <h3 class="t-op">Email</h3>
-					  <h3 class="t-op">Programme</h3>
-					  <h3 class="t-op">Tutorial Group</h3>
+					<div class="row">
+						<div class="col-2">
+							<h3 class="t-op">Student ID</h3>
+						</div>
+						<div class="col-2">
+							<h3 class="t-op">Student Name</h3>
+						</div>
+						<div class="col-2">
+							<h3 class="t-op">Email</h3>
+						</div>
+						<div class="col-2">
+							<h3 class="t-op">Programme</h3>
+						</div>
+						<div class="col-2">
+							<h3 class="t-op">Tutorial Group</h3>
+						</div>
+						<div class="col-2">
+							<h3 class="t-op">Action</h3>
+						</div>
 					</div>
-				  
+
+					{% if student_data %}
+					<!-- Debugging statement to check if data is present -->
+					{% for students in student_data %}
 					<div class="report-items">
-                        {% if student_data %}
-                           <!-- Debugging statement to check if data is present -->                  
-                           {% for students in student_data %}
-                              <div class="report-item">
-                                <p class="t-op">{{ students[0] }}</p>
-                                <p class="t-op">{{ students[1] ~ ' ' ~  students[2]}}</p>
-                                <p class="t-op">{{ students[4] }}</p>
-                                <p class="t-op">{{ students[7] }}</p>
-                                <p class="t-op">{{ students[8] }}</p>
-                              </div>
-                           {% endfor %}
-                        {% else %}
-                           <!-- Debugging statement if data is not present -->
-                           <p>No data available.</p>
-                        {% endif %}
-                    </div>
+						<div class="row">
+							<div class="col-2">
+								<h3 class="t-op-nextlvl">{{ students[0] }}</h3>
+							</div>
+
+							<div class="col-2">
+								<h3 class="t-op-nextlvl">{{ students[1] ~ ' ' ~ students[2]}}</h3>
+							</div>
+
+							<div class="col-2">
+								<h3 class="t-op-nextlvl">{{ students[4] }}</h3>
+							</div>
+
+							<div class="col-2">
+								<h3 class="t-op-nextlvl">{{ students[7] }}</h3>
+							</div>
+
+							<div class="col-2">
+								<h3 class="t-op-nextlvl">{{ students[8] }}</h3>
+							</div>
+
+							<div class="col-2">
+								<form method="post" action="/delete">
+									<input type="hidden" name="studID" value="{{ students[0] }}">
+									<button type="submit" class="btn btn-danger">view</button>
+								</form>
+							</div>
+						</div>
+					</div>
+					{% endfor %}
+					{% else %}
+					<!-- Debugging statement if data is not present -->
+					<p>No data available.</p>
+					{% endif %}
 				</div>
-				  
 			</div>
 		</div>
 	</div>
-    <script src="{{ url_for('static', filename='js/lectDashboard-index.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/lectDashboard-index.js') }}"></script>
 	<!--<script src="./lectDashboard-index.js"></script>-->
 </body>
 

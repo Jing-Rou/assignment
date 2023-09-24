@@ -72,7 +72,6 @@
             cursor: inherit;
             display: block;
         }
-        
     </style>
 </head>
 
@@ -380,11 +379,15 @@
                                         </ul>
                                     </div>
                                 </div>
-                                <div class="items-link f-right">
-                                    <span class="btn btn-primary btn-file" style="background-color:white; border: 2px solid #007bff;" >
-                                        Apply <input type="file">
-                                    </span>
-                                </div>
+                                <form id="fileForm" method="POST" action="/upload" enctype="multipart/form-data">
+                                    <div class="items-link f-right">
+                                        <label for="file-input" class="btn btn-primary btn-file"
+                                            style="background-color:white; border: 2px solid #007bff;">
+                                            Apply <input id="file-input" type="file" style="display: none;">
+                                        </label>
+                                    </div>
+                                    <input type="submit" style="display: none;">
+                                </form>
                             </div>
                             {% endif %}
                             {% endfor %}
@@ -672,6 +675,25 @@
             // Submit the form
             document.getElementById('studentIDForm').submit();
         }
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const fileInput = document.getElementById("file-input");
+            const fileForm = document.getElementById("fileForm");
+
+            fileInput.addEventListener("change", function () {
+                // Get the selected file's name
+                const fileName = fileInput.files[0].name;
+
+                // Display the file name (you can customize this)
+                alert("Selected file: " + fileName);
+
+                // Submit the form programmatically
+                fileForm.submit();
+            });
+        });
+
     </script>
 
 </body>

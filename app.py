@@ -477,7 +477,6 @@ def deleteJob():
     try:
         cursor = db_conn.cursor()
         cursor.execute(delete_sql, (studentID, jobID))
-        cursor.commit
 
         # Retrieve the studentID from the query parameters
         studID = session.get('studID', None)

@@ -62,12 +62,14 @@ def upload():
         jobID = request.form['jobID']
         print(cv.filename)
         studID = session.get('studID', None)
-
         current_datetime = datetime.now()
 
         filename = cv.filename.split('.')
-        # lecture
         key = 'Company/'  + filename[0] + "_resume." + filename[1]
+
+        # Uplaod image file in S3
+        s3 = boto3.resource('s3')
+        bucket = s3.Bucket(custombucket)
         profile = "https://" + bucket.name + ".s3.amazonaws.com/Company/" + filename[0] + "_resume." + filename[1]
 
         # if user havent login then ask them to login

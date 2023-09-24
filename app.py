@@ -103,7 +103,8 @@ def upload():
 
         try:
             cursor.execute(studJobApply_select, (studID, jobID,))
-            data_studJob = cursor.fetchall()  # Fetch a single row
+            data_studJob = cursor.fetchone() 
+            print(data_studJob)
 
             if data_studJob != 0:
                 print('update')

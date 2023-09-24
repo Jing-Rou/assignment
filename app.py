@@ -37,6 +37,11 @@ def clear_session_on_initial_load():
 
 @app.route("/", methods=['GET'], endpoint='index')
 def index():
+    studID = session.get('studID', None)
+
+    if studID != None:
+            user_authenticated = True
+
     # retrive from database
     cursor = db_conn.cursor()
     select_sql = "SELECT c.compName, c.compProfile, j.job_title, j.comp_state, j.sal_range, j.job_id \
@@ -53,7 +58,7 @@ def index():
     
     print("comp:", data)
 
-    return render_template('index.html', comp_data=data)
+    return render_template('index.html', comp_data=data, user_authenticated=user_authenticated)
 
 @app.route("/upload", methods=['POST'])
 def upload():
@@ -62,6 +67,8 @@ def upload():
         jobID = request.form['jobID']
         studID = session.get('studID', None)
         current_datetime = datetime.now()
+
+        print(current_datetime)
 
         filename = cv.filename.split('.')
         key = 'Resume/'  + filename[0] + "_resume." + filename[1]
@@ -74,6 +81,8 @@ def upload():
         # if user havent login then ask them to login
         if studID == None:
             return redirect(url_for('login'))
+        else:
+            user_authenticated = True
 
         cursor = db_conn.cursor()
         # insert into studentJobApply
@@ -92,7 +101,6 @@ def upload():
         try:
             cursor.execute(studJobApply_select, (studID, jobID,))
             data_studJob = cursor.fetchall()  # Fetch a single row
-            print(data_studJob)
 
             if data_studJob != 0:
                 cursor.execute(update_sql, (current_datetime, profile, studID, jobID,))
@@ -119,7 +127,7 @@ def upload():
         except Exception as e:
             return str(e)
 
-        return render_template('index.html', comp_data=data)
+        return render_template('index.html', comp_data=data, user_authenticated=user_authenticated)
 
 @app.route("/job_listing", methods=['GET'])
 def job_listing():

@@ -39,6 +39,7 @@ def clear_session_on_initial_load():
 def index():
     studID = session.get('studID', None)
     studName = session.get('studName', None)
+    print(studID)
     user_authenticated = False
 
     if studID != None:
@@ -139,16 +140,13 @@ def job_listing():
     studID = session.get('studID', None)
     studName = session.get('studName', None)
     user_authenticated = False
-    print(studID)
 
     if studID != None:
         user_authenticated = True
-    
-    print(user_authenticated, studName)
 
     # retrive from database
     cursor = db_conn.cursor()
-    select_sql = "SELECT c.compName, c.compProfile, j.job_title, j.comp_state, j.sal_range \
+    select_sql = "SELECT c.compName, c.compProfile, j.job_title, j.comp_state, j.sal_range, j.job_id \
                  from company c \
                  JOIN jobApply j ON c.compID = j.compID \
                  where upper(c.compStatus) = 'APPROVED'"

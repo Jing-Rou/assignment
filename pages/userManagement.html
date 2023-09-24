@@ -232,7 +232,7 @@
 						</div>
 						<hr>
 						<button class="edit-button" data-student-id="{{ studData[0] }}">Edit</button>
-						<form method="post" action="/studentManagementDelete">
+						<form method="POST" action="/studentManagementDelete">
 							<input type="hidden" name="studentID" value="{{ studData[0] }}">
 							<button class="delete-button">Delete</button>
 						</form>
@@ -244,37 +244,6 @@
 		</div>
 	</div>
 	<script src="../static/js/dashboard-index.js"></script>
-
-	<script>
-		const editButtons = document.querySelectorAll(".edit-button");
-
-		// Add a click event listener to each "Edit" button
-		editButtons.forEach((editButton) => {
-			editButton.addEventListener("click", function () {
-				// Get the student's ID from the data attribute
-				const studentId = this.getAttribute("data-student-id");
-
-				// Find the corresponding form for this button using the unique identifier
-				const profileForm = document.getElementById(`student-${studentId}`).querySelector(".profile-form");
-
-				// Find the input fields within this form
-				const inputFields = profileForm.querySelectorAll("input, select");
-
-				// Enable or disable input fields based on the current state
-				const isDisabled = inputFields[0].disabled; // Check the state of the first input field
-				inputFields.forEach((inputField) => {
-					inputField.disabled = !isDisabled;
-				});
-
-				// Toggle the button text between "Edit" and "Cancel"
-				this.textContent = isDisabled ? "Cancel" : "Edit";
-
-				// Enable or disable the "Save" button
-				const saveButton = profileForm.querySelector(`.save-button[data-student-id="${studentId}"]`);
-				saveButton.disabled = !isDisabled;
-			});
-		});
-	</script>
 
 	<script>
 		const editButton = document.getElementById("editButton");

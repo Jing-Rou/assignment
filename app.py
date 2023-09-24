@@ -282,11 +282,23 @@ def login():
                 name = data[2]
 
                 if password == stored_password:
+                    cursor.execute("SELECT count(*) FROM company")
+                    registeredComp = cursor.fetchone()
+                    registeredComp = registeredComp[0]
+
+                    cursor.execute("SELECT count(*) FROM company where UPPER(compStatus) = 'PENDING'")
+                    pendingCtr = cursor.fetchone()
+                    pendingCtr = pendingCtr[0]
+
+                    cursor.execute("SELECT count(*) FROM company where UPPER(compStatus) = 'REJECTED'")
+                    rejectedCtr = cursor.fetchone()
+                    rejectedCtr = rejectedCtr[0]
+
                     # Now, retrieve company data and pass it to the template
                     cursor.execute("SELECT compID, compName, compEmail, compStatus FROM company")
                     companies = cursor.fetchall()
-
-                    return render_template('adminDashboard.html', companies=companies)
+                    
+                    return render_template('adminDashboard.html', registeredComp=registeredComp, pendingCtr=pendingCtr, rejectedCtr=rejectedCtr, companies=companies)
                 else:
                     return render_template('login.html', pwd_error="Incorrect password. Please try again.")
             else:
@@ -1205,12 +1217,15 @@ def admin_dashboard():
 
     cursor.execute("SELECT count(*) FROM company")
     registeredComp = cursor.fetchone()
+    registeredComp = registeredComp[0]
 
     cursor.execute("SELECT count(*) FROM company where UPPER(compStatus) = 'PENDING'")
     pendingCtr = cursor.fetchone()
+    pendingCtr = pendingCtr[0]
 
     cursor.execute("SELECT count(*) FROM company where UPPER(compStatus) = 'REJECTED'")
     rejectedCtr = cursor.fetchone()
+    rejectedCtr = rejectedCtr[0]
 
     cursor.execute("SELECT compID, compName, compEmail, compStatus FROM company")
     companies = cursor.fetchall()

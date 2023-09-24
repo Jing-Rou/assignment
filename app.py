@@ -470,6 +470,7 @@ def studentDashboard():
 def deleteJob():
     studentID = request.form.get('studentID')
     jobID = request.form.get('jobID')
+    print(studentID, jobID)
 
     delete_sql = "DELETE FROM studentJobApply \
                   WHERE studentID = %s AND job_id = %s"

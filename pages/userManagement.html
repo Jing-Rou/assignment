@@ -119,9 +119,9 @@
 					<h5 class="mt-5">{{ studData[1] ~ ' ' ~ studData[2] }}</h5>
 				</div>
 				<div class="col-1">
-					<form method="POST" action="/studentManagementDelete">
+					<form method="POST" action="/studentManagementDelete" class="mt-4">
 						<input type="hidden" name="studentID" value="{{ studData[0] }}">
-						<button class="delete-button mt-4">Delete</button>
+						<button class="delete-button">Delete</button>
 					</form>
 				</div>
 			</div>
@@ -211,8 +211,10 @@
 							</div>
 							<div class="col-4">
 								<select id="ucSupervisor" name="ucSupervisor"
-									class="custom-select form-control form-control-lg" style="background-color: white; border: none; padding: 0px;" disabled>
-									<option value="{{ studData[10] ~ ', ' ~ studData[11] }}" selected>{{ studData[10] }}</option>
+									class="custom-select form-control form-control-lg"
+									style="background-color: white; border: none; padding: 0px;" disabled>
+									<option value="{{ studData[10] ~ ', ' ~ studData[11] }}" selected>{{ studData[10] }}
+									</option>
 									{% for lecturer in lecturer_data %}
 									<option value="{{ lecturer[0] ~ ', ' ~ lecturer[1] }}">{{ lecturer[0] }}</option>
 									{% endfor %}
@@ -237,10 +239,10 @@
 							</div>
 						</div>
 						<hr>
-						<button class="edit-button" data-student-id="{{ studData[0] }}">Edit</button>
-						<button class="save-button float-end" data-student-id="{{ studData[0] }}" disabled>Save
-							Change</button>
 					</form>
+					<button class="edit-button" data-student-id="{{ studData[0] }}">Edit</button>
+					<button class="save-button float-end" data-student-id="{{ studData[0] }}" disabled>Save
+						Change</button>
 				</div>
 			</div>
 			{% endfor %}

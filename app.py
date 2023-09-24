@@ -1263,6 +1263,7 @@ def user_management():
         ucSupervisor = request.form.get('ucSupervisor')
         correspondenceAdd = request.form.get('correspondenceAdd')
         
+        print(ucSupervisor)
         ucSupervisor_split = ucSupervisor.split(', ')
         ucSuperName = ucSupervisor_split[0]
         ucSuperEmail = ucSupervisor_split[1]

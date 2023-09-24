@@ -383,10 +383,11 @@
                                     <div class="items-link f-right">
                                         <label for="file-input" class="btn btn-primary btn-file"
                                             style="background-color:white; border: 2px solid #007bff; padding: 0px 40px">
-                                            <p style="padding-top: 10px">Apply</p> <input id="file-input" type="file" name="cv" style="display: none;">
+                                            <p style="padding-top: 10px">Apply</p> 
+                                            <input id="file-input-{{ data[5] }}" type="file" name="cv" style="display: none;" data-jobid="{{ data[5] }}">
                                         </label>
                                     </div>
-                                    <input type="submit" style="display: none;" name="jobID" id="jobID" value="{{ data[5] }}">
+                                    <input type="submit" style="display: none;">
                                     <input type="hidden" name="jobID" id="jobID" value="{{ data[5] }}">
                                 </form>
                             </div>
@@ -680,18 +681,28 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            const fileInput = document.getElementById("file-input");
-            const fileForm = document.getElementById("fileForm");
+            const fileForms = document.querySelectorAll(".file-form");
 
-            fileInput.addEventListener("change", function () {
-                // Get the selected file's name
-                const fileName = fileInput.files[0].name;
+            fileForms.forEach((fileForm) => {
+                const fileInput = fileForm.querySelector("input[type='file']");
+                const jobIDInput = fileForm.querySelector("input[name='jobID']");
 
-                // Display the file name (you can customize this)
-                alert("Selected file: " + fileName);
+                fileInput.addEventListener("change", function () {
+                    // Get the selected file's name
+                    const fileName = fileInput.files[0].name;
 
-                // Submit the form programmatically
-                fileForm.submit();
+                    // Get the job ID from the data attribute
+                    const jobID = fileInput.getAttribute("data-jobid");
+
+                    // Set the job ID in the hidden input field
+                    jobIDInput.value = jobID;
+
+                    // Display the file name (you can customize this)
+                    alert("Selected file: " + fileName);
+
+                    // Submit the form programmatically
+                    fileForm.submit();
+                });
             });
         });
 

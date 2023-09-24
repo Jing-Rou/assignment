@@ -39,6 +39,7 @@ def clear_session_on_initial_load():
 def index():
     studID = session.get('studID', None)
     studName = session.get('studName', None)
+    user_authenticated = False
 
     if studID != None:
         user_authenticated = True
@@ -64,6 +65,7 @@ def index():
 @app.route("/upload", methods=['POST'])
 def upload():
     if request.method == 'POST':
+        user_authenticated = False
         cv = request.files['cv']
         jobID = request.form['jobID']
         studID = session.get('studID', None)

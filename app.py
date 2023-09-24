@@ -65,7 +65,7 @@ def upload():
         current_datetime = datetime.now()
 
         filename = cv.filename.split('.')
-        key = 'Company/'  + filename[0] + "_resume." + filename[1]
+        key = 'Resume/'  + filename[0] + "_resume." + filename[1]
 
         # Uplaod image file in S3
         s3 = boto3.resource('s3')

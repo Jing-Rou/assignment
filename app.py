@@ -59,7 +59,7 @@ def upload():
     if request.method == 'POST':
         cv = request.files['cv']
         jobID = request.form['jobID']
-        print(cv)
+        print(cv.filename)
         print(jobID)
         studID = session.get('studID', None)
         print(studID)
@@ -69,7 +69,7 @@ def upload():
 
         cursor = db_conn.cursor()
         # insert into studentJobApply
-        insert_sql = "INSERT INTO studentJobApply VALUES (%s, %s)"
+        insert_sql = "INSERT INTO studentJobApply (studentID, job_ID) VALUES (%s, %s)"
         # retrive from database
         
         select_sql = "SELECT c.compName, c.compProfile, j.job_title, j.comp_state, j.sal_range, j.job_id \

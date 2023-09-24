@@ -364,39 +364,6 @@
 		});
 	</script>
 
-	<!-- <script>
-		// Get all "Delete" buttons by class name
-		const deleteButtons = document.querySelectorAll(".delete-button");
-
-		// Loop through each "Delete" button and add a click event listener
-		deleteButtons.forEach(deleteButton => {
-			deleteButton.addEventListener("click", function () {
-				// Find the parent form element for this button
-				const parentForm = this.closest("form");
-
-				// Find the specific student ID in the form
-				const studentID = parentForm.querySelector(".student-id-input").value;
-
-				// Send a POST request to delete the student with the studentID
-				fetch(`/delete_user/${studentID}`, {
-					method: 'POST',
-				})
-					.then(response => {
-						if (response.ok) {
-							// Redirect to the desired route after successful delete
-							window.location.href = "{{ url_for('delete_user') }}";
-						} else {
-							// Handle errors here, if needed
-							console.error('Failed to delete user');
-						}
-					})
-					.catch(error => {
-						console.error('Error:', error);
-					});
-			});
-		});
-	</script> -->
-
 </body>
 
 </html>

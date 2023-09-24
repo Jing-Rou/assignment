@@ -52,6 +52,26 @@
             border-bottom: 0;
             padding: 29.5px 44px;
         }
+
+        .btn-file {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-file input[type=file] {
+            position: absolute;
+            top: 0;
+            right: 0;
+            min-width: 100%;
+            min-height: 100%;
+            font-size: 100px;
+            text-align: right;
+            filter: alpha(opacity=0);
+            opacity: 0;
+            outline: none;
+            cursor: inherit;
+            display: block;
+        }
     </style>
 </head>
 
@@ -340,34 +360,33 @@
                     <div class="col-xl-10">
                         <!-- Loop through the image filenames -->
                         {% for data in comp_data %}
-                            {% if loop.index <= 5 %}
-                                <!-- single-job-content -->
-                                <div class="single-job-items mb-30">
-                                    <div class="job-items">
-                                        <div class="company-img">
-                                            <a href="{{ url_for('job_details') }}">
-                                                <img src="{{ data[1] }}"
-                                                    alt="{{ data[1] }}">
-                                            </a>
-                                        </div>
-                                        <div class="job-tittle">
-                                            <a href="{{ url_for('job_details') }}">
-                                                <h4>{{ data[2] }}</h4>
-                                            </a>
-                                            <ul>
-                                                <li>{{ data[0] }}</li>
-                                                <li><i class="fas fa-map-marker-alt"></i>{{ data[3] }}</li>
-                                                <li>{{ data[4] }}</li>
-                                            </ul>
-                                        </div>
+                        {% if loop.index <= 5 %} <!-- single-job-content -->
+                            <div class="single-job-items mb-30">
+                                <div class="job-items">
+                                    <div class="company-img">
+                                        <a href="{{ url_for('job_details') }}">
+                                            <img src="{{ data[1] }}" alt="{{ data[1] }}">
+                                        </a>
                                     </div>
-                                    <div class="items-link f-right">
-                                        <a href="{{ url_for('job_details') }}">Full Time</a>
-                                        <span>7 hours ago</span>
+                                    <div class="job-tittle">
+                                        <a href="{{ url_for('job_details') }}">
+                                            <h4>{{ data[2] }}</h4>
+                                        </a>
+                                        <ul>
+                                            <li>{{ data[0] }}</li>
+                                            <li><i class="fas fa-map-marker-alt"></i>{{ data[3] }}</li>
+                                            <li>{{ data[4] }}</li>
+                                        </ul>
                                     </div>
                                 </div>
+                                <div class="items-link f-right">
+                                    <span class="btn btn-primary btn-file">
+                                        Browse <input type="file">
+                                    </span>
+                                </div>
+                            </div>
                             {% endif %}
-                        {% endfor %}
+                            {% endfor %}
                     </div>
                 </div>
             </div>
@@ -427,7 +446,7 @@
                 </div>
             </div>
         </div>
-        
+
         <!-- Support Company Start-->
         <div class="support-company-area support-padding fix">
             <div class="container">

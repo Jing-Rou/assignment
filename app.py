@@ -234,8 +234,23 @@ def login():
 
                 if password == stored_password:
                     session['studID'] = studID
+
+                    # retrive from database
+                    cursor = db_conn.cursor()
+                    select_sql = "SELECT c.compName, c.compProfile, j.job_title, j.comp_state, j.sal_range \
+                                from company c \
+                                JOIN jobApply j ON c.compID = j.compID \
+                                where upper(c.compStatus) = 'APPROVED'"
+
+                    try:
+                        cursor.execute(select_sql)
+                        data = cursor.fetchall()  # Fetch a single row
+
+                    except Exception as e:
+                        return str(e)
+                    
                     # Passwords match, user is authenticated
-                    return render_template('index.html', user_login_name=name, studentID=studID, user_authenticated=True)
+                    return render_template('index.html', user_login_name=name, studentID=studID, user_authenticated=True, comp_data=data)
                 else:
                     return render_template('login.html', pwd_error="Incorrect password. Please try again.")
             else:

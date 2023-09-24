@@ -8,6 +8,7 @@ import urllib.parse
 from urllib.parse import unquote_plus
 # Import necessary modules
 import mimetypes
+from datetime import datetime
 
 app = Flask(__name__)
 app.secret_key = 'my_super_secret_key_12345'
@@ -64,12 +65,14 @@ def upload():
         studID = session.get('studID', None)
         print(studID)
 
+        current_datetime = datetime.now()
+
         if studID == None:
             return redirect(url_for('login'))
 
         cursor = db_conn.cursor()
         # insert into studentJobApply
-        insert_sql = "INSERT INTO studentJobApply (studentID, job_ID) VALUES (%s, %s)"
+        insert_sql = "INSERT INTO studentJobApply VALUES (%s, %s, %s)"
         # retrive from database
         
         select_sql = "SELECT c.compName, c.compProfile, j.job_title, j.comp_state, j.sal_range, j.job_id \
@@ -78,11 +81,11 @@ def upload():
                     where upper(c.compStatus) = 'APPROVED'"
 
         try:
-            cursor.execute(insert_sql, (studID, jobID))
-            cursor.commit
+            cursor.execute(insert_sql, (studID, jobID, current_datetime,))
             cursor.execute(select_sql)
             data = cursor.fetchall()  # Fetch a single row
-            print(data[5])
+            db_conn.commit()
+            cursor.close()
 
         except Exception as e:
             return str(e)

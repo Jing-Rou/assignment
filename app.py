@@ -1233,6 +1233,7 @@ def approve_companies():
     cursor.execute("SELECT compID, compName, compEmail, compStatus FROM company")
     companies = cursor.fetchall()
     cursor.close()
+    print(companies)
 
     return render_template('approve.html', companies=companies)
 

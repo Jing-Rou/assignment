@@ -1367,7 +1367,7 @@ def lecturerManagement():
         cursor = db_conn.cursor()
 
         try:
-            cursor.execute(update_sql, (lectName, gender, lectEmail, lectID))
+            cursor.execute(update_sql, (lectName, lectEmail, gender, lectID))
             db_conn.commit()
 
             # retrive from database

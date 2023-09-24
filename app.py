@@ -48,6 +48,25 @@ def index():
 
     return render_template('index.html', comp_data=data)
 
+@app.route("/upload", methods=['POST'])
+def upload():
+    cv = request.files['cv']
+    print(cv)
+    # retrive from database
+    cursor = db_conn.cursor()
+    select_sql = "SELECT c.compName, c.compProfile, j.job_title, j.comp_state, j.sal_range \
+                 from company c \
+                 JOIN jobApply j ON c.compID = j.compID \
+                 where upper(c.compStatus) = 'APPROVED'"
+
+    try:
+        cursor.execute(select_sql)
+        data = cursor.fetchall()  # Fetch a single row
+
+    except Exception as e:
+        return str(e)
+
+    return render_template('index.html', comp_data=data)
 
 @app.route("/job_listing", methods=['GET'])
 def job_listing():

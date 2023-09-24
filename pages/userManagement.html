@@ -114,11 +114,17 @@
 			<h1>Student Management</h1>
 			{% for studData in student_data %}
 			<!-- User List -->
-			<h5 class="mt-5">{{ studData[1] ~ ' ' ~ studData[2] }}</h5>
-			<form method="POST" action="/studentManagementDelete">
-				<input type="hidden" name="studentID" value="{{ studData[0] }}">
-				<button class="delete-button">Delete</button>
-			</form>
+			<div class="row">
+				<div class="col-11">
+					<h5 class="mt-5">{{ studData[1] ~ ' ' ~ studData[2] }}</h5>
+				</div>
+				<div class="col-1">
+					<form method="POST" action="/studentManagementDelete">
+						<input type="hidden" name="studentID" value="{{ studData[0] }}">
+						<button class="delete-button">Delete</button>
+					</form>
+				</div>
+			</div>
 			<div class="user-list">
 				<div class="user">
 					<form class="profile-form" method="POST" action="/user_management">
@@ -235,7 +241,8 @@
 						</div>
 						<hr>
 						<button class="edit-button" data-student-id="{{ studData[0] }}">Edit</button>
-						<button class="save-button float-end" data-student-id="{{ studData[0] }}" disabled>Save Change</button>
+						<button class="save-button float-end" data-student-id="{{ studData[0] }}" disabled>Save
+							Change</button>
 					</form>
 				</div>
 			</div>

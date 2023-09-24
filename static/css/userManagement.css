@@ -26,7 +26,7 @@
     cursor: pointer;
 }
 
-.user-list .user .delete-button {
+.delete-button {
     padding: 5px 10px;
     margin-top: 10px;
     background-color: #ff0000; /* Red color */

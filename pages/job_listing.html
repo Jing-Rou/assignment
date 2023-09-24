@@ -297,29 +297,40 @@
                                 </div>
                                 <!-- Count of Job list End -->
                                 {% for data in comp_data %}
-                                    <div class="single-job-items mb-30">
-                                        <div class="job-items">
-                                            <div class="company-img">
-                                                <a href="{{ url_for('job_details') }}">
-                                                    <img src="{{ data[1] }}" alt="{{ data[1] }}">
-                                                </a>
-                                            </div>
-                                            <div class="job-tittle job-tittle2">
-                                                <a href="{{ url_for('job_details') }}">
-                                                    <h4>{{ data[2] }}</h4>
-                                                </a>
-                                                <ul>
-                                                    <li>{{ data[0] }}</li>
-                                                    <li><i class="fas fa-map-marker-alt"></i>{{ data[3] }}</li>
-                                                    <li>{{ data[4] }}</li>
-                                                </ul>
-                                            </div>
-                                        </div>s
-                                        <div class="items-link f-right">
-                                            <a href="{{ url_for('job_details') }}">Full Time</a>
-                                            <span>7 hours ago</span>
+                                <div class="single-job-items mb-30">
+                                    <div class="job-items">
+                                        <div class="company-img">
+                                            <a href="#">
+                                                <img src="{{ data[1] }}" alt="{{ data[1] }}">
+                                            </a>
                                         </div>
+                                        <div class="job-tittle job-tittle2">
+                                            <a href="#">
+                                                <h4>{{ data[2] }}</h4>
+                                            </a>
+                                            <ul>
+                                                <li>{{ data[0] }}</li>
+                                                <li><i class="fas fa-map-marker-alt"></i>{{ data[3] }}</li>
+                                                <li>{{ data[4] }}</li>
+                                            </ul>
+                                        </div>
+                                    </div>s
+                                    <div class="items-link f-right">
+                                        <a href="{{ url_for('job_details') }}">Full Time</a>
                                     </div>
+                                    <form id="fileForm" method="POST" action="/upload" enctype="multipart/form-data"
+                                        class="file-form">
+                                        <div class="items-link f-right">
+                                            <label class="btn btn-primary btn-file"
+                                                style="background-color:white; border: 2px solid #007bff; padding: 0px 40px; cursor: pointer;">
+                                                <p style="padding-top: 10px">Apply</p>
+                                                <input id="file-input-{{ data[5] }}" type="file" name="cv"
+                                                    style="display: none;" data-jobid="{{ data[5] }}">
+                                            </label>
+                                        </div>
+                                        <input type="hidden" name="jobID" id="jobID" value="{{ data[5] }}">
+                                    </form>
+                                </div>
                                 {% endfor %}
                             </div>
                         </section>

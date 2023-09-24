@@ -58,8 +58,6 @@ def index():
     except Exception as e:
         return str(e)
     
-    print("comp:", data)
-
     return render_template('index.html', user_login_name=studName ,comp_data=data, user_authenticated=user_authenticated)
 
 @app.route("/upload", methods=['POST'])
@@ -470,7 +468,6 @@ def studentDashboard():
 def deleteJob():
     studentID = request.form.get('studentID')
     jobID = request.form.get('jobID')
-    print(studentID, jobID)
 
     delete_sql = "DELETE FROM studentJobApply \
                   WHERE studentID = %s AND job_id = %s"
@@ -494,7 +491,6 @@ def deleteJob():
             cursor = db_conn.cursor()
             cursor.execute(select_sql, (studID))
             studData = cursor.fetchall()
-            print(studData)
 
             cursor.execute(select_count_sql, (studID))
             studDataCtr = cursor.fetchall() 

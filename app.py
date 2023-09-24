@@ -1251,6 +1251,7 @@ def user_management():
     if request.method == 'POST':
         # Get the form data from the request
         studID = request.form.get('studID')
+        studName = request.form.get('name')
         gender = request.form.get('gender')
         email = request.form.get('email')
         nric = request.form.get('nric')
@@ -1263,7 +1264,10 @@ def user_management():
         ucSupervisor = request.form.get('ucSupervisor')
         correspondenceAdd = request.form.get('CorrespondenceAdd')
         
-        print(studID, correspondenceAdd, ucSupervisor)
+        studName_split = studName.split(' ')
+        print(studName_split[:-1])
+        lastname = studName_split[-1]
+
         ucSupervisor_split = ucSupervisor.split(', ')
         ucSuperName = ucSupervisor_split[0]
         ucSuperEmail = ucSupervisor_split[1]
@@ -1341,6 +1345,68 @@ def studentManagementDelete():
         lecturer_data = cursor.fetchall()  # Fetch a single row
 
         return render_template('userManagement.html', student_data=student_data, lecturer_data=lecturer_data)
+    
+@app.route('/lecturerManagement', methods=['GET', 'POST'])
+def lecturerManagement():
+    if request.method == 'POST':
+        # Get the form data from the request
+        lectID = request.form.get('idField')
+        lectName = request.form.get('nameField')
+        gender = request.form.get('genderField')
+        lectEmail = request.form.get('emailField')
 
+        # Update database
+        update_sql = "UPDATE lecturer SET lectName = %s, \
+                                        lectEmail = %s, \
+                                        gender = %s \
+                    WHERE lectID = %s"
+        
+        cursor = db_conn.cursor()
+
+        try:
+            cursor.execute(update_sql, (lectName, gender, lectEmail, lectID))
+            db_conn.commit()
+
+            # retrive from database
+            cursor = db_conn.cursor()
+
+            try:
+                select_sql = "SELECT * FROM lecturer"
+                cursor.execute(select_sql)
+                lecturer_data = cursor.fetchall()  # Fetch a single row
+
+            except Exception as e:
+                return str(e)
+
+            # Pass the studentID to the studentDashboard.html template
+            return render_template('lecturerManagement.html', lecturer_data=lecturer_data)
+        except Exception as e:
+            cursor.close()
+            return str(e)  # Handle any database errors here
+
+    select_sql = "SELECT * FROM lecturer"
+    cursor.execute(select_sql)
+    lecturer_data = cursor.fetchall()  # Fetch a single row
+
+    return render_template('lecturerManagement.html', lecturer_data=lecturer_data)
+
+@app.route('/lecturerManagementDelete', methods=['POST'])
+def lecturerManagementDelete():
+    if request.method == "POST":
+        lectID = request.form.get('idField')
+
+        # Now, retrieve company data and pass it to the template
+        cursor = db_conn.cursor()
+        select_sql = "DELETE FROM lecturer where lectID = %s"
+        cursor.execute(select_sql, (lectID,))
+        db_conn.commit()
+
+        select_sql = "SELECT * FROM lecturer"
+        cursor.execute(select_sql)
+        db_conn.commit()
+        lecturer_data = cursor.fetchall()  # Fetch a single row
+
+        return render_template('lecturerManagement.html', lecturer_data=lecturer_data)
+    
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80, debug=True)

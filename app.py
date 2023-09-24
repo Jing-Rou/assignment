@@ -1265,7 +1265,7 @@ def user_management():
         correspondenceAdd = request.form.get('CorrespondenceAdd')
         
         studName_split = studName.split(' ')
-        firstname = ' '.join(studName_split[:-2])
+        firstname = ' '.join(studName_split[:-1])
         lastname = studName_split[-1]
         print(firstname, lastname)
 

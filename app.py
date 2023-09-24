@@ -1288,7 +1288,6 @@ def user_management():
         try:
             cursor.execute(update_sql, (gender, email, nric, programme, tutGroup, cgpa, ucSuperName, ucSuperEmail, dob, contact, homeAdd, correspondenceAdd, studID))
             db_conn.commit()
-            cursor.close()
 
             # retrive from database
             cursor = db_conn.cursor()
@@ -1296,7 +1295,6 @@ def user_management():
             try:
                 cursor.execute("SELECT * FROM students")
                 student_data = cursor.fetchall()
-                cursor.close()
 
                 select_sql = "SELECT lectName, lectEmail FROM lecturer"
                 cursor.execute(select_sql)

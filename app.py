@@ -1261,9 +1261,9 @@ def user_management():
         cgpa = request.form.get('cgpa')
         homeAdd = request.form.get('homeAdd')
         ucSupervisor = request.form.get('ucSupervisor')
-        correspondenceAdd = request.form.get('correspondenceAdd')
+        correspondenceAdd = request.form.get('CorrespondenceAdd')
         
-        print(studID, gender, ucSupervisor)
+        print(studID, correspondenceAdd, ucSupervisor)
         ucSupervisor_split = ucSupervisor.split(', ')
         ucSuperName = ucSupervisor_split[0]
         ucSuperEmail = ucSupervisor_split[1]

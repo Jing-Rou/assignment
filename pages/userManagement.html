@@ -95,9 +95,14 @@
 						<h3><a href="{{ url_for('list_companies') }}">List of Approved Companies</a></h3>
 					</div>
 
-					<div class="nav-option option1">
-						<img src="../static/img/user-management-icon.png" class="nav-img" alt="articles">
-						<h3><a style="color: white;" href="{{ url_for('user_management') }}">User Management</a></h3>
+					<div class="nav-option option4">
+						<img src="../static/img/user-management-icon.png" class="nav-img" alt="user-management">
+						<h3><a href="{{ url_for('user_management') }}">Student Management</a></h3>
+					</div>
+
+					<div class="nav-option option4">
+						<img src="../static/img/user-management-icon.png" class="nav-img" alt="user-management">
+						<h3><a href="{{ url_for('user_management') }}">Lecturer Management</a></h3>
 					</div>
 
 					<div class="nav-option logout">
@@ -213,7 +218,8 @@
 								<select id="ucSupervisor" name="ucSupervisor"
 									class="custom-select form-control form-control-lg"
 									style="background-color: white; border: none; padding: 0px;">
-									<option value="{{ studData[10] ~ ', ' ~ studData[11] }}" selected>{{ studData[10] }}</option>
+									<option value="{{ studData[10] ~ ', ' ~ studData[11] }}" selected>{{ studData[10] }}
+									</option>
 									{% for lecturer in lecturer_data %}
 									<option value="{{ lecturer[0] ~ ', ' ~ lecturer[1] }}">{{ lecturer[0] }}</option>
 									{% endfor %}
@@ -238,8 +244,7 @@
 							</div>
 						</div>
 						<hr>
-						<button id="editButton" class="edit-button">Edit</button>
-						<button id="id="saveButton" class="save-button float-end" disabled>Save Change</button>
+						<button id="id=" saveButton" class="save-button float-end">Save Change</button>
 					</form>
 				</div>
 			</div>
@@ -247,93 +252,6 @@
 		</div>
 	</div>
 	<script src="../static/js/dashboard-index.js"></script>
-
-	<script>
-		const editButton = document.getElementById("editButton");
-		const studIDField = document.getElementById("studID");
-		const genderField = document.getElementById("gender");
-		const emailField = document.getElementById("email");
-		const nricField = document.getElementById("nric");
-		const programmeField = document.getElementById("programme");
-		const dobField = document.getElementById("dob");
-		const tutGroupField = document.getElementById("tutGroup");
-		const contactField = document.getElementById("contact");
-		const cgpaField = document.getElementById("cgpa");
-		const homeAddField = document.getElementById("homeAdd");
-		const ucSupervisorField = document.getElementById("ucSupervisor");
-		const CorrespondenceAddField = document.getElementById("CorrespondenceAdd");
-		const saveButton = document.getElementById("saveButton");
-		const profileForm = document.getElementById("profileForm");
-
-		editButton.addEventListener("click", function () {
-			if (editButton.textContent === "Edit") {
-				// Enable all input fields
-				studIDField.disabled = false;
-				genderField.disabled = false;
-				emailField.disabled = false;
-				nricField.disabled = false;
-				programmeField.disabled = false;
-				dobField.disabled = false;
-				tutGroupField.disabled = false;
-				contactField.disabled = false;
-				cgpaField.disabled = false;
-				homeAddField.disabled = false;
-				ucSupervisorField.disabled = false;
-				CorrespondenceAddField.disabled = false;
-
-				// Change button text to "Cancel"
-				editButton.textContent = "Cancel";
-
-				// Enable the Save button
-				saveButton.disabled = false;
-			} else {
-				// Reset fields and disable them
-				studIDField.disabled = true;
-				genderField.disabled = true;
-				emailField.disabled = true;
-				nricField.disabled = true;
-				programmeField.disabled = true;
-				dobField.disabled = true;
-				tutGroupField.disabled = true;
-				contactField.disabled = true;
-				cgpaField.disabled = true;
-				homeAddField.disabled = true;
-				ucSupervisorField.disabled = true;
-				CorrespondenceAddField.disabled = true;
-
-				// Change button text back to "Edit"
-				editButton.textContent = "Edit";
-
-				// Enable the Save button
-				saveButton.disabled = true;
-			}
-		});
-
-		saveButton.addEventListener("click", function () {
-			// Submit the form when the Save button is clicked
-			profileForm.submit();
-
-			// Disable all input fields
-			studIDField.disabled = true;
-			genderField.disabled = true;
-			emailField.disabled = true;
-			nricField.disabled = true;
-			programmeField.disabled = true;
-			dobField.disabled = true;
-			tutGroupField.disabled = true;
-			contactField.disabled = true;
-			cgpaField.disabled = true;
-			homeAddField.disabled = true;
-			ucSupervisorField.disabled = true;
-			CorrespondenceAddField.disabled = true;
-
-			// Change button text back to "Edit"
-			editButton.textContent = "Edit";
-
-			// Enable the Save button
-			saveButton.disabled = true;
-		});
-	</script>
 
 </body>
 

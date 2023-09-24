@@ -34,7 +34,7 @@ table = 'students'
 def index():
     # retrive from database
     cursor = db_conn.cursor()
-    select_sql = "SELECT c.compName, c.compProfile, j.job_title, j.comp_state, j.sal_range \
+    select_sql = "SELECT c.compName, c.compProfile, j.job_title, j.comp_state, j.sal_range, j.job_id \
                  from company c \
                  JOIN jobApply j ON c.compID = j.compID \
                  where upper(c.compStatus) = 'APPROVED'"
@@ -51,10 +51,15 @@ def index():
 @app.route("/upload", methods=['POST'])
 def upload():
     cv = request.files['cv']
+    jobID = request.form['jobID']
     print(cv)
+    print(jobID)
+    student_id = request.args.get('studentID')
+    print(student_id)
+
     # retrive from database
     cursor = db_conn.cursor()
-    select_sql = "SELECT c.compName, c.compProfile, j.job_title, j.comp_state, j.sal_range \
+    select_sql = "SELECT c.compName, c.compProfile, j.job_title, j.comp_state, j.sal_range, j.job_id \
                  from company c \
                  JOIN jobApply j ON c.compID = j.compID \
                  where upper(c.compStatus) = 'APPROVED'"

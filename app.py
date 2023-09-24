@@ -50,37 +50,40 @@ def index():
 
 @app.route("/upload", methods=['POST'])
 def upload():
-    cv = request.files['cv']
-    jobID = request.form['jobID']
-    print(cv)
-    print(jobID)
-    student_id = request.args.get('studentID')
-    print(student_id)
+    if request.method == 'POST':
+        cv = request.files['cv']
+        jobID = request.form['jobID']
+        print(cv)
+        print(jobID)
+        student_id = request.args.get('studentID')
+        print(student_id)
 
-    if student_id == None:
-        return redirect(url_for('login'))
+        if student_id == None:
+            return redirect(url_for('login'))
 
-    cursor = db_conn.cursor()
-    # insert into studentJobApply
-    insert_sql = "INSERT INTO studentJobApply VALUES (%s, %s)"
-    # retrive from database
-    
-    select_sql = "SELECT c.compName, c.compProfile, j.job_title, j.comp_state, j.sal_range, j.job_id \
-                 from company c \
-                 JOIN jobApply j ON c.compID = j.compID \
-                 where upper(c.compStatus) = 'APPROVED'"
+        cursor = db_conn.cursor()
+        # insert into studentJobApply
+        insert_sql = "INSERT INTO studentJobApply VALUES (%s, %s)"
+        # retrive from database
+        
+        select_sql = "SELECT c.compName, c.compProfile, j.job_title, j.comp_state, j.sal_range, j.job_id \
+                    from company c \
+                    JOIN jobApply j ON c.compID = j.compID \
+                    where upper(c.compStatus) = 'APPROVED'"
 
-    try:
-        cursor.execute(insert_sql, (student_id, jobID))
-        cursor.commit
-        cursor.execute(select_sql)
-        data = cursor.fetchall()  # Fetch a single row
-        print(data[5])
+        try:
+            cursor.execute(insert_sql, (student_id, jobID))
+            cursor.commit
+            cursor.execute(select_sql)
+            data = cursor.fetchall()  # Fetch a single row
+            print(data[5])
 
-    except Exception as e:
-        return str(e)
+        except Exception as e:
+            return str(e)
 
-    return render_template('index.html', comp_data=data)
+        return render_template('index.html', comp_data=data)
+
+    return render_template('index.html')
 
 @app.route("/job_listing", methods=['GET'])
 def job_listing():

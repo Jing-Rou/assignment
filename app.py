@@ -70,7 +70,7 @@ def upload():
         studName = session.get('studName', None)
         current_datetime = datetime.now()
 
-        print(current_datetime)
+        print(current_datetime, studID)
 
         filename = cv.filename.split('.')
         key = 'Resume/'  + filename[0] + "_resume." + filename[1]
@@ -137,6 +137,7 @@ def job_listing():
     studID = session.get('studID', None)
     studName = session.get('studName', None)
     user_authenticated = False
+    print(studID)
 
     if studID != None:
         user_authenticated = True
@@ -152,10 +153,9 @@ def job_listing():
         cursor.execute(select_sql)
         data = cursor.fetchall()  # Fetch a single row
 
+        return render_template('job_listing.html', user_login_name=studName, comp_data=data, user_authenticated=user_authenticated)
     except Exception as e:
         return str(e)
-
-    return render_template('job_listing.html', user_login_name=studName, comp_data=data, user_authenticated=user_authenticated)
 
 
 @app.route("/about", methods=['GET'])

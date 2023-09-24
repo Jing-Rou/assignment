@@ -443,9 +443,9 @@ def studentDashboard():
     studID = session.get('studID', None)
     session['studID'] = studID
 
-    select_sql = "SELECT * FROM studentJobApply WHERE studentID = %S"
+    select_sql = "SELECT * FROM studentJobApply WHERE studentID = %s"
 
-    select_count_sql = "SELECT count(*) FROM studentJobApply WHERE studentID = %S"
+    select_count_sql = "SELECT count(*) FROM studentJobApply WHERE studentID = %s"
 
     try:
         cursor = db_conn.cursor()

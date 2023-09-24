@@ -48,18 +48,9 @@
 	<!-- for header part -->
 	<header>
 
-		<div class="logosec">
-			<div class="logo">Job Flnder</div>
-			<img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210182541/Untitled-design-(30).png"
-				class="icn menuicn" id="menuicn" alt="menu-icon">
-		</div>
-
-		<div class="searchbar">
-			<input type="text" placeholder="Search">
-			<div class="searchbtn">
-				<img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210180758/Untitled-design-(28).png"
-					class="icn srchicn" alt="search-icon">
-			</div>
+		<div class="logo" style="margin-top:15px;">
+			<a href="{{ url_for('admin_dashboard') }}"><img src="{{ url_for('static', filename='img/logo/logo.png') }}"
+					alt=""></a>
 		</div>
 
 		<div class="message">

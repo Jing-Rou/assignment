@@ -1325,6 +1325,7 @@ def user_management():
 def studentManagementDelete():
     if request.method == "POST":
         studID = request.form.get('studentID')
+        print(studID)
 
         # Now, retrieve company data and pass it to the template
         cursor = db_conn.cursor()

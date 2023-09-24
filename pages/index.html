@@ -381,10 +381,11 @@
                                 </div>
                                 <form id="fileForm" method="POST" action="/upload" enctype="multipart/form-data">
                                     <div class="items-link f-right">
-                                        <label for="file-input" class="btn btn-primary btn-file"
-                                            style="background-color:white; border: 2px solid #007bff; padding: 0px 40px">
-                                            <p style="padding-top: 10px">Apply</p> 
-                                            <input id="file-input-{{ data[5] }}" type="file" name="cv" style="display: none;" data-jobid="{{ data[5] }}">
+                                        <label class="btn btn-primary btn-file"
+                                            style="background-color:white; border: 2px solid #007bff; padding: 0px 40px; cursor: pointer;">
+                                            <p style="padding-top: 10px">Apply</p>
+                                            <input id="file-input-{{ data[5] }}" type="file" name="cv"
+                                                style="display: none;" data-jobid="{{ data[5] }}">
                                         </label>
                                     </div>
                                     <input type="submit" style="display: none;">

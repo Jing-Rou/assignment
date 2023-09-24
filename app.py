@@ -443,7 +443,7 @@ def studentDashboard():
     studID = session.get('studID', None)
     session['studID'] = studID
 
-    select_sql = "SELECT c.compName, j.job_title, s.dateTime, s.resume \
+    select_sql = "SELECT c.compName, j.job_title, s.dateTime, s.resume, j.job_id \
                   FROM studentJobApply s \
                   JOIN jobApply j on s.job_id = j.job_id \
                   JOIN company c on j.compID = c.compID\
@@ -466,7 +466,48 @@ def studentDashboard():
     # Pass the studentID to the studentDashboard.html template
     return render_template('studentDashboard.html', studentID=studID, studData=studData, studDataCtr=studDataCtr)
 
+@app.route("/deleteJob", methods=['POST'])
+def deleteJob():
+    studentID = request.form.get('studentID')
+    jobID = request.form.get('jobID')
 
+    delete_sql = "DELETE FROM studentJobApply \
+                  WHERE studentID = %s AND job_id = %s"
+
+    try:
+        cursor = db_conn.cursor()
+        cursor.execute(delete_sql, (studentID, jobID))
+        cursor.commit
+
+        # Retrieve the studentID from the query parameters
+        studID = session.get('studID', None)
+
+        select_sql = "SELECT c.compName, j.job_title, s.dateTime, s.resume, j.job_id \
+                    FROM studentJobApply s \
+                    JOIN jobApply j on s.job_id = j.job_id \
+                    JOIN company c on j.compID = c.compID\
+                    WHERE studentID = %s"
+
+        select_count_sql = "SELECT count(*) FROM studentJobApply WHERE studentID = %s"
+
+        try:
+            cursor = db_conn.cursor()
+            cursor.execute(select_sql, (studID))
+            studData = cursor.fetchall()
+            print(studData)
+
+            cursor.execute(select_count_sql, (studID))
+            studDataCtr = cursor.fetchall() 
+            studDataCtr = studDataCtr[0]
+        except Exception as e:
+            return str(e)
+
+        # Pass the studentID to the studentDashboard.html template
+        return render_template('studentDashboard.html', studentID=studID, studData=studData, studDataCtr=studDataCtr)
+
+    except Exception as e:
+        return str(e)
+    
 @app.route("/studentProfile", methods=['GET', 'POST'])
 def studentProfile():
     # Retrieve the studentID from the query parameters

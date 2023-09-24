@@ -55,10 +55,10 @@ def upload():
         jobID = request.form['jobID']
         print(cv)
         print(jobID)
-        student_id = request.args.get('studentID')
-        print(student_id)
+        studID = session.get('studID', None)
+        print(studID)
 
-        if student_id == None:
+        if studID == None:
             return redirect(url_for('login'))
 
         cursor = db_conn.cursor()
@@ -72,7 +72,7 @@ def upload():
                     where upper(c.compStatus) = 'APPROVED'"
 
         try:
-            cursor.execute(insert_sql, (student_id, jobID))
+            cursor.execute(insert_sql, (studID, jobID))
             cursor.commit
             cursor.execute(select_sql)
             data = cursor.fetchall()  # Fetch a single row
@@ -82,8 +82,6 @@ def upload():
             return str(e)
 
         return render_template('index.html', comp_data=data)
-
-    return render_template('index.html')
 
 @app.route("/job_listing", methods=['GET'])
 def job_listing():

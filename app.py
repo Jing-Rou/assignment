@@ -29,6 +29,11 @@ db_conn = connections.Connection(
 output = {}
 table = 'students'
 
+@app.before_request
+def clear_session_on_initial_load():
+    if request.endpoint == 'index':
+        session.clear()
+
 
 @app.route("/", methods=['GET'], endpoint='index')
 def index():

@@ -442,6 +442,7 @@ def studentDashboard():
     # Retrieve the studentID from the query parameters
     studID = session.get('studID', None)
     session['studID'] = studID
+    print('d', studID)
 
     # Pass the studentID to the studentDashboard.html template
     return render_template('studentDashboard.html', studentID=studID)
@@ -695,6 +696,7 @@ def list_files(bucket, path):
 @app.route("/report", methods=['GET', 'POST'])
 def report():
     studID = session.get('studID', None)
+    print('r', studID)
 
     # Fetch data from the lecturer database
     cursor = db_conn.cursor()

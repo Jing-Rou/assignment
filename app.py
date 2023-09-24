@@ -38,10 +38,10 @@ def clear_session_on_initial_load():
 @app.route("/", methods=['GET'], endpoint='index')
 def index():
     studID = session.get('studID', None)
-    print(studID)
+    studName = session.get('studName', None)
 
     if studID != None:
-            user_authenticated = True
+        user_authenticated = True
 
     # retrive from database
     cursor = db_conn.cursor()
@@ -49,17 +49,17 @@ def index():
                  from company c \
                  JOIN jobApply j ON c.compID = j.compID \
                  where upper(c.compStatus) = 'APPROVED'"
-
+    
     try:
         cursor.execute(select_sql)
-        data = cursor.fetchall()  # Fetch a single row
+        data = cursor.fetchall()
 
     except Exception as e:
         return str(e)
     
     print("comp:", data)
 
-    return render_template('index.html', comp_data=data, user_authenticated=user_authenticated)
+    return render_template('index.html', user_login_name=studName ,comp_data=data, user_authenticated=user_authenticated)
 
 @app.route("/upload", methods=['POST'])
 def upload():
@@ -67,6 +67,7 @@ def upload():
         cv = request.files['cv']
         jobID = request.form['jobID']
         studID = session.get('studID', None)
+        studName = session.get('studName', None)
         current_datetime = datetime.now()
 
         print(current_datetime)
@@ -128,7 +129,7 @@ def upload():
         except Exception as e:
             return str(e)
 
-        return render_template('index.html', comp_data=data, user_authenticated=user_authenticated)
+        return render_template('index.html', user_login_name=studName, comp_data=data, user_authenticated=user_authenticated)
 
 @app.route("/job_listing", methods=['GET'])
 def job_listing():
@@ -315,6 +316,7 @@ def login():
 
                 if password == stored_password:
                     session['studID'] = studID
+                    session['studName'] = name
 
                     # retrive from database
                     cursor = db_conn.cursor()

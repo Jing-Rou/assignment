@@ -877,7 +877,7 @@ def companyRegister():
         s3 = boto3.resource('s3')
         bucket = s3.Bucket(custombucket)
         compProfile = "https://" + bucket.name + \
-            ".s3.amazonaws.com/" + "company-" + compName + "_image_file"
+            ".s3.amazonaws.com/Company/" + "company-" + compName + "_image_file"
 
         # Fetch data from the database here
         cursor = db_conn.cursor()
@@ -927,19 +927,6 @@ def companyRegister():
                 print("Data inserted in MySQL RDS... uploading image to S3...")
                 s3.Bucket(custombucket).put_object(
                     Key=comp_image_file_name_in_s3, Body=companyImage)
-                bucket_location = boto3.client(
-                    's3').get_bucket_location(Bucket=custombucket)
-                s3_location = (bucket_location['LocationConstraint'])
-
-                if s3_location is None:
-                    s3_location = ''
-                else:
-                    s3_location = '-' + s3_location
-
-                object_url = "https://s3%7B0%7D.amazonaws.com/%7B1%7D/%7B2%7D".format(
-                    s3_location,
-                    custombucket,
-                    comp_image_file_name_in_s3)
                 # Go to the dashboard after successful registration
                 return redirect(url_for('login'))
             except Exception as e:
@@ -1027,7 +1014,7 @@ def list_comp_files(bucket, path_name):
     contents = []
 
     for image in bucket.objects.filter(Prefix=path_name):
-        contents.append("https://wky-company.s3.amazonaws.com/" + image.key)
+        contents.append("https://" + bucket.name + ".s3.amazonaws.com/" + image.key)
     return contents
 
 

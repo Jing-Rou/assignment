@@ -10,6 +10,21 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard-style.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard-responsive.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/jobRegister.css') }}">
+
+    <style>
+        .flex-container {
+            display: flex;
+            /* Use Flexbox layout */
+            align-items: center;
+            /* Vertically center the content */
+        }
+
+        /* Adjust margin or spacing as needed */
+        .nav-img {
+            margin-right: 10px;
+            /* Add some spacing between the image and text */
+        }
+    </style>
 </head>
 
 <body>
@@ -23,14 +38,6 @@
                 class="icn menuicn" id="menuicn" alt="menu-icon">
         </div>
 
-        <div class="searchbar">
-            <input type="text" placeholder="Search">
-            <div class="searchbtn">
-                <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210180758/Untitled-design-(28).png"
-                    class="icn srchicn" alt="search-icon">
-            </div>
-        </div>
-
         <div class="message">
             <div class="circle"></div>
             <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210183322/8.png" class="icn" alt="">
@@ -42,20 +49,20 @@
 
     </header>
 
-	<div class="main-container">
-		<div class="navcontainer">
+    <div class="main-container">
+        <div class="navcontainer">
             <nav class="nav">
                 <div class="nav-upper-options">
                     <div class="nav-option">
-						<img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210182148/Untitled-design-(29).png"
-							class="nav-img" alt="dashboard">
-						<h3><a href="{{ url_for('companyDashboard')}}">Dashboard</a></h3> 
+                        <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210182148/Untitled-design-(29).png"
+                            class="nav-img" alt="dashboard">
+                        <h3><a href="{{ url_for('companyDashboard')}}">Dashboard</a></h3>
                     </div>
 
                     <div class="nav-option option1 ">
-						<img src= "{{ url_for('static', filename='img/icon/jobApplicationicon.png') }}"
-							class="nav-img" alt="dashboard">
-						<h3><a style="color: white;" href="{{ url_for('jobReg')}}">Job Application</a></h3>
+                        <img src="{{ url_for('static', filename='img/icon/jobApplicationicon.png') }}" class="nav-img"
+                            alt="dashboard">
+                        <h3><a style="color: white;" href="{{ url_for('jobReg')}}">Job Application</a></h3>
                     </div>
 
                     <div class="nav-option logout">
@@ -67,7 +74,7 @@
                 </div>
             </nav>
         </div>
-        
+
         <div class="main">
 
             <div class="report-container">
@@ -135,24 +142,25 @@
                                 </label>
                             </div>
                             <div class="side-by-side">
-                                <label for="contact_person_name"><b>Contact Person Name (For Job Application):</b></label>
+                                <label for="contact_person_name"><b>Contact Person Name (For Job
+                                        Application):</b></label>
                                 <input type="text" id="contact_person_name" name="contact_person_name"
                                     placeholder="Eg: Ali bin Abu" required>
                                 <br>
                                 <label for="contact_person_email"><b>Contact Person Email Address (For Job
-                                    Application):</b></label>
+                                        Application):</b></label>
                                 <input type="text" id="contact_person_email" name="contact_person_email"
                                     placeholder="Eg: abc123@gmail.com" required>
                                 <br>
                                 <label for="contact_number"><b>Phone Number for Job Enquiries if applicable (For Job
-                                    Application):</b></label>
+                                        Application):</b></label>
                                 <input type="text" id="contact_number" name="contact_number"
                                     placeholder="Eg: 016-123 4567" required>
                                 <br>
                                 <label for="comp_state"><b>Which state is your company in:</b></label>
                                 <input type="text" id="comp_state" name="comp_state" placeholder="Eg: Pahang" required>
                                 <br>
-                                
+
                                 <div class="bottom-elements">
                                     <div class="submit">
                                         <button type="submit">Submit</button>

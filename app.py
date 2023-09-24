@@ -1014,7 +1014,7 @@ def list_comp_files(bucket, path_name):
     contents = []
 
     for image in bucket.objects.filter(Prefix=path_name):
-        contents.append("https://" + bucket.name + ".s3.amazonaws.com/" + image.key)
+        contents.append("https://" + bucket.name + ".s3.amazonaws.com/" + path_name + "/" + image.key)
     return contents
 
 
@@ -1054,15 +1054,11 @@ def jobDetail(user_login_name, job_name):
         # Append the updated row to the new list
         job_data_with_description.append(tuple(row_with_description))
 
-    # here code for print the image
-    # Build the object key and URL
-    comp_image_file_name_in_s3 = f"company-{urllib.parse.quote_plus(user_login_name)}_image_file"
-
     # Uplaod image file in S3
     s3 = boto3.resource('s3')
 
     bucket = s3.Bucket(custombucket)
-    list_of_files = list_comp_files(bucket, comp_image_file_name_in_s3)
+    list_of_files = list_comp_files(bucket, 'Company')
     print(list_of_files)
 
     # Render the job details template and pass the job_data, job_name, and user_login_name

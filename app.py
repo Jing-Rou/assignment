@@ -1029,7 +1029,7 @@ def jobDetail(user_login_name, job_name):
     select_sql = "SELECT * FROM jobApply J JOIN company C ON C.compID = J.compID WHERE C.compName = %s AND J.job_title = %s"
     cursor.execute(select_sql, (user_login_name, decoded_job_name,))
     job_data = cursor.fetchall()
-    cursor.close()
+
     session['job_data'] = job_data
 
     # Assuming job_data is a list of rows fetched from the database
@@ -1054,15 +1054,19 @@ def jobDetail(user_login_name, job_name):
         # Append the updated row to the new list
         job_data_with_description.append(tuple(row_with_description))
 
-    # Uplaod image file in S3
-    s3 = boto3.resource('s3')
+    compID = session.get('compID', None)
+    print(compID)
 
-    bucket = s3.Bucket(custombucket)
-    list_of_files = list_comp_files(bucket, 'Company')
-    print(list_of_files)
+    cursor = db_conn.cursor()
+    select_sql = "SELECT compProfile \
+                 from company  \
+                 where upper(compID) = %s"
+    cursor.execute(select_sql, (compID,))
+    comp_img = cursor.fetchone()
+    comp_img = comp_img[0]
 
     # Render the job details template and pass the job_data, job_name, and user_login_name
-    return render_template('jobDetails.html', job_data=job_data_with_description, list_of_files=list_of_files)
+    return render_template('jobDetails.html', job_data=job_data_with_description, comp_img=comp_img)
 
 
 @app.route('/edit/<string:job_id>', methods=['GET', 'POST'])

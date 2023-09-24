@@ -443,7 +443,11 @@ def studentDashboard():
     studID = session.get('studID', None)
     session['studID'] = studID
 
-    select_sql = "SELECT * FROM studentJobApply WHERE studentID = %s"
+    select_sql = "SELECT c.compName, j.job_title, s.dateTime, s.resume \
+                  FROM studentJobApply s \
+                  JOIN jobApply j on s.job_id = j.job_id \
+                  JOIN company c on j.compID = c.compID\
+                  WHERE studentID = %s"
 
     select_count_sql = "SELECT count(*) FROM studentJobApply WHERE studentID = %s"
 

@@ -113,11 +113,11 @@
 			</nav>
 		</div>
 
-		<div class="main">
+		<div class="main" style="background-color: #cad7fda4;">
 			<div class="box-container">
 				<div class="box box1">
 					<div class="text">
-						<h2 class="topic-heading">{{ studDataCtr }}</h2>
+						<h2 class="topic-heading">{{ studDataCtr[0] }}</h2>
 						<h2 class="topic">Applied Company</h2>
 					</div>
 
@@ -133,7 +133,7 @@
 
 				<div class="report-body">
 					<div class="row">
-						<div class="col-5">
+						<div class="col-4">
 							<h3 class="t-op">Company</h3>
 						</div>
 						<div class="col-3">
@@ -142,7 +142,7 @@
 						<div class="col-2">
 							<h3 class="t-op">Date</h3>
 						</div>
-						<div class="col-2">
+						<div class="col-3">
 							<h3 class="t-op">Resume</h3>
 						</div>
 					</div>
@@ -151,21 +151,27 @@
 						{% for data in studData %}
 						<div>
 							<div class="row">
-								<div class="col-5">
+								<div class="col-4">
 									<h3 class="t-op-nextlvl">{{ data[0] }}</h3>
 								</div>
 
-								<div class="col-5">
-									<h3 class="t-op-nextlvl">{{ data[0] }}</h3>
+								<div class="col-3">
+									<h3 class="t-op-nextlvl">{{ data[1] }}</h3>
 								</div>
 
-								<div class="col-1">
-									<h3 class="t-op-nextlvl">{{ data[0] }}</h3>
+								<div class="col-2">
+									<h3 class="t-op-nextlvl">{{ data[2] }}</h3>
+								</div>
+
+								<div class="col-2">
+									<a href="{{ data[3] }}" download="{{ data[3] }}">
+										<h3 class="t-op-nextlvl">{{ data[3] }}</h3>
+									</a>
 								</div>
 
 								<div class="col-1">
 									<form method="post" action="/delete">
-										<input type="hidden" name="studentID" value="">
+										<input type="hidden" name="studentID" value="{{ studentID }}">
 										<input type="hidden" name="file_name" value="">
 										<button type="submit" class="btn btn-danger">Delete</button>
 									</form>

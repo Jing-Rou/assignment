@@ -133,29 +133,30 @@
 
 				<div class="report-body">
 					<div class="row">
-						<div class="col-4">
+						<div class="col-2">
 							<h3 class="t-op">Company</h3>
 						</div>
-						<div class="col-3">
+						<div class="col-2">
 							<h3 class="t-op">Job Title</h3>
 						</div>
 						<div class="col-2">
 							<h3 class="t-op">Date</h3>
 						</div>
-						<div class="col-3">
+						<div class="col-5">
 							<h3 class="t-op">Resume</h3>
 						</div>
 					</div>
+					<hr>
 
 					<div class="items">
 						{% for data in studData %}
 						<div>
 							<div class="row">
-								<div class="col-4">
+								<div class="col-2">
 									<h3 class="t-op-nextlvl">{{ data[0] }}</h3>
 								</div>
 
-								<div class="col-3">
+								<div class="col-2">
 									<h3 class="t-op-nextlvl">{{ data[1] }}</h3>
 								</div>
 
@@ -163,7 +164,7 @@
 									<h3 class="t-op-nextlvl">{{ data[2] }}</h3>
 								</div>
 
-								<div class="col-2">
+								<div class="col-5">
 									<a href="{{ data[3] }}" download="{{ data[3] }}">
 										<h3 class="t-op-nextlvl">{{ data[3] }}</h3>
 									</a>

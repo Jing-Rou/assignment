@@ -746,6 +746,7 @@ def list_files(bucket, path):
     for object_summary in bucket.objects.filter(Prefix=folder_prefix):
         # Extract file name without the folder prefix
         file_name = object_summary.key[len(folder_prefix):]
+        print(file_name)
         if file_name:
             last_modified = object_summary.last_modified
             size = object_summary.size

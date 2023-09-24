@@ -59,17 +59,8 @@
                                         <ul id="navigation">
                                             <li><a href="{{ url_for('index') }}">Home</a></li>
                                             <li><a href="{{ url_for('job_listing') }}">Find a Job</a></li>
-                                            <li><a href="{{ url_for('about') }}">About</a></li>
-                                            <li>
-                                                <a href="#">Pages</a>
-                                                <ul class="submenu">
-                                                    <li><a href="{{ url_for('blog') }}">Blog</a></li>
-                                                    <li><a href="{{ url_for('single_blog') }}">Blog Details</a></li>
-                                                    <li><a href="{{ url_for('elements') }}">Elements</a></li>
-                                                    <li><a href="{{ url_for('job_details') }}">Job Details</a></li>
-                                                </ul>
-                                            </li>
-                                            <li><a href="{{ url_for('contact') }}">Contact</a></li>
+                                            <!-- <li><a href="{{ url_for('about') }}">About</a></li>
+                                            <li><a href="{{ url_for('contact') }}">Contact</a></li> -->
                                         </ul>
                                     </nav>
                                 </div>
@@ -85,7 +76,6 @@
                                         </a>
                                     </div>
 
-                                    <!-- <input type="hidden" name="studentID" value="{{ studentID }}"> -->
 
                                     {% else %}
                                     <!-- User is not authenticated, show Register and Login buttons -->
@@ -580,6 +570,33 @@
     <script src="{{ url_for('static', filename='js/plugins.js') }}"></script>
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const fileForms = document.querySelectorAll(".file-form");
+
+            fileForms.forEach((fileForm) => {
+                const fileInput = fileForm.querySelector("input[type='file']");
+                const jobIDInput = fileForm.querySelector("input[name='jobID']");
+
+                fileInput.addEventListener("change", function () {
+                    // Get the selected file's name
+                    const fileName = fileInput.files[0].name;
+
+                    // Get the job ID from the data attribute
+                    const jobID = fileInput.getAttribute("data-jobid");
+
+                    // Set the job ID in the hidden input field
+                    jobIDInput.value = jobID;
+
+                    // Display the file name (you can customize this)
+                    alert("Selected file: " + fileName);
+
+                    // Submit the form programmatically
+                    fileForm.submit();
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>

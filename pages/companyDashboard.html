@@ -24,6 +24,13 @@
             margin-right: 10px;
             /* Add some spacing between the image and text */
         }
+
+        .t-op2{
+            padding: 20px;
+        }
+        .t-op2:hover{
+            background-color: rgb(189, 202, 225);
+        }
     </style>
 </head>
 
@@ -112,7 +119,7 @@
                             <li>
                                 <div class="t-op2">
                                     <a
-                                        href="{{ url_for('jobDetail', user_login_name=user_login_name, job_name=job[2]) }}">
+                                        href="{{ url_for('jobDetail', user_login_name=user_login_name, job_name=job[2]) }}" >
                                         <h4>{{ job[2] }}</h4>
                                     </a>
                                 </div>

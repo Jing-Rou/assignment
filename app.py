@@ -71,8 +71,6 @@ def upload():
         studName = session.get('studName', None)
         current_datetime = datetime.now()
 
-        print(current_datetime, studID, jobID)
-
         filename = cv.filename.split('.')
         key = 'Resume/'  + filename[0] + "_resume." + filename[1]
 
@@ -1033,7 +1031,6 @@ def lecturerProfile():
 # ------------------------------------------------------------------- Lecturer END -------------------------------------------------------------------#
 
 # ------------------------------------------------------------------- Company START (Wong Kar Yan) -------------------------------------------------------------------#
-
 
 @app.route("/companyRegister", methods=['GET', 'POST'])
 def companyRegister():

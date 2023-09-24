@@ -86,7 +86,7 @@
                 </div>
 
                 <div class="report-body">
-                    <div class="note">
+                    <div class="note" style="border: 2px solid rgb(86, 86, 86);">
                         <b>Things to note (Read before filling the form)</b>
                         <ul class="note-list">
                             <li>One response per position (Fill in another response for another position)</li>
@@ -102,15 +102,15 @@
                             <p class="error-message" id="error-message" style="color: red;">{{ jobRegError }}</p>
                             <div class="side-by-side">
                                 <label for="job_title"><b>Job Title/Position:</b></label>
-                                <textarea id="job_title" name="job_title" rows="2" cols="50"
+                                <textarea id="job_title" name="job_title" rows="2" cols="50" style="padding: 4px;"
                                     placeholder="Eg: Data Science" required></textarea>
                                 <br>
                                 <label for="job_desc"><b>Job Description:</b></label>
-                                <textarea id="job_desc" name="job_desc" rows="4" cols="50"
+                                <textarea id="job_desc" name="job_desc" rows="4" cols="50" style="padding: 4px;"
                                     placeholder="Please type here..." required></textarea>
                                 <br>
                                 <label for="job_req"><b>Job Requirement:</b></label>
-                                <textarea id="job_req" name="job_req" rows="4" cols="50"
+                                <textarea id="job_req" name="job_req" rows="4" cols="50" style="padding: 4px;"
                                     placeholder="Please type here..." required></textarea>
                                 <br>
                                 <label for="sal_range"><b>Salary Range (RM):</b></label>
@@ -147,29 +147,26 @@
                             <div class="side-by-side">
                                 <label for="contact_person_name"><b>Contact Person Name (For Job
                                         Application):</b></label>
-                                <input type="text" id="contact_person_name" name="contact_person_name"
+                                <input type="text" id="contact_person_name" name="contact_person_name" style="padding: 2px;"
                                     placeholder="Eg: Ali bin Abu" required>
                                 <br>
                                 <label for="contact_person_email"><b>Contact Person Email Address (For Job
                                         Application):</b></label>
-                                <input type="text" id="contact_person_email" name="contact_person_email"
+                                <input type="text" id="contact_person_email" name="contact_person_email" style="padding: 2px;"
                                     placeholder="Eg: abc123@gmail.com" required>
                                 <br>
                                 <label for="contact_number"><b>Phone Number for Job Enquiries if applicable (For Job
                                         Application):</b></label>
-                                <input type="text" id="contact_number" name="contact_number"
+                                <input type="text" id="contact_number" name="contact_number" style="padding: 2px;"
                                     placeholder="Eg: 016-123 4567" required>
                                 <br>
                                 <label for="comp_state"><b>Which state is your company in:</b></label>
-                                <input type="text" id="comp_state" name="comp_state" placeholder="Eg: Pahang" required>
+                                <input type="text" id="comp_state" name="comp_state" style="padding: 2px;" placeholder="Eg: Pahang" required>
                                 <br>
 
                                 <div class="bottom-elements">
                                     <div class="submit">
                                         <button type="submit">Submit</button>
-                                    </div>
-                                    <div class="extralogo">
-                                        <img src="../static/img/logo/logo.png" alt="">
                                     </div>
                                 </div>
                             </div>

@@ -1202,11 +1202,21 @@ def adminRegister():
 def admin_dashboard():
     # Now, retrieve company data and pass it to the template
     cursor = db_conn.cursor()
+
+    cursor.execute("SELECT count(*) FROM company")
+    registeredComp = cursor.fetchone()
+
+    cursor.execute("SELECT count(*) FROM company where UPPER(compStatus) = 'PENDING'")
+    pendingCtr = cursor.fetchone()
+
+    cursor.execute("SELECT count(*) FROM company where UPPER(compStatus) = 'REJECTED'")
+    rejectedCtr = cursor.fetchone()
+
     cursor.execute("SELECT compID, compName, compEmail, compStatus FROM company")
     companies = cursor.fetchall()
     cursor.close()
 
-    return render_template('adminDashboard.html', companies=companies)
+    return render_template('adminDashboard.html', registeredComp=registeredComp, pendingCtr=pendingCtr, rejectedCtr=rejectedCtr, companies=companies)
 
 @app.route('/approve_companies', methods=['GET', 'POST'])
 def approve_companies():

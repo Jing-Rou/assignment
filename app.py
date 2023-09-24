@@ -38,6 +38,7 @@ def clear_session_on_initial_load():
 @app.route("/", methods=['GET'], endpoint='index')
 def index():
     studID = session.get('studID', None)
+    print(studID)
 
     if studID != None:
             user_authenticated = True

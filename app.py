@@ -58,7 +58,7 @@ def upload():
     print(student_id)
 
     if student_id == None:
-        return render_template('login.html')
+        return redirect(url_for('login'))
 
     cursor = db_conn.cursor()
     # insert into studentJobApply
@@ -75,6 +75,7 @@ def upload():
         cursor.commit
         cursor.execute(select_sql)
         data = cursor.fetchall()  # Fetch a single row
+        print(data[5])
 
     except Exception as e:
         return str(e)

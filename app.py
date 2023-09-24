@@ -60,7 +60,6 @@ def upload():
     if request.method == 'POST':
         cv = request.files['cv']
         jobID = request.form['jobID']
-        print(cv.filename)
         studID = session.get('studID', None)
         current_datetime = datetime.now()
 
@@ -79,15 +78,26 @@ def upload():
         cursor = db_conn.cursor()
         # insert into studentJobApply
         insert_sql = "INSERT INTO studentJobApply VALUES (%s, %s, %s, %s)"
-        # retrive from database
         
+        # retrive from database
         select_sql = "SELECT c.compName, c.compProfile, j.job_title, j.comp_state, j.sal_range, j.job_id \
                     from company c \
                     JOIN jobApply j ON c.compID = j.compID \
                     where upper(c.compStatus) = 'APPROVED'"
 
+        studJobApply_select = "SELECT count(*) FROM studentJobApply WHERE studentID = %s AND job_id = %s"
+
+        update_sql = "UPDATE studentJobApply SET dateTime = %s, resume = %s WHERE studentID = %s AND job_id = %s" 
+
         try:
-            cursor.execute(insert_sql, (studID, jobID, current_datetime, profile, ))
+            cursor.execute(studJobApply_select, (studID, jobID,))
+            data_studJob = cursor.fetchall()  # Fetch a single row
+            print(data_studJob)
+
+            if data_studJob != 0:
+                cursor.execute(update_sql, (current_datetime, profile, studID, jobID,))
+            else:
+                cursor.execute(insert_sql, (studID, jobID, current_datetime, profile, ))
             cursor.execute(select_sql)
             data = cursor.fetchall()  # Fetch a single row
             db_conn.commit()

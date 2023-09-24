@@ -442,10 +442,24 @@ def studentDashboard():
     # Retrieve the studentID from the query parameters
     studID = session.get('studID', None)
     session['studID'] = studID
-    print('d', studID)
+
+    select_sql = "SELECT * FROM studentJobApply WHERE studentID = %S"
+
+    select_count_sql = "SELECT count(*) FROM studentJobApply WHERE studentID = %S"
+
+    try:
+        cursor = db_conn.cursor()
+        cursor.execute(select_sql, (studID))
+        studData = cursor.fetchall()
+        print(studData)
+
+        cursor.execute(select_count_sql, (studID))
+        studDataCtr = cursor.fetchall() 
+    except Exception as e:
+        return str(e)
 
     # Pass the studentID to the studentDashboard.html template
-    return render_template('studentDashboard.html', studentID=studID)
+    return render_template('studentDashboard.html', studentID=studID, studData=studData, studDataCtr=studDataCtr)
 
 
 @app.route("/studentProfile", methods=['GET', 'POST'])

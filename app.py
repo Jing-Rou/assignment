@@ -1384,6 +1384,7 @@ def lecturerManagement():
             cursor.close()
             return str(e)  # Handle any database errors here
 
+    cursor = db_conn.cursor()
     select_sql = "SELECT * FROM lecturer"
     cursor.execute(select_sql)
     lecturer_data = cursor.fetchall()  # Fetch a single row

@@ -53,36 +53,26 @@
             padding: 29.5px 44px;
         }
 
-        /* Style the label as the custom button */
         .btn-file {
-            background-color: white;
-            /* Set the background color to white */
-            border: 2px solid #007bff;
-            /* Set a blue border */
-            box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-            /* Add a shadow effect */
-            color: #007bff;
-            /* Set text color to blue */
-            padding: 6px 12px;
-            /* Adjust padding as needed */
-            cursor: pointer;
-            /* Change cursor to pointer on hover */
-            display: inline-block;
-            /* Display as an inline block */
+            position: relative;
+            overflow: hidden;
         }
 
-        /* Hide the default file input element */
-        .btn-file input[type="file"] {
-            display: none;
+        .btn-file input[type=file] {
+            position: absolute;
+            top: 0;
+            right: 0;
+            min-width: 100%;
+            min-height: 100%;
+            font-size: 100px;
+            text-align: right;
+            filter: alpha(opacity=0);
+            opacity: 0;
+            outline: none;
+            cursor: inherit;
+            display: block;
         }
-
-        /* Style the label when hovered */
-        .btn-file:hover {
-            background-color: #007bff;
-            /* Change background color on hover */
-            color: white;
-            /* Change text color on hover */
-        }
+        
     </style>
 </head>
 

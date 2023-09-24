@@ -232,7 +232,10 @@
 						</div>
 						<hr>
 						<button class="edit-button" data-student-id="{{ studData[0] }}">Edit</button>
-						<button class="delete-button">Delete</button>
+						<form method="post" action="/studentManagementDelete">
+							<input type="hidden" name="studentID" value="{{ studData[0] }}">
+							<button class="delete-button">Delete</button>
+						</form>
 						<button class="save-button float-end" data-student-id="{{ studData[0] }}" disabled>Save
 							Change</button>
 					</form>

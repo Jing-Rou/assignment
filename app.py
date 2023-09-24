@@ -1321,13 +1321,27 @@ def user_management():
 
     return render_template('userManagement.html', student_data=student_data, lecturer_data=lecturer_data)
 
-@app.route('/delete_user', methods=['POST'])
-def delete_user():
-    # Add code here to delete the user with the specified user_id
-    # You can use user_id to identify and delete the user from your database
-    # After deleting, you can redirect to a desired route
-    print('a')
-    return redirect(url_for('user_management'))  # Redirect to the user_management route
+@app.route('/studentManagementDelete', methods=['POST'])
+def studentManagementDelete():
+    if request.method == "POST":
+        studID = request.form.get('studentID')
+
+        # Now, retrieve company data and pass it to the template
+        cursor = db_conn.cursor()
+        select_sql = "DELETE FROM students where studentID = %s"
+        cursor.execute(select_sql, (studID,))
+        db_conn.commit()
+        
+        cursor.execute("SELECT * FROM students")
+        student_data = cursor.fetchall()
+        db_conn.commit()
+
+        select_sql = "SELECT lectName, lectEmail FROM lecturer"
+        cursor.execute(select_sql)
+        db_conn.commit()
+        lecturer_data = cursor.fetchall()  # Fetch a single row
+
+        return render_template('userManagement.html', student_data=student_data, lecturer_data=lecturer_data)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80, debug=True)

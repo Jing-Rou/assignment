@@ -455,6 +455,7 @@ def studentDashboard():
 
         cursor.execute(select_count_sql, (studID))
         studDataCtr = cursor.fetchall() 
+        studDataCtr = studDataCtr[0]
     except Exception as e:
         return str(e)
 

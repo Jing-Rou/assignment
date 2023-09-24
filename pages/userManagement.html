@@ -127,7 +127,7 @@
 			</div>
 			<div class="user-list">
 				<div class="user">
-					<form class="profile-form" method="POST" action="/user_management">
+					<form class="profileForm" method="POST" action="/user_management">
 						<!-- Add a hidden input field for student ID -->
 						<input type="hidden" class="student-id-input" name="studID" value="{{ studData[0] }}">
 						<div class="row">
@@ -213,8 +213,7 @@
 								<select id="ucSupervisor" name="ucSupervisor"
 									class="custom-select form-control form-control-lg"
 									style="background-color: white; border: none; padding: 0px;" disabled>
-									<option value="{{ studData[10] ~ ', ' ~ studData[11] }}" selected>{{ studData[10] }}
-									</option>
+									<option value="{{ studData[10] ~ ', ' ~ studData[11] }}" selected>{{ studData[10] }}</option>
 									{% for lecturer in lecturer_data %}
 									<option value="{{ lecturer[0] ~ ', ' ~ lecturer[1] }}">{{ lecturer[0] }}</option>
 									{% endfor %}

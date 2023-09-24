@@ -1263,7 +1263,7 @@ def user_management():
         ucSupervisor = request.form.get('ucSupervisor')
         correspondenceAdd = request.form.get('correspondenceAdd')
         
-        print(ucSupervisor)
+        print(studID, gender, ucSupervisor)
         ucSupervisor_split = ucSupervisor.split(', ')
         ucSuperName = ucSupervisor_split[0]
         ucSuperEmail = ucSupervisor_split[1]
@@ -1326,7 +1326,6 @@ def user_management():
 def studentManagementDelete():
     if request.method == "POST":
         studID = request.form.get('studentID')
-        print(studID)
 
         # Now, retrieve company data and pass it to the template
         cursor = db_conn.cursor()

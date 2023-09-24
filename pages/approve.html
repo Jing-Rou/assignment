@@ -59,7 +59,7 @@
 					<div class="nav-option option1">
 						<img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210183320/5.png"
 							class="nav-img" alt="articles">
-						<h3><a style="color: white;" href="{{ url_for('approve_companies') }}">Approve Registered Companies</a></h3>
+						<h3><a style="color: white;" href="{{ url_for('approve_companies') }}">Approve Pending Companies</a></h3>
 					</div>
 
 					<div class="nav-option option3">
@@ -95,55 +95,34 @@
 			</div>
 
             <section class="approve-companies">
-                <h1>Approve Companies</h1>
-                <!-- List of companies to be approved -->
-                <ul>
-					{% for company in companies %}
-                    <li>
-                        <div class="company-info">
-                            <h2>{{ company[0] }}</h2>
-                            <p>{{ company[1] }}</p>
-                        </div>
-                        <div class="action-buttons">
-                            <button class="approve-button" data-company-name="{{ company[0] }}">Approve</button>
-							<button class="reject-button" data-company-name="{{ company[0] }}">Reject</button>
-
-                        </div>
-                    </li>
-                    <li>
-                        <div class="company-info">
-                            <h2>{{ company[0] }}</h2>
-                            <p>{{ company[1] }}</p>
-                        </div>
-                        <div class="action-buttons">
-                            <button class="approve-button" data-company-name="{{ company[0] }}">Approve</button>
-							<button class="reject-button" data-company-name="{{ company[0] }}">Reject</button>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="company-info">
-                            <h2>{{ company[0] }}</h2>
-                            <p>{{ company[1] }}</p>
-                        </div>
-                        <div class="action-buttons">
-                            <button class="approve-button" data-company-name="{{ company[0] }}">Approve</button>
-							<button class="reject-button" data-company-name="{{ company[0] }}">Reject</button>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="company-info">
-                            <h2>{{ company[0] }}</h2>
-                            <p>{{ company[1] }}</p>
-                        </div>
-                        <div class="action-buttons">
-                            <button class="approve-button" data-company-name="{{ company[0] }}">Approve</button>
-							<button class="reject-button" data-company-name="{{ company[0] }}">Reject</button>
-                        </div>
-                    </li>
-					{% endfor %}
-                </ul>
-            </section>
-
+				<h1>Approve Pending Companies</h1>
+				<!-- Check if there are pending companies -->
+				{% if companies %}
+					<!-- List of companies to be approved -->
+					<ul>
+						{% for company in companies %}
+							<form method="POST" action="/approve_companies">
+								<input type="hidden" name="compID" value="{{ company[0] }}">
+								{% if company[3] == 'pending' %}
+									<li>
+										<div class="company-info">
+											<h2>{{ company[1] }}</h2>
+											<p>{{ company[2] }}</p>
+										</div>
+										<div class="action-buttons">
+											<button class="approve-button" name="action" value="Approve">Approve</button>
+											<button class="reject-button" name="action" value="Reject">Reject</button>
+										</div>
+									</li>
+								{% endif %}
+							</form>
+						{% endfor %}
+					</ul>
+				{% else %}
+					<!-- Display a message when there are no pending companies -->
+					<p>All companies are registered.</p>
+				{% endif %}
+			</section>			
 		</div>
 	</div>
 	</div>

@@ -1210,11 +1210,40 @@ def admin_dashboard():
 
 @app.route('/approve_companies', methods=['GET', 'POST'])
 def approve_companies():
-    return render_template('approve.html')
+    if request.method == 'POST':
+        company_id = request.form.get('compID')
+        action = request.form.get('action')
+
+        # Check the value of 'action' and update the company status accordingly
+        if action == 'Approve':
+            new_status = 'APPROVED'
+        elif action == 'Reject':
+            new_status = 'REJECTED'
+        else:
+            return jsonify({"error": "Invalid action"}), 400
+
+        # Update the company status in the database
+        cursor = db_conn.cursor()
+        update_query = "UPDATE company SET compStatus = %s WHERE compID = %s"
+        cursor.execute(update_query, (new_status, company_id))
+        db_conn.commit()
+        cursor.close()
+
+    cursor = db_conn.cursor()
+    cursor.execute("SELECT compID, compName, compEmail, compStatus FROM company")
+    companies = cursor.fetchall()
+    cursor.close()
+
+    return render_template('approve.html', companies=companies)
 
 @app.route('/list_companies')
 def list_companies():
-    return render_template('listCompanies.html')
+    cursor = db_conn.cursor()
+    cursor.execute("SELECT compID, compName, compEmail, compStatus FROM company")
+    companies = cursor.fetchall()
+    cursor.close()
+
+    return render_template('listCompanies.html', companies=companies)
 
 @app.route('/user_management', methods=['GET', 'POST'])
 def user_management():
@@ -1298,48 +1327,6 @@ def delete_user():
     # After deleting, you can redirect to a desired route
     print('a')
     return redirect(url_for('user_management'))  # Redirect to the user_management route
-
-@app.route('/approve_company', methods=['POST'])
-def approve_company():
-    data = request.form  # Assuming you send form data with 'compName'
-
-    # Extract the company name from the form data
-    company_name = data.get('compName')
-
-    if not company_name:
-        return jsonify({"error": "Company name is missing"}), 400
-
-    try:
-        with db_conn.cursor() as cursor:
-            # Update the company's status to 'approved' in the database based on company name
-            update_query = "UPDATE company SET compStatus = 'Approved' WHERE compName = %s"
-            cursor.execute(update_query, (company_name,))
-            db_conn.commit()
-
-            return jsonify({"message": "Company approved successfully"})
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
-
-@app.route('/reject_company', methods=['POST'])
-def reject_company():
-    data = request.form  # Assuming you send form data with 'compName'
-
-    # Extract the company name from the form data
-    company_name = data.get('compName')
-
-    if not company_name:
-        return jsonify({"error": "Company name is missing"}), 400
-
-    try:
-        with db_conn.cursor() as cursor:
-            # Update the company's status to 'rejected' in the database based on company name
-            update_query = "UPDATE company SET compStatus = 'Rejected' WHERE compName = %s"
-            cursor.execute(update_query, (company_name,))
-            db_conn.commit()
-
-            return jsonify({"message": "Company rejected successfully"})
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80, debug=True)

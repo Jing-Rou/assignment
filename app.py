@@ -133,6 +133,14 @@ def upload():
 
 @app.route("/job_listing", methods=['GET'])
 def job_listing():
+
+    studID = session.get('studID', None)
+    studName = session.get('studName', None)
+    user_authenticated = False
+
+    if studID != None:
+        user_authenticated = True
+
     # retrive from database
     cursor = db_conn.cursor()
     select_sql = "SELECT c.compName, c.compProfile, j.job_title, j.comp_state, j.sal_range \
@@ -147,7 +155,7 @@ def job_listing():
     except Exception as e:
         return str(e)
 
-    return render_template('job_listing.html', comp_data=data)
+    return render_template('job_listing.html', user_login_name=studName, comp_data=data, user_authenticated=user_authenticated)
 
 
 @app.route("/about", methods=['GET'])

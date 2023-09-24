@@ -440,10 +440,11 @@ def login():
 @app.route("/studentDashboard", methods=['GET'])
 def studentDashboard():
     # Retrieve the studentID from the query parameters
-    student_id = request.args.get('studentID')
+    studID = session.get('studID', None)
+    session['studID'] = studID
 
     # Pass the studentID to the studentDashboard.html template
-    return render_template('studentDashboard.html', studentID=student_id)
+    return render_template('studentDashboard.html', studentID=studID)
 
 
 @app.route("/studentProfile", methods=['GET', 'POST'])
@@ -483,7 +484,7 @@ def studentProfilePersonal():
     correspondenceAdd = request.form.get('correspondenceAdd')
 
     # Retrieve the studentID from the query parameters
-    student_id = request.form.get('studentID')
+    student_id = session.get('studID', None)
 
     # Update database
     update_sql = "UPDATE students SET gender = %s, \
@@ -534,7 +535,7 @@ def studentPersonal():
     cgpa = request.form.get('cgpa')
 
     # Retrieve the studentID from the query parameters
-    student_id = request.form.get('studentID')
+    student_id = session.get('studID', None)
 
     # Update database
     update_sql = "UPDATE students SET stud_email = %s, \

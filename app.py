@@ -57,14 +57,22 @@ def upload():
     student_id = request.args.get('studentID')
     print(student_id)
 
-    # retrive from database
+    if student_id == None:
+        return render_template('login.html')
+
     cursor = db_conn.cursor()
+    # insert into studentJobApply
+    insert_sql = "INSERT INTO studentJobApply VALUES (%s, %s)"
+    # retrive from database
+    
     select_sql = "SELECT c.compName, c.compProfile, j.job_title, j.comp_state, j.sal_range, j.job_id \
                  from company c \
                  JOIN jobApply j ON c.compID = j.compID \
                  where upper(c.compStatus) = 'APPROVED'"
 
     try:
+        cursor.execute(insert_sql, (student_id, jobID))
+        cursor.commit
         cursor.execute(select_sql)
         data = cursor.fetchall()  # Fetch a single row
 

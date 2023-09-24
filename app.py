@@ -1437,5 +1437,14 @@ def lecturerManagementDelete():
 
         return render_template('lecturerManagement.html', lecturer_data=lecturer_data)
     
+@app.route('/logout')
+def logout():
+    # Clear the user's session (assuming you're using Flask sessions)
+    session.clear()
+
+    # Redirect the user to the login page or any other appropriate page after logout
+    return redirect(url_for('login'))
+
+    
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80, debug=True)

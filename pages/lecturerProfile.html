@@ -44,6 +44,19 @@
         #saveStudentButton {
             display: none;
         }
+
+        .flex-container {
+            display: flex;
+            /* Use Flexbox layout */
+            align-items: center;
+            /* Vertically center the content */
+        }
+
+        /* Adjust margin or spacing as needed */
+        .nav-img {
+            margin-right: 10px;
+            /* Add some spacing between the image and text */
+        }
     </style>
 </head>
 
@@ -52,7 +65,7 @@
     <!-- for header part -->
     <header>
         <div class="logo" style="margin-top:15px;">
-            <a href="{{ url_for('index') }}"><img src="{{ url_for('static', filename='img/logo/logo.png') }}"
+            <a href="{{ url_for('lectDashboard') }}"><img src="{{ url_for('static', filename='img/logo/logo.png') }}"
                     alt=""></a>
         </div>
 
@@ -81,11 +94,15 @@
 
                     </div>
 
-                    <div class="nav-option logout">
-                        <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210183321/7.png"
-                            class="nav-img" alt="logout">
-                        <h3>Logout</h3>
-                    </div>
+					<div class="nav-option logout">
+						<a href="{{ url_for('logout') }}">
+							<div class="flex-container">
+								<img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210183321/7.png"
+									class="nav-img" alt="logout">
+								<h3 style="margin-left: 15px">Logout</h3>
+							</div>
+						</a>
+					</div>
 
                 </div>
             </nav>
@@ -150,8 +167,9 @@
                                                 <p class="mb-0">College Email</p>
                                             </div>
                                             <div class="col-sm-9">
-                                                <input type="text" class="text-muted" style="width: 100%;" id="emailField"
-                                                    name="emailField" value="{{ lecturer_infor[2] }}" disabled>
+                                                <input type="text" class="text-muted" style="width: 100%;"
+                                                    id="emailField" name="emailField" value="{{ lecturer_infor[2] }}"
+                                                    disabled>
                                             </div>
                                         </div>
                                     </form>

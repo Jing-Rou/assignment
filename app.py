@@ -34,7 +34,6 @@ def clear_session_on_initial_load():
     if request.endpoint == 'index':
         session.clear()
 
-
 @app.route("/", methods=['GET'], endpoint='index')
 def index():
     # retrive from database
@@ -50,6 +49,8 @@ def index():
 
     except Exception as e:
         return str(e)
+    
+    print("comp:", data)
 
     return render_template('index.html', comp_data=data)
 
@@ -276,7 +277,7 @@ def login():
 
                     # retrive from database
                     cursor = db_conn.cursor()
-                    select_sql = "SELECT c.compName, c.compProfile, j.job_title, j.comp_state, j.sal_range \
+                    select_sql = "SELECT c.compName, c.compProfile, j.job_title, j.comp_state, j.sal_range, j.job_id \
                                 from company c \
                                 JOIN jobApply j ON c.compID = j.compID \
                                 where upper(c.compStatus) = 'APPROVED'"

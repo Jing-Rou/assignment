@@ -1265,15 +1265,18 @@ def user_management():
         correspondenceAdd = request.form.get('CorrespondenceAdd')
         
         studName_split = studName.split(' ')
-        print(studName_split[:-2])
+        firstname = ' '.join(studName_split[:-2])
         lastname = studName_split[-1]
+        print(firstname, lastname)
 
         ucSupervisor_split = ucSupervisor.split(', ')
         ucSuperName = ucSupervisor_split[0]
         ucSuperEmail = ucSupervisor_split[1]
 
         # Update database
-        update_sql = "UPDATE students SET gender = %s, \
+        update_sql = "UPDATE students SET firstName = %s, \
+                                        lastName = %s, \
+                                        gender = %s, \
                                         stud_email = %s, \
                                         ic = %s, \
                                         programme = %s, \
@@ -1290,7 +1293,7 @@ def user_management():
         cursor = db_conn.cursor()
 
         try:
-            cursor.execute(update_sql, (gender, email, nric, programme, tutGroup, cgpa, ucSuperName, ucSuperEmail, dob, contact, homeAdd, correspondenceAdd, studID))
+            cursor.execute(update_sql, (firstname, lastname, gender, email, nric, programme, tutGroup, cgpa, ucSuperName, ucSuperEmail, dob, contact, homeAdd, correspondenceAdd, studID))
             db_conn.commit()
 
             # retrive from database

@@ -61,18 +61,22 @@ def upload():
         cv = request.files['cv']
         jobID = request.form['jobID']
         print(cv.filename)
-        print(jobID)
         studID = session.get('studID', None)
-        print(studID)
 
         current_datetime = datetime.now()
 
+        filename = cv.filename.split('.')
+        # lecture
+        key = 'Company/'  + filename[0] + "_resume." + filename[1]
+        profile = "https://" + bucket.name + ".s3.amazonaws.com/Company/" + filename[0] + "_resume." + filename[1]
+
+        # if user havent login then ask them to login
         if studID == None:
             return redirect(url_for('login'))
 
         cursor = db_conn.cursor()
         # insert into studentJobApply
-        insert_sql = "INSERT INTO studentJobApply VALUES (%s, %s, %s)"
+        insert_sql = "INSERT INTO studentJobApply VALUES (%s, %s, %s, %s)"
         # retrive from database
         
         select_sql = "SELECT c.compName, c.compProfile, j.job_title, j.comp_state, j.sal_range, j.job_id \
@@ -81,11 +85,24 @@ def upload():
                     where upper(c.compStatus) = 'APPROVED'"
 
         try:
-            cursor.execute(insert_sql, (studID, jobID, current_datetime,))
+            cursor.execute(insert_sql, (studID, jobID, current_datetime, profile, ))
             cursor.execute(select_sql)
             data = cursor.fetchall()  # Fetch a single row
             db_conn.commit()
             cursor.close()
+
+            # Uplaod image file in S3
+            s3 = boto3.resource('s3')
+
+            try:
+                print("Data inserted in MySQL RDS... uploading image to S3...")
+
+                # Upload the file into the specified folder
+                s3.Bucket(custombucket).put_object(
+                    Key=key, Body=cv, ContentType=mimetypes.guess_type(cv.filename)[0] or 'application/octet-stream')
+
+            except Exception as e:
+                return str('bucket', str(e))
 
         except Exception as e:
             return str(e)

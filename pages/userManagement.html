@@ -115,6 +115,10 @@
 			{% for studData in student_data %}
 			<!-- User List -->
 			<h5 class="mt-5">{{ studData[1] ~ ' ' ~ studData[2] }}</h5>
+			<form method="POST" action="/studentManagementDelete">
+				<input type="hidden" name="studentID" value="{{ studData[0] }}">
+				<button class="delete-button">Delete</button>
+			</form>
 			<div class="user-list">
 				<div class="user">
 					<form class="profile-form" method="POST" action="/user_management">
@@ -201,8 +205,7 @@
 							</div>
 							<div class="col-4">
 								<select id="ucSupervisor" name="ucSupervisor"
-									class="custom-select form-control form-control-lg" required disabled>
-									<option value="" disabled selected>Select UC Supervisor</option>
+									class="custom-select form-control form-control-lg text-muted" required disabled>
 									<option value="{{ studData[10] ~ ', ' ~ studData[11] }}" disabled selected>{{
 										studData[10] }}</option>
 									{% for lecturer in lecturer_data %}
@@ -232,10 +235,6 @@
 						</div>
 						<hr>
 						<button class="edit-button" data-student-id="{{ studData[0] }}">Edit</button>
-						<form method="POST" action="/studentManagementDelete">
-							<input type="hidden" name="studentID" value="{{ studData[0] }}">
-							<button class="delete-button">Delete</button>
-						</form>
 						<button class="save-button float-end" data-student-id="{{ studData[0] }}" disabled>Save Change</button>
 					</form>
 				</div>

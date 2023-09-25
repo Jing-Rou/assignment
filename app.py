@@ -341,6 +341,7 @@ def login():
                     except Exception as e:
                         return str(e)
                     
+                    
                     # Passwords match, user is authenticated
                     return render_template('index.html', user_login_name=name, studentID=studID, user_authenticated=True, comp_data=data)
                 else:

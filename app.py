@@ -888,11 +888,12 @@ def getStudFiles(lecturerID, studentID, type):
             time = str(last_modified[1]).split('+')
             contents.append({
                 'file_name': str(file_name).split('/')[-1],
-                'file_path': file_name,
+                'file_path': "https://" + bucket.name + ".s3.amazonaws.com/" + folder_prefix + file_name,
                 'last_modified': last_modified[0],
                 'time': time[0],
                 'size': size
             })
+            print(contents['file_path'])
     return contents
 
 

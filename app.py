@@ -841,7 +841,7 @@ def delete_file():
 
         lecturerID = data[0]
 
-        lect_file_key = 'Lecturer/' + lecturerID + "/" + studID + "/Report" + file_key
+        lect_file_key = 'Lecturer/' + lecturerID + "/" + studID + "/Report/" + file_key
 
 
         # Delete the file from S3

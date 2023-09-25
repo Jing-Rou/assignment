@@ -71,7 +71,8 @@
                                     <div class="user-profile">
                                         <a href="javascript:void(0);" class="user-link"
                                             onclick="submitStudentID('{{ studentID }}')">
-                                            <span class="user-name" style="color:black">Welcome, {{ user_login_name }}</span>
+                                            <span class="user-name" style="color:black">Welcome, {{ user_login_name
+                                                }}</span>
                                             <i class="fas fa-user fa-2x user-icon" style="color:black"></i>
                                         </a>
                                     </div>
@@ -567,6 +568,16 @@
     <!-- Jquery Plugins, main Jquery -->
     <script src="{{ url_for('static', filename='js/plugins.js') }}"></script>
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+    <!-- JavaScript function to submit studentID -->
+    <script>
+        function submitStudentID(studentID) {
+            // Set the value of the hidden input field
+            document.getElementById('studentIDField').value = studentID;
+            // Submit the form
+            document.getElementById('studentIDForm').submit();
+        }
+    </script>
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {

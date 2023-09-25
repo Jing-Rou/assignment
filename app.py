@@ -893,7 +893,6 @@ def getStudFiles(lecturerID, studentID, type):
                 'time': time[0],
                 'size': size
             })
-            print(contents['file_path'])
     return contents
 
 

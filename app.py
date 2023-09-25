@@ -478,9 +478,8 @@ def deleteJob():
     studentID = request.form.get('studentID')
     jobID = request.form.get('jobID')
 
-    delete_sql = "DELETE FROM studentJobApply \
-                  WHERE studentID = %s AND job_id = %s"
-
+    delete_sql = "DELETE FROM studentJobApply WHERE studentID = %s AND job_id = %s"
+    print(studentID, jobID)
     try:
         cursor = db_conn.cursor()
         cursor.execute(delete_sql, (studentID, jobID))

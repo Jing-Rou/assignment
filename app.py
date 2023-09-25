@@ -828,6 +828,7 @@ def delete_file():
         studID = session.get('studID', None)
         # Get the file key to delete from the form data
         file_key = request.form['file_name']
+        print(file_key)
 
         # Fetch data from the lecturer database
         cursor = db_conn.cursor()
@@ -840,7 +841,7 @@ def delete_file():
 
         lecturerID = data[0]
 
-        lect_file_key = 'Lecturer/' + lecturerID + "/" + studID + "/" + file_key
+        lect_file_key = 'Lecturer/' + lecturerID + "/" + studID + "/Report" + file_key
 
 
         # Delete the file from S3

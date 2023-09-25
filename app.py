@@ -842,6 +842,7 @@ def delete_file():
 
         lect_file_key = 'Lecturer/' + lecturerID + "/" + studID + "/" + file_key
 
+
         # Delete the file from S3
         try:
             s3 = boto3.client('s3')

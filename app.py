@@ -842,7 +842,7 @@ def delete_file():
 
         lecturerID = data[0]
 
-        lect_file_key = 'Lecturer/' + lecturerID + "/" + studID + "/Report/" + file_key
+        lect_file_key = 'Lecturer/' + lecturerID + "/" + studID + "/report/" + file_key
 
 
         # Delete the file from S3
@@ -881,6 +881,7 @@ def getStudFiles(lecturerID, studentID, type):
         # Extract file name without the folder prefix
         file_name = object_summary.key[len(folder_prefix):]
         if file_name:
+            print(file_name)
             last_modified = object_summary.last_modified
             size = object_summary.size
             last_modified = str(last_modified).split(' ')
